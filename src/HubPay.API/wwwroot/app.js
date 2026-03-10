@@ -102,7 +102,7 @@ const i18n = {
       paymentsTitleActions: "Acoes",
       actionAuthorize: "Autorizar",
       actionMarkPaid: "Pago",
-      actionFail: "Falhar",
+      actionRefuse: "Recusar",
       actionRefund: "Reembolsar",
       actionEvents: "Eventos",
       noPayments: "Nenhum pagamento encontrado.",
@@ -124,7 +124,7 @@ const i18n = {
         pending: "PENDENTE",
         authorized: "AUTORIZADO",
         paid: "PAGO",
-        failed: "FALHOU",
+        refused: "RECUSADO",
         refunded: "REEMBOLSADO",
         active: "ATIVO",
         inactive: "DESATIVADO"
@@ -240,7 +240,7 @@ const i18n = {
       paymentsTitleActions: "Actions",
       actionAuthorize: "Authorize",
       actionMarkPaid: "Paid",
-      actionFail: "Fail",
+      actionRefuse: "Refuse",
       actionRefund: "Refund",
       actionEvents: "Events",
       noPayments: "No payments found.",
@@ -262,7 +262,7 @@ const i18n = {
         pending: "PENDING",
         authorized: "AUTHORIZED",
         paid: "PAID",
-        failed: "FAILED",
+        refused: "REFUSED",
         refunded: "REFUNDED",
         active: "ACTIVE",
         inactive: "INACTIVE"
@@ -366,8 +366,8 @@ function refreshDynamicLabels() {
   document.querySelectorAll("#paymentsOutput button[data-action='markPaid']").forEach((el) => {
     el.textContent = runtime.actionMarkPaid;
   });
-  document.querySelectorAll("#paymentsOutput button[data-action='fail']").forEach((el) => {
-    el.textContent = runtime.actionFail;
+  document.querySelectorAll("#paymentsOutput button[data-action='refuse']").forEach((el) => {
+    el.textContent = runtime.actionRefuse;
   });
   document.querySelectorAll("#paymentsOutput button[data-action='refund']").forEach((el) => {
     el.textContent = runtime.actionRefund;
@@ -527,7 +527,7 @@ function statusClass(status) {
   const key = String(status || "").toLowerCase();
   if (key === "paid" || key === "active") return "#dff7e8;#1f7a46;#b9e6ca";
   if (key === "authorized") return "#fff6d9;#9a6a00;#f6dea4";
-  if (key === "failed") return "#fee5e2;#b42318;#f7c9c2";
+  if (key === "refused") return "#ffe8e5;#b42318;#f6c3bc";
   if (key === "refunded" || key === "inactive") return "#eceff3;#475467;#d2d8e0";
   return "#edf2ff;#2448aa;#cfdaf9";
 }
@@ -671,7 +671,7 @@ async function listPayments() {
           <div class="actions">
             <button class="btn btn-light" data-action="authorize" data-id="${p.id}">${escapeHtml(t("actionAuthorize"))}</button>
             <button class="btn btn-light" data-action="markPaid" data-id="${p.id}">${escapeHtml(t("actionMarkPaid"))}</button>
-            <button class="btn btn-light" data-action="fail" data-id="${p.id}">${escapeHtml(t("actionFail"))}</button>
+            <button class="btn btn-light" data-action="refuse" data-id="${p.id}">${escapeHtml(t("actionRefuse"))}</button>
             <button class="btn btn-light" data-action="refund" data-id="${p.id}">${escapeHtml(t("actionRefund"))}</button>
             <button class="btn btn-primary" data-action="events" data-id="${p.id}">${escapeHtml(t("actionEvents"))}</button>
           </div>
@@ -712,7 +712,7 @@ async function paymentAction(action, id, button) {
       return;
     }
 
-    const map = { authorize: "authorize", markPaid: "pay", fail: "fail", refund: "refund" };
+    const map = { authorize: "authorize", markPaid: "pay", refuse: "refuse", refund: "refund" };
     await api(`/payments/${id}/${map[action]}`, { method: "POST" });
     log(t("paymentActionLog", { id, action }));
     toast(t("statusUpdatedToast"), "success");
@@ -806,5 +806,6 @@ bootstrapConnectionFields();
 bindEvents();
 log(t("bootLog"));
 toast(t("bootToast"), "info");
+
 
 

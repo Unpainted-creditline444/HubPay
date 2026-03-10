@@ -42,7 +42,7 @@ Payment statuses:
 - `Pending`
 - `Authorized`
 - `Paid`
-- `Failed`
+- `Refused`
 - `Refunded`
 
 ## Authentication
@@ -76,7 +76,7 @@ Supported filters:
 Lifecycle actions currently available:
 - `POST /payments/{id}/authorize`
 - `POST /payments/{id}/pay`
-- `POST /payments/{id}/fail`
+- `POST /payments/{id}/refuse`
 - `POST /payments/{id}/refund`
 
 ## Error Format
@@ -103,3 +103,5 @@ Swagger is available in development at `/swagger`.
 ## Build and Test
 - `dotnet build HubPay.slnx`
 - `dotnet test HubPay.slnx`
+
+

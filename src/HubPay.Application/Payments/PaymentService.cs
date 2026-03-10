@@ -161,22 +161,22 @@ public class PaymentService
         return ToResponse(payment);
     }
 
-    public async Task<PaymentResponse?> FailAsync(Guid merchantId, Guid paymentId)
+    public async Task<PaymentResponse?> RefuseAsync(Guid merchantId, Guid paymentId)
     {
         var payment = await _paymentRepository.GetByIdForMerchantAsync(paymentId, merchantId);
         if (payment is null) return null;
 
         var previousStatus = payment.Status;
-        payment.Fail();
+        payment.Refuse();
 
         await _paymentRepository.UpdateAsync(payment);
 
         _logger.LogWarning(
-            "Payment {PaymentId} failed for merchant {MerchantId}",
+            "Payment {PaymentId} refused for merchant {MerchantId}",
             paymentId,
             merchantId);
 
-        await AddEventAndWebhooksAsync(payment, previousStatus, "payment.failed");
+        await AddEventAndWebhooksAsync(payment, previousStatus, "payment.refused");
 
         return ToResponse(payment);
     }
@@ -257,3 +257,4 @@ public class PaymentService
             payment.UpdatedAt);
     }
 }
+

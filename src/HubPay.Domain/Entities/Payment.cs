@@ -68,12 +68,12 @@ public class Payment
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void Fail()
+    public void Refuse()
     {
         if (Status is not (PaymentStatus.Pending or PaymentStatus.Authorized))
-            throw new DomainException("Payment cannot be marked as failed from the current status");
+            throw new DomainException("Payment cannot be marked as refused from the current status");
 
-        Status = PaymentStatus.Failed;
+        Status = PaymentStatus.Refused;
         UpdatedAt = DateTime.UtcNow;
     }
 

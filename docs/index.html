@@ -230,8 +230,8 @@
                 </tr>
                 <tr>
                   <td class="px-6 py-4"><span class="rounded bg-red-100 px-2 py-1 font-bold text-red-700">POST</span></td>
-                  <td class="px-6 py-4 font-mono">/payments/{id}/fail</td>
-                  <td class="px-6 py-4">Marca um pagamento pendente/autorizado como falho.</td>
+                  <td class="px-6 py-4 font-mono">/payments/{id}/refuse</td>
+                  <td class="px-6 py-4">Marca um pagamento pendente/autorizado como recusado.</td>
                 </tr>
                 <tr>
                   <td class="px-6 py-4"><span class="rounded bg-slate-100 px-2 py-1 font-bold text-slate-700">POST</span></td>
@@ -250,7 +250,7 @@
             <div class="rounded-lg border border-slate-200 bg-white px-4 py-3 flex items-center justify-between"><code class="font-mono text-sm">payment.created</code><span class="text-xs text-slate-500">Event</span></div>
             <div class="rounded-lg border border-slate-200 bg-white px-4 py-3 flex items-center justify-between"><code class="font-mono text-sm">payment.authorized</code><span class="text-xs text-slate-500">Event</span></div>
             <div class="rounded-lg border border-slate-200 bg-white px-4 py-3 flex items-center justify-between"><code class="font-mono text-sm">payment.paid</code><span class="text-xs text-slate-500">Event</span></div>
-            <div class="rounded-lg border border-slate-200 bg-white px-4 py-3 flex items-center justify-between"><code class="font-mono text-sm">payment.failed</code><span class="text-xs text-slate-500">Event</span></div>
+            <div class="rounded-lg border border-slate-200 bg-white px-4 py-3 flex items-center justify-between"><code class="font-mono text-sm">payment.refused</code><span class="text-xs text-slate-500">Event</span></div>
             <div class="rounded-lg border border-slate-200 bg-white px-4 py-3 flex items-center justify-between"><code class="font-mono text-sm">payment.refunded</code><span class="text-xs text-slate-500">Event</span></div>
           </div>
         </section>
@@ -347,6 +347,7 @@
   <script src="./app.js" defer></script>
 </body>
 </html>
+
 
 
 

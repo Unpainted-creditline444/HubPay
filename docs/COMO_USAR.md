@@ -71,7 +71,7 @@ Depois abra no navegador a URL que aparecer no terminal (ex.: `http://localhost:
 - Use os botÃµes de aÃ§Ã£o:
   - **Autorizar**
   - **Marcar como Pago**
-  - **Falhar**
+  - **Recusar**
   - **Reembolsar**
   - **Eventos**
 
@@ -86,7 +86,7 @@ Depois abra no navegador a URL que aparecer no terminal (ex.: `http://localhost:
 - **Pending**: pagamento criado, aguardando aÃ§Ã£o
 - **Authorized**: pagamento aprovado
 - **Paid**: pagamento efetivado
-- **Failed**: pagamento negado
+- **Refused**: pagamento negado
 - **Refunded**: pagamento cancelado
 
 ---
@@ -125,4 +125,5 @@ Pode deixar em branco na demo inicial.
 - Regras do projeto: `docs/rules.md`
 - MemÃ³ria tÃ©cnica: `docs/memory.md`
 - VisÃ£o geral tÃ©cnica: `README.md`
+
 

@@ -1,21 +1,21 @@
-# HubPay Project Memory
+﻿# HubPay Project Memory
 
-## Visão do projeto
+## VisÃ£o do projeto
 
-HubPay é um mini payment gateway feito em C# para estudo e portfólio.
+HubPay Ã© um mini payment gateway feito em C# para estudo e portfÃ³lio.
 
 Objetivo:
 - praticar arquitetura limpa
-- modelar domínio forte
+- modelar domÃ­nio forte
 - construir uma API REST realista
 - usar banco de dados relacional
 - implementar features comuns de gateways reais
 
 Projeto com foco em:
 - clean code
-- separação de responsabilidades
-- regras de negócio dentro do domínio
-- backend profissional para portfólio
+- separaÃ§Ã£o de responsabilidades
+- regras de negÃ³cio dentro do domÃ­nio
+- backend profissional para portfÃ³lio
 
 ---
 
@@ -70,30 +70,30 @@ tests/
 - entidades
 - value objects
 - enums
-- regras de negócio
-- interfaces de repositório
-- exceções de domínio
+- regras de negÃ³cio
+- interfaces de repositÃ³rio
+- exceÃ§Ãµes de domÃ­nio
 
 ### Application
 - casos de uso
 - DTOs
-- validações
-- orquestração
+- validaÃ§Ãµes
+- orquestraÃ§Ã£o
 
 ### Infrastructure
 - EF Core
 - DbContext
 - repositories
 - migrations
-- integrações técnicas
+- integraÃ§Ãµes tÃ©cnicas
 
 ### API
 - controllers
 - middleware
-- configuração de DI
+- configuraÃ§Ã£o de DI
 - endpoints HTTP
 - swagger
-- autenticação
+- autenticaÃ§Ã£o
 
 ---
 
@@ -205,30 +205,30 @@ tests/
 ### WebhookDeliveryStatus
 - Pending
 - Sent
-- Failed
+- Refused
 
 ---
 
-## Regras principais do domínio
+## Regras principais do domÃ­nio
 
 ### Payment
-Somente o domínio controla mudança de status.
+Somente o domÃ­nio controla mudanÃ§a de status.
 
-Fluxos válidos:
+Fluxos vÃ¡lidos:
 - Pending -> Authorized
 - Authorized -> Paid
 - Pending -> Refused
 - Pending -> Cancelled
 - Authorized -> Cancelled
 
-Mudança inválida deve lançar DomainException.
+MudanÃ§a invÃ¡lida deve lanÃ§ar DomainException.
 
 ### ApiKey
 - pertence a um merchant
 - pode ser ativa ou inativa
 
 ### Idempotency
-- mesma key para o mesmo merchant não pode criar pagamento duplicado
+- mesma key para o mesmo merchant nÃ£o pode criar pagamento duplicado
 - se mesma key chegar novamente, deve retornar a resposta original
 
 ### Webhook
@@ -271,16 +271,16 @@ Mudança inválida deve lançar DomainException.
 
 ---
 
-## Features avançadas escolhidas
+## Features avanÃ§adas escolhidas
 
 ### 1. API Key por merchant
 Request autenticada por API key.
-Merchant é identificado via header.
+Merchant Ã© identificado via header.
 
 Exemplo:
 Authorization: Bearer sk_test_xxxxx
 
-### 2. Idempotência
+### 2. IdempotÃªncia
 Header:
 Idempotency-Key: abc-123
 
@@ -319,29 +319,29 @@ Relacionamentos:
 
 ---
 
-## Princípios do projeto
+## PrincÃ­pios do projeto
 
 - domain forte
 - controllers finos
 - use cases claros
-- repositories isolando persistência
-- regras no domínio, não no controller
+- repositories isolando persistÃªncia
+- regras no domÃ­nio, nÃ£o no controller
 - projeto com cara de backend real
 
 ---
 
-## Objetivo final de portfólio
+## Objetivo final de portfÃ³lio
 
 Demonstrar:
 - ASP.NET Core Web API
 - Clean Architecture
-- DDD básico
+- DDD bÃ¡sico
 - PostgreSQL
 - EF Core
-- autenticação por API key
-- idempotência
+- autenticaÃ§Ã£o por API key
+- idempotÃªncia
 - webhooks
 - logging
-- validação
+- validaÃ§Ã£o
 - docker
 - testes
