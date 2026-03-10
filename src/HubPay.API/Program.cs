@@ -1,4 +1,4 @@
-using HubPay.API.Auth;
+﻿using HubPay.API.Auth;
 using HubPay.API.Endpoints;
 using HubPay.API.Middleware;
 using HubPay.Application;
@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddAuthentication(ApiKeyAuthenticationHandler.SchemeName)
@@ -24,6 +25,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "HubPay API v1");
+        options.RoutePrefix = "swagger";
+    });
 }
 
 // Portfolio-friendly startup: ensure database schema is up-to-date automatically.
