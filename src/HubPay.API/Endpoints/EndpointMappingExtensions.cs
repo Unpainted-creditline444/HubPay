@@ -142,10 +142,10 @@ public static class EndpointMappingExtensions
         });
 
 
-        payments.MapPost("/{id:guid}/refund", async (HttpContext httpContext, Guid id, PaymentService service) =>
+        payments.MapPost("/{id:guid}/cancel", async (HttpContext httpContext, Guid id, PaymentService service) =>
         {
             var merchantId = GetMerchantId(httpContext);
-            var result = await service.RefundAsync(merchantId, id);
+            var result = await service.CancelAsync(merchantId, id);
             return result is null ? Results.NotFound() : Results.Ok(result);
         });
 
@@ -193,5 +193,6 @@ public static class EndpointMappingExtensions
         return null;
     }
 }
+
 
 

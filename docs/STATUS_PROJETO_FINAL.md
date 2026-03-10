@@ -3,57 +3,63 @@
 Gerado em: 2026-03-10
 
 ## Resumo
-O HubPay está finalizado para uso como projeto de portfólio técnico, com API funcional, console web para operação manual e documentação dedicada.
+O HubPay esta finalizado para uso como projeto de portfolio tecnico, com API funcional, console web para operacao manual e documentacao dedicada.
 
 ## Estado Atual
 - API ASP.NET Core Minimal APIs em .NET 10 funcionando.
 - Swagger habilitado em Development (`/swagger`) com metadata da API.
 - Console web em `src/HubPay.API/wwwroot` ativo para fluxo operacional.
-- Página de documentação separada em `docs/site` finalizada e responsiva.
-- Botão da doc para Live Demo apontando para `https://hubpay.onrender.com/`.
-- Ícone oficial aplicado no console e na documentação.
+- Pagina de documentacao em `docs/index.html` finalizada e responsiva.
+- Botao da doc para Live Demo apontando para `https://hubpay.onrender.com/`.
+- Icone oficial aplicado no console e na documentacao.
 
 ## Funcionalidades Implementadas
 - Cadastro de merchant.
-- Geração e revogação de API key.
+- Geracao e revogacao de API key.
 - Cadastro de cliente.
-- Criação de pagamento.
-- Ações de pagamento (autorizar, pago, recusar, cancelar).
+- Criacao de pagamento.
+- Acoes de pagamento (autorizar, pago, recusar, cancelar).
 - Consulta de eventos por pagamento (`/payments/{id}/events`).
-- Cadastro/listagem/desativação de webhooks.
-- Persistência local de conexão (URL, merchantId, apiKey).
+- Cadastro/listagem/desativacao de webhooks.
+- Persistencia local de conexao (URL, merchantId, apiKey).
+- Suporte de idempotencia na criacao de pagamentos via header `Idempotency-Key`.
+- Autenticacao por API key via header `x-api-key`.
 
-## Observações de Uso
-- Em "Linha do Tempo", retorno `[]` significa requisição válida sem eventos para o pagamento consultado.
-- Botão "Eventos" mostra o retorno do endpoint de eventos do pagamento selecionado.
+## Observacoes de Uso
+- Em "Linha do Tempo", retorno `[]` significa requisicao valida sem eventos para o pagamento consultado.
+- Botao "Eventos" mostra o retorno do endpoint de eventos do pagamento selecionado.
+- Rotas de acao atualizadas: `POST /payments/{id}/refuse` e `POST /payments/{id}/cancel` (substituem nomenclaturas antigas de fail/refund).
 
 ## Design e UI
 - Paleta visual atual: foco azul + laranja.
-- Ajustes recentes de legibilidade e consistência de botões.
-- Label de ação de pagamento encurtado para `Pago` para evitar overflow.
+- Ajustes recentes de legibilidade e consistencia de botoes.
+- Label de acao de pagamento encurtado para `Pago` para evitar overflow.
+- Status recusado com destaque em vermelho para manter consistencia visual com os demais status.
 
-## Documentação
-- Local: `docs/site/index.html`
+## Documentacao
+- Local: `docs/index.html`
 - Estrutura baseada em layout Stitch, adaptada ao contexto do HubPay.
-- Seções: Overview, Architecture, Payment Flow, Authentication, Idempotency, Endpoints, Webhooks, Tech Stack, Changelog, Contato.
+- Secoes: Overview, Architecture, Payment Flow, Authentication, Idempotency, Endpoints, Webhooks, Tech Stack, Guides, Changelog, Contact.
 - Suporte de idioma PT-BR/EN implementado por toggle no topo.
+- Guias visuais (GIF) de cadastro de cliente e cadastro de merchant adicionados em `docs/assets`.
 
 ## Artefatos Relevantes
 - API: `src/HubPay.API`
 - Console web: `src/HubPay.API/wwwroot`
-- Documentação: `docs/site`
-- Ícone atual: `hubpay-logo-circle.png`
+- Documentacao: `docs`
+- Icone atual: `hubpay-logo-circle.png`
 
 ## Checklist Final
 - [x] API funcional
 - [x] Swagger configurado
 - [x] Console funcional
-- [x] Documentação finalizada
+- [x] Documentacao finalizada
 - [x] Live Demo linkada
 - [x] Branding aplicado
 - [x] Ajustes visuais finais aplicados
+- [x] Rotas finais de pagamento padronizadas (`refuse`/`cancel`)
 
-## Próximos Passos (Opcional)
-- Adicionar pipeline de deploy da doc estática.
-- Expandir testes de integração para fluxos de eventos/webhooks.
-- Incluir screenshots/versionamento visual da documentação.
+## Proximos Passos (Opcional)
+- Adicionar pipeline de deploy da doc estatica.
+- Expandir testes de integracao para fluxos de eventos/webhooks.
+- Incluir screenshots/versionamento visual da documentacao.

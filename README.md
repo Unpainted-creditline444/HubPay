@@ -77,7 +77,7 @@ Lifecycle actions currently available:
 - `POST /payments/{id}/authorize`
 - `POST /payments/{id}/pay`
 - `POST /payments/{id}/refuse`
-- `POST /payments/{id}/refund`
+- `POST /payments/{id}/cancel`
 
 ## Error Format
 Errors use a consistent JSON shape:
@@ -103,5 +103,6 @@ Swagger is available in development at `/swagger`.
 ## Build and Test
 - `dotnet build HubPay.slnx`
 - `dotnet test HubPay.slnx`
+
 
 

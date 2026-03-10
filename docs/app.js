@@ -71,7 +71,7 @@
         "#endpoints tbody tr:nth-child(5) td:nth-child(3)": "Autoriza um pagamento previamente criado, movendo seu estado de Pending para Authorized.",
         "#endpoints tbody tr:nth-child(6) td:nth-child(3)": "Marca um pagamento autorizado como pago.",
         "#endpoints tbody tr:nth-child(7) td:nth-child(3)": "Marca um pagamento pendente/autorizado como recusado.",
-        "#endpoints tbody tr:nth-child(8) td:nth-child(3)": "Reembolsa um pagamento que ja foi concluido.",
+        "#endpoints tbody tr:nth-child(8) td:nth-child(3)": "Cancela um pagamento que ja foi concluido (internamente como refunded).",
 
         "#webhooks > p": "HubPay gera eventos quando o estado de um pagamento muda. Esses eventos podem ser enviados para endpoints de webhook registrados pelos merchants para permitir integracao com sistemas externos.",
 
@@ -169,7 +169,7 @@
         "#endpoints tbody tr:nth-child(5) td:nth-child(3)": "Authorizes a previously created payment, moving its status from Pending to Authorized.",
         "#endpoints tbody tr:nth-child(6) td:nth-child(3)": "Marks an authorized payment as paid.",
         "#endpoints tbody tr:nth-child(7) td:nth-child(3)": "Marks a pending/authorized payment as refused.",
-        "#endpoints tbody tr:nth-child(8) td:nth-child(3)": "Refunds a payment that was already completed.",
+        "#endpoints tbody tr:nth-child(8) td:nth-child(3)": "Cancels a completed payment (internally tracked as refunded).",
 
         "#webhooks > p": "HubPay generates events whenever a payment status changes. These events can be sent to merchant webhook endpoints for external integrations.",
 
@@ -277,6 +277,7 @@
     });
   }
 })();
+
 
 
 

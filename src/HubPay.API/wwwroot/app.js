@@ -103,7 +103,7 @@ const i18n = {
       actionAuthorize: "Autorizar",
       actionMarkPaid: "Pago",
       actionRefuse: "Recusar",
-      actionRefund: "Reembolsar",
+      actionRefund: "Cancelar",
       actionEvents: "Eventos",
       noPayments: "Nenhum pagamento encontrado.",
       webhooksTitleId: "ID",
@@ -125,7 +125,7 @@ const i18n = {
         authorized: "AUTORIZADO",
         paid: "PAGO",
         refused: "RECUSADO",
-        refunded: "REEMBOLSADO",
+        refunded: "CANCELADO",
         active: "ATIVO",
         inactive: "DESATIVADO"
       },
@@ -241,7 +241,7 @@ const i18n = {
       actionAuthorize: "Authorize",
       actionMarkPaid: "Paid",
       actionRefuse: "Refuse",
-      actionRefund: "Refund",
+      actionRefund: "Cancel",
       actionEvents: "Events",
       noPayments: "No payments found.",
       webhooksTitleId: "ID",
@@ -263,7 +263,7 @@ const i18n = {
         authorized: "AUTHORIZED",
         paid: "PAID",
         refused: "REFUSED",
-        refunded: "REFUNDED",
+        refunded: "CANCELLED",
         active: "ACTIVE",
         inactive: "INACTIVE"
       },
@@ -712,7 +712,7 @@ async function paymentAction(action, id, button) {
       return;
     }
 
-    const map = { authorize: "authorize", markPaid: "pay", refuse: "refuse", refund: "refund" };
+    const map = { authorize: "authorize", markPaid: "pay", refuse: "refuse", refund: "cancel" };
     await api(`/payments/${id}/${map[action]}`, { method: "POST" });
     log(t("paymentActionLog", { id, action }));
     toast(t("statusUpdatedToast"), "success");
@@ -806,6 +806,8 @@ bootstrapConnectionFields();
 bindEvents();
 log(t("bootLog"));
 toast(t("bootToast"), "info");
+
+
 
 
 

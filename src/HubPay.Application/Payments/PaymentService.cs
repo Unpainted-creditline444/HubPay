@@ -181,7 +181,7 @@ public class PaymentService
         return ToResponse(payment);
     }
 
-    public async Task<PaymentResponse?> RefundAsync(Guid merchantId, Guid paymentId)
+    public async Task<PaymentResponse?> CancelAsync(Guid merchantId, Guid paymentId)
     {
         var payment = await _paymentRepository.GetByIdForMerchantAsync(paymentId, merchantId);
         if (payment is null) return null;
@@ -257,4 +257,5 @@ public class PaymentService
             payment.UpdatedAt);
     }
 }
+
 
