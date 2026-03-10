@@ -195,25 +195,6 @@
     });
   }
 
-  const sectionNavLinks = Array.from(document.querySelectorAll("#leftSidebar a[href^='#']"));
-  const activeNavClasses = ["bg-primary/10", "text-primary", "font-semibold"];
-  const inactiveNavClasses = ["text-slate-700", "hover:bg-slate-200/70"];
-
-  function setActiveSectionLink(hash) {
-    const targetHash = hash && hash.startsWith("#") ? hash : "#overview";
-
-    sectionNavLinks.forEach((link) => {
-      const isActive = link.getAttribute("href") === targetHash;
-      if (isActive) {
-        link.classList.add(...activeNavClasses);
-        link.classList.remove(...inactiveNavClasses);
-      } else {
-        link.classList.remove(...activeNavClasses);
-        link.classList.add(...inactiveNavClasses);
-      }
-    });
-  }
-
   function applyLanguage(lang) {
     const pack = bundles[lang] || bundles.pt;
 
@@ -252,48 +233,12 @@
 
     sidebar.querySelectorAll("a").forEach((a) => {
       a.addEventListener("click", () => {
-        setActiveSectionLink(a.getAttribute("href"));
 
         if (window.innerWidth < 1024) {
           sidebar.classList.add("-translate-x-full");
           menuToggle.setAttribute("aria-expanded", "false");
         }
       });
-    });
-  }
-
-  window.addEventListener("hashchange", () => {
-    setActiveSectionLink(window.location.hash);
-  });
-
-  const observedSectionIds = sectionNavLinks
-    .map((link) => link.getAttribute("href") || "")
-    .filter((href) => href.startsWith("#"))
-    .map((href) => href.slice(1));
-
-  const observedSections = observedSectionIds
-    .map((id) => document.getElementById(id))
-    .filter((section) => Boolean(section));
-
-  if (observedSections.length > 0) {
-    const sectionObserver = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-        if (visible.length > 0) {
-          setActiveSectionLink(`#${visible[0].target.id}`);
-        }
-      },
-      {
-        rootMargin: "-40% 0px -45% 0px",
-        threshold: [0.2, 0.4, 0.6]
-      }
-    );
-
-    observedSections.forEach((section) => {
-      sectionObserver.observe(section);
     });
   }
 
@@ -318,6 +263,8 @@
     });
   }
 })();
+
+
 
 
 

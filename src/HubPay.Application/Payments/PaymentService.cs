@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
 using HubPay.Domain.Entities;
 using HubPay.Domain.Enums;
 using HubPay.Domain.Exceptions;
@@ -38,6 +40,8 @@ public class PaymentService
         CreatePaymentRequest request,
         string? idempotencyKey)
     {
+        var requestHash = ComputeRequestHash(request);
+
         if (idempotencyKey is not null)
         {
             var existing = await _idempotencyRecordRepository
@@ -45,6 +49,9 @@ public class PaymentService
 
             if (existing is not null)
             {
+                if (!string.Equals(existing.RequestHash, requestHash, StringComparison.Ordinal))
+                    throw new DomainException("Idempotency key already used with a different request payload.");
+
                 var cachedResponse = JsonSerializer.Deserialize<PaymentResponse>(existing.ResponseBody)
                                ?? throw new DomainException("Stored idempotency response is invalid");
 
@@ -81,7 +88,7 @@ public class PaymentService
             var record = new IdempotencyRecord(
                 merchantId,
                 idempotencyKey,
-                requestHash: serializedResponse,
+                requestHash,
                 responseBody: serializedResponse,
                 statusCode: 201);
 
@@ -217,6 +224,21 @@ public class PaymentService
 
             await _webhookEventRepository.AddAsync(webhookEvent);
         }
+    }
+
+    private static string ComputeRequestHash(CreatePaymentRequest request)
+    {
+        var normalized = JsonSerializer.Serialize(new
+        {
+            request.CustomerId,
+            request.Amount,
+            currency = request.Currency?.Trim().ToUpperInvariant(),
+            request.PaymentMethod,
+            description = request.Description?.Trim()
+        });
+
+        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(normalized));
+        return Convert.ToHexString(bytes);
     }
 
     private static PaymentResponse ToResponse(Payment payment)

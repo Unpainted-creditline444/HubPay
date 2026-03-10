@@ -21,12 +21,9 @@ public class ApiKeyAuthenticationHandler : AuthenticationHandler<AuthenticationS
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        if (!Request.Headers.TryGetValue(ApiKeyHeaderName, out var apiKeyHeaderValues))
-            return AuthenticateResult.NoResult();
-
-        var apiKeyValue = apiKeyHeaderValues.ToString().Trim();
+        var apiKeyValue = ResolveApiKeyValue();
         if (string.IsNullOrWhiteSpace(apiKeyValue))
-            return AuthenticateResult.Fail("API key is empty.");
+            return AuthenticateResult.NoResult();
 
         var apiKeyRepository = Context.RequestServices.GetRequiredService<IApiKeyRepository>();
         var apiKey = await apiKeyRepository.GetActiveByKeyAsync(apiKeyValue);
@@ -49,5 +46,28 @@ public class ApiKeyAuthenticationHandler : AuthenticationHandler<AuthenticationS
         var ticket = new AuthenticationTicket(principal, SchemeName);
 
         return AuthenticateResult.Success(ticket);
+    }
+
+    private string? ResolveApiKeyValue()
+    {
+        if (Request.Headers.TryGetValue(ApiKeyHeaderName, out var apiKeyHeaderValues))
+        {
+            var value = apiKeyHeaderValues.ToString().Trim();
+            if (!string.IsNullOrWhiteSpace(value))
+                return value;
+        }
+
+        if (Request.Headers.TryGetValue("Authorization", out var authorizationValues))
+        {
+            var authorizationHeader = authorizationValues.ToString();
+            if (authorizationHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+            {
+                var bearerValue = authorizationHeader["Bearer ".Length..].Trim();
+                if (!string.IsNullOrWhiteSpace(bearerValue))
+                    return bearerValue;
+            }
+        }
+
+        return null;
     }
 }
