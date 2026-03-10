@@ -1,4 +1,4 @@
-const $ = (id) => document.getElementById(id);
+﻿const $ = (id) => document.getElementById(id);
 
 const state = {
   baseUrl: localStorage.getItem("hubpay.baseUrl") || window.location.origin,
@@ -287,7 +287,7 @@ async function listPayments() {
         <td>
           <div class="actions">
             <button class="btn btn-light" data-action="authorize" data-id="${p.id}">Autorizar</button>
-            <button class="btn btn-light" data-action="markPaid" data-id="${p.id}">Marcar como Pago</button>
+            <button class="btn btn-light" data-action="markPaid" data-id="${p.id}">Pago</button>
             <button class="btn btn-light" data-action="refuse" data-id="${p.id}">Recusar</button>
             <button class="btn btn-light" data-action="cancel" data-id="${p.id}">Cancelar</button>
             <button class="btn btn-primary" data-action="events" data-id="${p.id}">Eventos</button>
@@ -416,3 +416,4 @@ bootstrapConnectionFields();
 bindEvents();
 log("HubPay Console iniciado.");
 toast("Console pronto", "info");
+
