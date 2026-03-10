@@ -1,17 +1,388 @@
-﻿const $ = (id) => document.getElementById(id);
+const $ = (id) => document.getElementById(id);
+
+const i18n = {
+  pt: {
+    htmlLang: "pt-BR",
+    nextLabel: "EN",
+    staticText: {
+      ".brand-wrap h1": "HUBPAY CONSOLE",
+      ".brand-wrap p": "CORE ENGINE v2.1 // EDICAO EDITORIAL",
+      "#connectionStatus": "CONECTADO",
+      ".left-stack .panel:nth-of-type(1) h2": "Configuracao de Conexao",
+      ".left-stack .panel:nth-of-type(1) label:nth-of-type(1)": "URL BASE DA API",
+      ".left-stack .panel:nth-of-type(1) label:nth-of-type(2)": "ID DO MERCHANT",
+      ".left-stack .panel:nth-of-type(1) label:nth-of-type(3)": "CHAVE SECRETA DA API",
+      "#saveConnection": "Salvar Sessao",
+      "#clearConnection": "Limpar",
+      ".left-stack .panel:nth-of-type(2) h2": "Cadastro de Merchant",
+      "#createMerchantForm label:nth-of-type(1)": "NOME DO NEGOCIO",
+      "#createMerchantForm .grid-two label:nth-of-type(1)": "DOCUMENTO",
+      "#createMerchantForm .grid-two label:nth-of-type(2)": "E-MAIL",
+      "#createMerchantForm .row-btn:nth-of-type(1) button:nth-of-type(1)": "Criar Merchant",
+      "#listMerchants": "Atualizar",
+      "#generateApiKey": "Gerar Chave",
+      "button[form='revokeApiKeyForm']": "Revogar Chave",
+      ".left-stack .panel:nth-of-type(3) h2": "Linha do Tempo",
+      "#paymentEventsOutput": "Selecione um pagamento e clique em \"Eventos\" para ver a linha do tempo.",
+      ".left-stack .panel:nth-of-type(4) h2": "Webhooks",
+      "#listWebhooks": "Atualizar Webhooks",
+      ".payment-hero h2": "Nova Transacao de Pagamento",
+      "#createPaymentForm .grid-two label:nth-of-type(1)": "ID DO CLIENTE",
+      "#createPaymentForm .grid-two label:nth-of-type(2)": "IDEMPOTENCY-KEY",
+      "#createPaymentForm .grid-three label:nth-of-type(1)": "VALOR TOTAL (DINHEIRO)",
+      "#createPaymentForm .grid-three label:nth-of-type(2)": "MOEDA",
+      "#createPaymentForm .grid-three label:nth-of-type(3)": "METODO",
+      "#createPaymentForm > label": "DESCRICAO (O QUE ESTA SENDO COBRADO)",
+      ".execute-btn": "EXECUTAR PAGAMENTO",
+      ".panel-table h2": "Transacoes em Tempo Real",
+      ".panel-table .stream": "TRANSMITINDO...",
+      "#listPayments": "Atualizar Pagamentos",
+      ".panel-customer h2": "Cadastro Rapido de Cliente",
+      "#createCustomerForm label:nth-of-type(1)": "NOME",
+      "#createCustomerForm label:nth-of-type(2)": "DOCUMENTO",
+      "#createCustomerForm label:nth-of-type(3)": "E-MAIL",
+      "#createCustomerForm button": "Criar Cliente",
+      ".terminal-head p": "HUBPAY-CONSOLE@LOCAL: ~ /LOG-DE-ATIVIDADE",
+      "#paymentMethod option[value='1']": "Cartao de Credito",
+      "#paymentMethod option[value='2']": "Pix",
+      "#paymentMethod option[value='3']": "Boleto"
+    },
+    staticAttr: {
+      "#langToggle": { "aria-label": "Alternar idioma" },
+      "#apiBaseUrl": { placeholder: "http://localhost:5201" },
+      "#merchantId": { placeholder: "mid_live_xxxxxxxx" },
+      "#apiKey": { placeholder: "sk_test_..." },
+      "#merchantDocument": { placeholder: "CPF/CNPJ" },
+      "#revokeApiKeyInput": { placeholder: "chave para revogar" },
+      "#webhookUrl": { placeholder: "https://..." },
+      "#paymentCustomerId": { placeholder: "cus_98234..." },
+      "#idempotencyKey": { placeholder: "uuid-v4" },
+      "#paymentAmount": { placeholder: "ex.: 49.90" },
+      "#paymentDescription": { placeholder: "ex.: camisa + frete" }
+    },
+    runtime: {
+      processing: "Processando...",
+      saveSession: "Salvar Sessao",
+      clearSession: "Limpar",
+      connectionSavedLog: "Conexao salva.",
+      connectionSavedToast: "Sessao salva",
+      connectionClearedLog: "Conexao limpa.",
+      connectionClearedToast: "Sessao limpa",
+      errorOperationToast: "Erro na operacao",
+      merchantRequired: "ID do merchant e obrigatorio na conexao.",
+      merchantCreatedLog: "Merchant criado: {id}",
+      merchantCreatedToast: "Merchant criado",
+      merchantsLoadedLog: "Merchants carregados: {count}.",
+      apiKeyGeneratedLog: "API key gerada e salva na sessao.",
+      apiKeyGeneratedToast: "API key gerada",
+      apiKeyRevokedLog: "API key revogada.",
+      apiKeyRevokedToast: "API key revogada",
+      customerCreatedLog: "Cliente criado: {id}",
+      customerCreatedToast: "Cliente criado",
+      paymentCreatedLog: "Pagamento criado: {id}",
+      paymentCreatedToast: "Pagamento criado",
+      paymentsLoadedLog: "Pagamentos carregados: {count}.",
+      paymentsListErrorToast: "Erro ao listar pagamentos",
+      authRequiredTitle: "Autenticacao necessaria",
+      authHint: "Nao autorizado. Verifique Merchant ID + API Key e clique em Salvar Sessao.",
+      paymentEventsLoadedLog: "Eventos carregados para o pagamento {id}: {count}.",
+      timelineUpdatedToast: "Linha do tempo atualizada",
+      paymentActionLog: "Pagamento {id}: acao '{action}' executada.",
+      statusUpdatedToast: "Status atualizado",
+      webhookCreatedLog: "Webhook criado: {id}",
+      webhookCreatedToast: "Webhook criado",
+      webhooksLoadedLog: "Webhooks carregados: {count}.",
+      webhookDisabledLog: "Webhook desativado: {id}",
+      webhookDisabledToast: "Webhook desativado",
+      paymentsTitleId: "ID",
+      paymentsTitleStatus: "Status",
+      paymentsTitleAmount: "Valor",
+      paymentsTitleMethod: "Metodo",
+      paymentsTitleDescription: "Descricao",
+      paymentsTitleActions: "Acoes",
+      actionAuthorize: "Autorizar",
+      actionMarkPaid: "Pago",
+      actionRefuse: "Recusar",
+      actionCancel: "Cancelar",
+      actionEvents: "Eventos",
+      noPayments: "Nenhum pagamento encontrado.",
+      webhooksTitleId: "ID",
+      webhooksTitleUrl: "URL",
+      webhooksTitleStatus: "Status",
+      webhooksTitleAction: "Acao",
+      actionDisable: "Desativar",
+      noWebhooks: "Nenhum webhook encontrado.",
+      loadingCreating: "Criando...",
+      loadingRefreshing: "Atualizando...",
+      loadingGenerating: "Gerando...",
+      loadingRevoking: "Revogando...",
+      loadingExecuting: "Executando...",
+      loadingDisabling: "Desativando...",
+      bootLog: "HubPay Console iniciado.",
+      bootToast: "Console pronto",
+      statusMap: {
+        pending: "PENDENTE",
+        authorized: "AUTORIZADO",
+        paid: "PAGO",
+        refused: "RECUSADO",
+        cancelled: "CANCELADO",
+        active: "ATIVO",
+        inactive: "DESATIVADO"
+      },
+      paymentMethodMap: {
+        "1": "Cartao de Credito",
+        "2": "Pix",
+        "3": "Boleto",
+        creditcard: "Cartao de Credito",
+        pix: "Pix",
+        boleto: "Boleto"
+      }
+    }
+  },
+  en: {
+    htmlLang: "en",
+    nextLabel: "PT-BR",
+    staticText: {
+      ".brand-wrap h1": "HUBPAY CONSOLE",
+      ".brand-wrap p": "CORE ENGINE v2.1 // EDITORIAL EDITION",
+      "#connectionStatus": "CONNECTED",
+      ".left-stack .panel:nth-of-type(1) h2": "Connection Setup",
+      ".left-stack .panel:nth-of-type(1) label:nth-of-type(1)": "API BASE URL",
+      ".left-stack .panel:nth-of-type(1) label:nth-of-type(2)": "MERCHANT ID",
+      ".left-stack .panel:nth-of-type(1) label:nth-of-type(3)": "API SECRET KEY",
+      "#saveConnection": "Save Session",
+      "#clearConnection": "Clear",
+      ".left-stack .panel:nth-of-type(2) h2": "Merchant Registration",
+      "#createMerchantForm label:nth-of-type(1)": "BUSINESS NAME",
+      "#createMerchantForm .grid-two label:nth-of-type(1)": "DOCUMENT",
+      "#createMerchantForm .grid-two label:nth-of-type(2)": "E-MAIL",
+      "#createMerchantForm .row-btn:nth-of-type(1) button:nth-of-type(1)": "Create Merchant",
+      "#listMerchants": "Refresh",
+      "#generateApiKey": "Generate Key",
+      "button[form='revokeApiKeyForm']": "Revoke Key",
+      ".left-stack .panel:nth-of-type(3) h2": "Timeline",
+      "#paymentEventsOutput": "Select a payment and click \"Events\" to see the timeline.",
+      ".left-stack .panel:nth-of-type(4) h2": "Webhooks",
+      "#listWebhooks": "Refresh Webhooks",
+      ".payment-hero h2": "New Payment Transaction",
+      "#createPaymentForm .grid-two label:nth-of-type(1)": "CUSTOMER ID",
+      "#createPaymentForm .grid-two label:nth-of-type(2)": "IDEMPOTENCY KEY",
+      "#createPaymentForm .grid-three label:nth-of-type(1)": "TOTAL AMOUNT (MONEY)",
+      "#createPaymentForm .grid-three label:nth-of-type(2)": "CURRENCY",
+      "#createPaymentForm .grid-three label:nth-of-type(3)": "METHOD",
+      "#createPaymentForm > label": "DESCRIPTION (WHAT IS BEING CHARGED)",
+      ".execute-btn": "RUN PAYMENT",
+      ".panel-table h2": "Real-Time Transactions",
+      ".panel-table .stream": "STREAMING...",
+      "#listPayments": "Refresh Payments",
+      ".panel-customer h2": "Quick Customer Registration",
+      "#createCustomerForm label:nth-of-type(1)": "NAME",
+      "#createCustomerForm label:nth-of-type(2)": "DOCUMENT",
+      "#createCustomerForm label:nth-of-type(3)": "E-MAIL",
+      "#createCustomerForm button": "Create Customer",
+      ".terminal-head p": "HUBPAY-CONSOLE@LOCAL: ~ /ACTIVITY-LOG",
+      "#paymentMethod option[value='1']": "Credit Card",
+      "#paymentMethod option[value='2']": "Pix",
+      "#paymentMethod option[value='3']": "Bank Slip"
+    },
+    staticAttr: {
+      "#langToggle": { "aria-label": "Switch language" },
+      "#apiBaseUrl": { placeholder: "http://localhost:5201" },
+      "#merchantId": { placeholder: "mid_live_xxxxxxxx" },
+      "#apiKey": { placeholder: "sk_test_..." },
+      "#merchantDocument": { placeholder: "Tax ID" },
+      "#revokeApiKeyInput": { placeholder: "key to revoke" },
+      "#webhookUrl": { placeholder: "https://..." },
+      "#paymentCustomerId": { placeholder: "cus_98234..." },
+      "#idempotencyKey": { placeholder: "uuid-v4" },
+      "#paymentAmount": { placeholder: "e.g.: 49.90" },
+      "#paymentDescription": { placeholder: "e.g.: shirt + shipping" }
+    },
+    runtime: {
+      processing: "Processing...",
+      saveSession: "Save Session",
+      clearSession: "Clear",
+      connectionSavedLog: "Connection saved.",
+      connectionSavedToast: "Session saved",
+      connectionClearedLog: "Connection cleared.",
+      connectionClearedToast: "Session cleared",
+      errorOperationToast: "Operation failed",
+      merchantRequired: "Merchant ID is required in connection settings.",
+      merchantCreatedLog: "Merchant created: {id}",
+      merchantCreatedToast: "Merchant created",
+      merchantsLoadedLog: "Merchants loaded: {count}.",
+      apiKeyGeneratedLog: "API key generated and saved in session.",
+      apiKeyGeneratedToast: "API key generated",
+      apiKeyRevokedLog: "API key revoked.",
+      apiKeyRevokedToast: "API key revoked",
+      customerCreatedLog: "Customer created: {id}",
+      customerCreatedToast: "Customer created",
+      paymentCreatedLog: "Payment created: {id}",
+      paymentCreatedToast: "Payment created",
+      paymentsLoadedLog: "Payments loaded: {count}.",
+      paymentsListErrorToast: "Failed to load payments",
+      authRequiredTitle: "Authentication required",
+      authHint: "Unauthorized. Check Merchant ID + API Key and click Save Session.",
+      paymentEventsLoadedLog: "Events loaded for payment {id}: {count}.",
+      timelineUpdatedToast: "Timeline updated",
+      paymentActionLog: "Payment {id}: action '{action}' executed.",
+      statusUpdatedToast: "Status updated",
+      webhookCreatedLog: "Webhook created: {id}",
+      webhookCreatedToast: "Webhook created",
+      webhooksLoadedLog: "Webhooks loaded: {count}.",
+      webhookDisabledLog: "Webhook disabled: {id}",
+      webhookDisabledToast: "Webhook disabled",
+      paymentsTitleId: "ID",
+      paymentsTitleStatus: "Status",
+      paymentsTitleAmount: "Amount",
+      paymentsTitleMethod: "Method",
+      paymentsTitleDescription: "Description",
+      paymentsTitleActions: "Actions",
+      actionAuthorize: "Authorize",
+      actionMarkPaid: "Paid",
+      actionRefuse: "Refuse",
+      actionCancel: "Cancel",
+      actionEvents: "Events",
+      noPayments: "No payments found.",
+      webhooksTitleId: "ID",
+      webhooksTitleUrl: "URL",
+      webhooksTitleStatus: "Status",
+      webhooksTitleAction: "Action",
+      actionDisable: "Disable",
+      noWebhooks: "No webhooks found.",
+      loadingCreating: "Creating...",
+      loadingRefreshing: "Refreshing...",
+      loadingGenerating: "Generating...",
+      loadingRevoking: "Revoking...",
+      loadingExecuting: "Running...",
+      loadingDisabling: "Disabling...",
+      bootLog: "HubPay Console started.",
+      bootToast: "Console ready",
+      statusMap: {
+        pending: "PENDING",
+        authorized: "AUTHORIZED",
+        paid: "PAID",
+        refused: "REFUSED",
+        cancelled: "CANCELLED",
+        active: "ACTIVE",
+        inactive: "INACTIVE"
+      },
+      paymentMethodMap: {
+        "1": "Credit Card",
+        "2": "Pix",
+        "3": "Bank Slip",
+        creditcard: "Credit Card",
+        pix: "Pix",
+        boleto: "Bank Slip"
+      }
+    }
+  }
+};
 
 const state = {
   baseUrl: localStorage.getItem("hubpay.baseUrl") || window.location.origin,
   merchantId: localStorage.getItem("hubpay.merchantId") || "",
-  apiKey: localStorage.getItem("hubpay.apiKey") || ""
+  apiKey: localStorage.getItem("hubpay.apiKey") || "",
+  lang: localStorage.getItem("hubpay.console.lang") || "pt"
 };
 
 const ui = {
   apiBaseUrl: $("apiBaseUrl"),
   merchantId: $("merchantId"),
   apiKey: $("apiKey"),
-  activityOutput: $("activityOutput")
+  activityOutput: $("activityOutput"),
+  langToggle: $("langToggle"),
+  langLabel: $("langLabel")
 };
+
+function currentPack() {
+  return i18n[state.lang] || i18n.pt;
+}
+
+function t(key, values = {}) {
+  const template = currentPack().runtime[key] ?? key;
+  return Object.entries(values).reduce((acc, [k, v]) => acc.replaceAll(`{${k}}`, String(v)), template);
+}
+
+function setText(selector, text) {
+  const el = document.querySelector(selector);
+  if (el) el.textContent = text;
+}
+
+function setAttr(selector, attrs) {
+  const el = document.querySelector(selector);
+  if (!el) return;
+  Object.entries(attrs).forEach(([name, value]) => el.setAttribute(name, value));
+}
+
+function applyLanguage(lang) {
+  state.lang = lang === "en" ? "en" : "pt";
+  localStorage.setItem("hubpay.console.lang", state.lang);
+
+  const pack = currentPack();
+
+  Object.entries(pack.staticText).forEach(([selector, text]) => setText(selector, text));
+  Object.entries(pack.staticAttr).forEach(([selector, attrs]) => setAttr(selector, attrs));
+
+  document.documentElement.lang = pack.htmlLang;
+  if (ui.langLabel) ui.langLabel.textContent = pack.nextLabel;
+
+  refreshDynamicLabels();
+}
+
+function displayStatus(status) {
+  const raw = String(status ?? "");
+  const key = raw.toLowerCase();
+  return currentPack().runtime.statusMap[key] || raw;
+}
+
+function displayPaymentMethod(method) {
+  const raw = String(method ?? "");
+  const key = raw.toLowerCase();
+  return currentPack().runtime.paymentMethodMap[key] || raw;
+}
+
+function refreshDynamicLabels() {
+  const runtime = currentPack().runtime;
+
+  document.querySelectorAll("#paymentsOutput button[data-action='authorize']").forEach((el) => {
+    el.textContent = runtime.actionAuthorize;
+  });
+  document.querySelectorAll("#paymentsOutput button[data-action='markPaid']").forEach((el) => {
+    el.textContent = runtime.actionMarkPaid;
+  });
+  document.querySelectorAll("#paymentsOutput button[data-action='refuse']").forEach((el) => {
+    el.textContent = runtime.actionRefuse;
+  });
+  document.querySelectorAll("#paymentsOutput button[data-action='cancel']").forEach((el) => {
+    el.textContent = runtime.actionCancel;
+  });
+  document.querySelectorAll("#paymentsOutput button[data-action='events']").forEach((el) => {
+    el.textContent = runtime.actionEvents;
+  });
+
+  const paymentHeader = document.querySelectorAll("#paymentsOutput th");
+  if (paymentHeader.length === 6) {
+    paymentHeader[0].textContent = runtime.paymentsTitleId;
+    paymentHeader[1].textContent = runtime.paymentsTitleStatus;
+    paymentHeader[2].textContent = runtime.paymentsTitleAmount;
+    paymentHeader[3].textContent = runtime.paymentsTitleMethod;
+    paymentHeader[4].textContent = runtime.paymentsTitleDescription;
+    paymentHeader[5].textContent = runtime.paymentsTitleActions;
+  }
+
+  const webhooksHeader = document.querySelectorAll("#webhooksOutput th");
+  if (webhooksHeader.length === 4) {
+    webhooksHeader[0].textContent = runtime.webhooksTitleId;
+    webhooksHeader[1].textContent = runtime.webhooksTitleUrl;
+    webhooksHeader[2].textContent = runtime.webhooksTitleStatus;
+    webhooksHeader[3].textContent = runtime.webhooksTitleAction;
+  }
+
+  document.querySelectorAll("#webhooksOutput button[data-action='disable-webhook']").forEach((el) => {
+    el.textContent = runtime.actionDisable;
+  });
+}
 
 function bootstrapConnectionFields() {
   ui.apiBaseUrl.value = state.baseUrl;
@@ -26,8 +397,8 @@ function saveConnection() {
   localStorage.setItem("hubpay.baseUrl", state.baseUrl);
   localStorage.setItem("hubpay.merchantId", state.merchantId);
   localStorage.setItem("hubpay.apiKey", state.apiKey);
-  log("Conexao salva.");
-  toast("Sessao salva", "success");
+  log(t("connectionSavedLog"));
+  toast(t("connectionSavedToast"), "success");
 }
 
 function clearConnection() {
@@ -38,8 +409,8 @@ function clearConnection() {
   state.merchantId = "";
   state.apiKey = "";
   bootstrapConnectionFields();
-  log("Conexao limpa.");
-  toast("Sessao limpa", "info");
+  log(t("connectionClearedLog"));
+  toast(t("connectionClearedToast"), "info");
 }
 
 function getHeaders(extra = {}) {
@@ -74,7 +445,8 @@ async function api(path, options = {}) {
 }
 
 function log(message) {
-  const time = new Date().toLocaleTimeString();
+  const locale = state.lang === "en" ? "en-US" : "pt-BR";
+  const time = new Date().toLocaleTimeString(locale);
   ui.activityOutput.textContent = `[${time}] ${message}\n` + ui.activityOutput.textContent;
 }
 
@@ -101,7 +473,7 @@ function toast(message, type = "info") {
   setTimeout(() => node.remove(), 1800);
 }
 
-function setLoading(button, isLoading, loadingText = "Processando...") {
+function setLoading(button, isLoading, loadingText = t("processing")) {
   if (!button) return;
   if (!button.dataset.originalText) button.dataset.originalText = button.textContent;
   button.disabled = isLoading;
@@ -113,7 +485,7 @@ function renderJson(targetId, data) {
 }
 
 function requireMerchantId() {
-  if (!state.merchantId) throw new Error("ID do merchant e obrigatorio na conexao.");
+  if (!state.merchantId) throw new Error(t("merchantRequired"));
 }
 
 function escapeHtml(text) {
@@ -136,22 +508,18 @@ function renderCardError(targetId, title, detail) {
   `;
 }
 
-function authHint() {
-  return "Nao autorizado. Verifique Merchant ID + API Key e clique em Salvar Sessao.";
-}
-
 function statusClass(status) {
   const key = String(status || "").toLowerCase();
-  if (key === "paid") return "#dff7e8;#1f7a46;#b9e6ca";
+  if (key === "paid" || key === "active") return "#dff7e8;#1f7a46;#b9e6ca";
   if (key === "authorized") return "#fff6d9;#9a6a00;#f6dea4";
   if (key === "refused") return "#fee5e2;#b42318;#f7c9c2";
-  if (key === "cancelled") return "#eceff3;#475467;#d2d8e0";
+  if (key === "cancelled" || key === "inactive") return "#eceff3;#475467;#d2d8e0";
   return "#edf2ff;#2448aa;#cfdaf9";
 }
 
 function statusBadge(status) {
   const [bg, fg, bd] = statusClass(status).split(";");
-  return `<span class="badge" style="background:${bg};color:${fg};border-color:${bd}">${escapeHtml(status)}</span>`;
+  return `<span class="badge" style="background:${bg};color:${fg};border-color:${bd}">${escapeHtml(displayStatus(status))}</span>`;
 }
 
 async function runAction(button, fn, loadingText) {
@@ -160,7 +528,7 @@ async function runAction(button, fn, loadingText) {
     await fn();
   } catch (err) {
     log(err.message);
-    toast("Erro na operacao", "error");
+    toast(t("errorOperationToast"), "error");
   } finally {
     setLoading(button, false);
   }
@@ -183,9 +551,9 @@ async function createMerchant(e) {
     ui.merchantId.value = merchant.id;
     saveConnection();
     renderJson("merchantsOutput", merchant);
-    log(`Merchant criado: ${merchant.id}`);
-    toast("Merchant criado", "success");
-  }, "Criando...");
+    log(t("merchantCreatedLog", { id: merchant.id }));
+    toast(t("merchantCreatedToast"), "success");
+  }, t("loadingCreating"));
 }
 
 async function listMerchants() {
@@ -193,8 +561,8 @@ async function listMerchants() {
   await runAction(button, async () => {
     const merchants = await api("/merchants/");
     renderJson("merchantsOutput", merchants);
-    log(`Merchants carregados: ${merchants.length}.`);
-  }, "Atualizando...");
+    log(t("merchantsLoadedLog", { count: merchants.length }));
+  }, t("loadingRefreshing"));
 }
 
 async function generateApiKey() {
@@ -208,9 +576,9 @@ async function generateApiKey() {
       saveConnection();
     }
     renderJson("merchantsOutput", response);
-    log("API key gerada e salva na sessao.");
-    toast("API key gerada", "success");
-  }, "Gerando...");
+    log(t("apiKeyGeneratedLog"));
+    toast(t("apiKeyGeneratedToast"), "success");
+  }, t("loadingGenerating"));
 }
 
 async function revokeApiKey(e) {
@@ -222,9 +590,9 @@ async function revokeApiKey(e) {
       method: "POST",
       body: JSON.stringify({ key: $("revokeApiKeyInput").value.trim() })
     });
-    log("API key revogada.");
-    toast("API key revogada", "success");
-  }, "Revogando...");
+    log(t("apiKeyRevokedLog"));
+    toast(t("apiKeyRevokedToast"), "success");
+  }, t("loadingRevoking"));
 }
 
 async function createCustomer(e) {
@@ -241,9 +609,9 @@ async function createCustomer(e) {
     });
     renderJson("customersOutput", customer);
     $("paymentCustomerId").value = customer.id;
-    log(`Cliente criado: ${customer.id}`);
-    toast("Cliente criado", "success");
-  }, "Criando...");
+    log(t("customerCreatedLog", { id: customer.id }));
+    toast(t("customerCreatedToast"), "success");
+  }, t("loadingCreating"));
 }
 
 async function createPayment(e) {
@@ -266,15 +634,15 @@ async function createPayment(e) {
       })
     });
 
-    log(`Pagamento criado: ${payment.id}`);
-    toast("Pagamento criado", "success");
+    log(t("paymentCreatedLog", { id: payment.id }));
+    toast(t("paymentCreatedToast"), "success");
     await listPayments();
-  }, "Executando...");
+  }, t("loadingExecuting"));
 }
 
 async function listPayments() {
   const button = $("listPayments");
-  setLoading(button, true, "Atualizando...");
+  setLoading(button, true, t("loadingRefreshing"));
   try {
     const payments = await api("/payments/");
     const rows = payments.map((p) => `
@@ -282,15 +650,15 @@ async function listPayments() {
         <td><code>${escapeHtml(p.id)}</code></td>
         <td>${statusBadge(p.status)}</td>
         <td>${escapeHtml(p.amount)} ${escapeHtml(p.currency)}</td>
-        <td>${escapeHtml(p.paymentMethod)}</td>
+        <td>${escapeHtml(displayPaymentMethod(p.paymentMethod))}</td>
         <td>${escapeHtml(p.description)}</td>
         <td>
           <div class="actions">
-            <button class="btn btn-light" data-action="authorize" data-id="${p.id}">Autorizar</button>
-            <button class="btn btn-light" data-action="markPaid" data-id="${p.id}">Pago</button>
-            <button class="btn btn-light" data-action="refuse" data-id="${p.id}">Recusar</button>
-            <button class="btn btn-light" data-action="cancel" data-id="${p.id}">Cancelar</button>
-            <button class="btn btn-primary" data-action="events" data-id="${p.id}">Eventos</button>
+            <button class="btn btn-light" data-action="authorize" data-id="${p.id}">${escapeHtml(t("actionAuthorize"))}</button>
+            <button class="btn btn-light" data-action="markPaid" data-id="${p.id}">${escapeHtml(t("actionMarkPaid"))}</button>
+            <button class="btn btn-light" data-action="refuse" data-id="${p.id}">${escapeHtml(t("actionRefuse"))}</button>
+            <button class="btn btn-light" data-action="cancel" data-id="${p.id}">${escapeHtml(t("actionCancel"))}</button>
+            <button class="btn btn-primary" data-action="events" data-id="${p.id}">${escapeHtml(t("actionEvents"))}</button>
           </div>
         </td>
       </tr>
@@ -300,20 +668,20 @@ async function listPayments() {
       <table>
         <thead>
           <tr>
-            <th>ID</th><th>Status</th><th>Valor</th><th>Metodo</th><th>Descricao</th><th>Acoes</th>
+            <th>${escapeHtml(t("paymentsTitleId"))}</th><th>${escapeHtml(t("paymentsTitleStatus"))}</th><th>${escapeHtml(t("paymentsTitleAmount"))}</th><th>${escapeHtml(t("paymentsTitleMethod"))}</th><th>${escapeHtml(t("paymentsTitleDescription"))}</th><th>${escapeHtml(t("paymentsTitleActions"))}</th>
           </tr>
         </thead>
-        <tbody>${rows || '<tr><td colspan="6">Nenhum pagamento encontrado.</td></tr>'}</tbody>
+        <tbody>${rows || `<tr><td colspan="6">${escapeHtml(t("noPayments"))}</td></tr>`}</tbody>
       </table>
     `;
 
-    log(`Pagamentos carregados: ${payments.length}.`);
+    log(t("paymentsLoadedLog", { count: payments.length }));
   } catch (err) {
     if (String(err.message).startsWith("401")) {
-      renderCardError("paymentsOutput", "Autenticacao necessaria", authHint());
+      renderCardError("paymentsOutput", t("authRequiredTitle"), t("authHint"));
     }
     log(err.message);
-    toast("Erro ao listar pagamentos", "error");
+    toast(t("paymentsListErrorToast"), "error");
   } finally {
     setLoading(button, false);
   }
@@ -324,17 +692,17 @@ async function paymentAction(action, id, button) {
     if (action === "events") {
       const events = await api(`/payments/${id}/events`);
       renderJson("paymentEventsOutput", events);
-      log(`Eventos carregados para o pagamento ${id}: ${events.length}.`);
-      toast("Linha do tempo atualizada", "info");
+      log(t("paymentEventsLoadedLog", { id, count: events.length }));
+      toast(t("timelineUpdatedToast"), "info");
       return;
     }
 
     const map = { authorize: "authorize", markPaid: "capture", refuse: "refuse", cancel: "cancel" };
     await api(`/payments/${id}/${map[action]}`, { method: "POST" });
-    log(`Pagamento ${id}: acao '${action}' executada.`);
-    toast("Status atualizado", "success");
+    log(t("paymentActionLog", { id, action }));
+    toast(t("statusUpdatedToast"), "success");
     await listPayments();
-  }, "Processando...");
+  }, t("processing"));
 }
 
 async function createWebhook(e) {
@@ -345,10 +713,10 @@ async function createWebhook(e) {
       method: "POST",
       body: JSON.stringify({ url: $("webhookUrl").value.trim() })
     });
-    log(`Webhook criado: ${webhook.id}`);
-    toast("Webhook criado", "success");
+    log(t("webhookCreatedLog", { id: webhook.id }));
+    toast(t("webhookCreatedToast"), "success");
     await listWebhooks();
-  }, "Criando...");
+  }, t("loadingCreating"));
 }
 
 async function listWebhooks() {
@@ -359,29 +727,29 @@ async function listWebhooks() {
       <tr>
         <td><code>${escapeHtml(w.id)}</code></td>
         <td>${escapeHtml(w.url)}</td>
-        <td>${w.isActive ? statusBadge("ATIVO") : statusBadge("DESATIVADO")}</td>
-        <td><button class="btn btn-danger" data-action="disable-webhook" data-id="${w.id}">Desativar</button></td>
+        <td>${statusBadge(w.isActive ? "active" : "inactive")}</td>
+        <td><button class="btn btn-danger" data-action="disable-webhook" data-id="${w.id}">${escapeHtml(t("actionDisable"))}</button></td>
       </tr>
     `).join("");
 
     $("webhooksOutput").innerHTML = `
       <table>
-        <thead><tr><th>ID</th><th>URL</th><th>Status</th><th>Acao</th></tr></thead>
-        <tbody>${rows || '<tr><td colspan="4">Nenhum webhook encontrado.</td></tr>'}</tbody>
+        <thead><tr><th>${escapeHtml(t("webhooksTitleId"))}</th><th>${escapeHtml(t("webhooksTitleUrl"))}</th><th>${escapeHtml(t("webhooksTitleStatus"))}</th><th>${escapeHtml(t("webhooksTitleAction"))}</th></tr></thead>
+        <tbody>${rows || `<tr><td colspan="4">${escapeHtml(t("noWebhooks"))}</td></tr>`}</tbody>
       </table>
     `;
 
-    log(`Webhooks carregados: ${webhooks.length}.`);
-  }, "Atualizando...");
+    log(t("webhooksLoadedLog", { count: webhooks.length }));
+  }, t("loadingRefreshing"));
 }
 
 async function disableWebhook(id, button) {
   await runAction(button, async () => {
     await api(`/webhooks/${id}/disable`, { method: "POST" });
-    log(`Webhook desativado: ${id}`);
-    toast("Webhook desativado", "success");
+    log(t("webhookDisabledLog", { id }));
+    toast(t("webhookDisabledToast"), "success");
     await listWebhooks();
-  }, "Desativando...");
+  }, t("loadingDisabling"));
 }
 
 function bindEvents() {
@@ -410,10 +778,16 @@ function bindEvents() {
     if (!target) return;
     disableWebhook(target.dataset.id, target);
   });
+
+  if (ui.langToggle) {
+    ui.langToggle.addEventListener("click", () => {
+      applyLanguage(state.lang === "pt" ? "en" : "pt");
+    });
+  }
 }
 
+applyLanguage(state.lang);
 bootstrapConnectionFields();
 bindEvents();
-log("HubPay Console iniciado.");
-toast("Console pronto", "info");
-
+log(t("bootLog"));
+toast(t("bootToast"), "info");

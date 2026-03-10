@@ -86,6 +86,42 @@ body {
   border-radius: 999px;
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #d4def1;
+  background: #fff;
+  color: #41506a;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.14s ease, box-shadow 0.14s ease, background-color 0.14s ease, border-color 0.14s ease;
+}
+
+.lang-toggle svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.lang-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(17, 24, 39, 0.12);
+  background: #f7faff;
+  border-color: #becde9;
+}
+
 .page-grid {
   padding: 20px;
   max-width: 1280px;
