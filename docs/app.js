@@ -9,6 +9,7 @@
         "header nav a[href='#guides']": "Guias",
         "header nav a[href='#changelog']": "Changelog",
         "header nav a[href='#contact']": "Contato",
+        "#themeLabel": "Tema",
 
         "#leftSidebar section:nth-child(1) h5": "Primeiros Passos",
         "#leftSidebar section:nth-child(1) a[href='#overview']": "Visao Geral",
@@ -107,6 +108,7 @@
         "header nav a[href='#guides']": "Guides",
         "header nav a[href='#changelog']": "Changelog",
         "header nav a[href='#contact']": "Contact",
+        "#themeLabel": "Theme",
 
         "#leftSidebar section:nth-child(1) h5": "Getting Started",
         "#leftSidebar section:nth-child(1) a[href='#overview']": "Overview",
@@ -224,6 +226,12 @@
     localStorage.setItem("hubpay_lang", lang);
   }
 
+  function applyTheme(theme) {
+    const isDark = theme === "dark";
+    document.body.classList.toggle("theme-dark", isDark);
+    localStorage.setItem("hubpay_theme", isDark ? "dark" : "light");
+  }
+
   const langToggle = document.getElementById("langToggle");
   if (langToggle) {
     langToggle.addEventListener("click", () => {
@@ -235,6 +243,17 @@
 
   const initialLang = localStorage.getItem("hubpay_lang") || "pt";
   applyLanguage(initialLang);
+
+  const themeToggle = document.getElementById("themeToggle");
+  const initialTheme = localStorage.getItem("hubpay_theme") || "light";
+  applyTheme(initialTheme);
+
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      const next = document.body.classList.contains("theme-dark") ? "light" : "dark";
+      applyTheme(next);
+    });
+  }
 
   const menuToggle = document.getElementById("menuToggle");
   const sidebar = document.getElementById("leftSidebar");

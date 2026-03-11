@@ -29,6 +29,54 @@
     html { scroll-behavior: smooth; }
     .sidebar-scroll::-webkit-scrollbar { width: 4px; }
     .sidebar-scroll::-webkit-scrollbar-thumb { background: #d9dee8; border-radius: 10px; }
+
+    body.theme-dark {
+      background: #0b1220 !important;
+      color: #e2e8f0 !important;
+    }
+    body.theme-dark header,
+    body.theme-dark footer,
+    body.theme-dark aside {
+      background: #0f172a !important;
+      border-color: #334155 !important;
+    }
+    body.theme-dark .bg-white,
+    body.theme-dark .bg-softbg,
+    body.theme-dark .bg-slate-50,
+    body.theme-dark .bg-white\/95 {
+      background: #111827 !important;
+    }
+    body.theme-dark .text-slate-900,
+    body.theme-dark .text-slate-700,
+    body.theme-dark .text-slate-600,
+    body.theme-dark .text-slate-500 {
+      color: #cbd5e1 !important;
+    }
+    body.theme-dark .border-slate-200,
+    body.theme-dark .border-slate-100,
+    body.theme-dark .border-slate-300 {
+      border-color: #334155 !important;
+    }
+    body.theme-dark table thead {
+      background: #0f172a !important;
+      color: #94a3b8 !important;
+    }
+    body.theme-dark #leftSidebar a:hover {
+      background: #1f2937 !important;
+    }
+    body.theme-dark .hover\:bg-slate-100:hover {
+      background: #1f2937 !important;
+    }
+    body.theme-dark .text-green-600,
+    body.theme-dark .text-green-700 {
+      color: #86efac !important;
+    }
+    body.theme-dark .text-blue-700 {
+      color: #93c5fd !important;
+    }
+    body.theme-dark .text-red-700 {
+      color: #fca5a5 !important;
+    }
   </style>
 </head>
 <body class="bg-white text-slate-900 font-sans">
@@ -40,6 +88,10 @@
       </a>
 
       <div class="flex items-center gap-2">
+        <button id="themeToggle" type="button" class="inline-flex items-center gap-1.5 rounded-md border border-slate-300 px-2.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100" aria-label="Alternar tema">
+          <span class="material-symbols-outlined text-base">dark_mode</span>
+          <span id="themeLabel">Tema</span>
+        </button>
 
         <button id="langToggle" type="button" class="inline-flex items-center gap-1.5 rounded-md border border-slate-300 px-2.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100" aria-label="Switch language">
           <span class="material-symbols-outlined text-base">translate</span>
