@@ -57,10 +57,16 @@ Payment statuses:
 - `Refunded`
 
 ## Authentication
-HubPay uses API key authentication via header:
+HubPay supports API key authentication via:
 
 ```http
 x-api-key: sk_test_xxxxx
+```
+
+Or alternatively:
+
+```http
+Authorization: Bearer sk_test_xxxxx
 ```
 
 The authenticated merchant id is attached to request context and claims.
@@ -75,6 +81,17 @@ Idempotency-Key: your-unique-key
 If the same key is reused by the same merchant, HubPay returns the original response instead of creating a new payment.
 
 ## Main Endpoints
+### Merchants
+- `POST /merchants`
+- `GET /merchants`
+- `GET /merchants/{id}`
+- `POST /merchants/{id}/api-keys`
+- `POST /merchants/{id}/api-keys/revoke`
+
+### Customers
+- `POST /customers`
+- `GET /customers/{id}`
+
 ### Payments
 - `POST /payments`
 - `GET /payments/{id}`
@@ -89,6 +106,11 @@ Lifecycle actions currently available:
 - `POST /payments/{id}/pay`
 - `POST /payments/{id}/refuse`
 - `POST /payments/{id}/cancel`
+
+### Webhooks
+- `POST /webhooks`
+- `GET /webhooks`
+- `POST /webhooks/{id}/disable`
 
 ## Error Format
 Errors use a consistent JSON shape:
