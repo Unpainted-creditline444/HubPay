@@ -14,9 +14,9 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new()
     {
-        Title = "HubPay API",
+        Title = "RecebeLeve API",
         Version = "v1",
-        Description = "Mini payment gateway for studying backend architecture"
+        Description = "API para gestao simples de clientes, cobrancas e pagamentos"
     });
 });
 
@@ -36,7 +36,7 @@ if (app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("Swagger
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "HubPay API v1");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "RecebeLeve API v1");
         options.RoutePrefix = "swagger";
     });
 }

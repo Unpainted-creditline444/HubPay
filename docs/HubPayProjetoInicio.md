@@ -1,347 +1,59 @@
-﻿# HubPay Project Memory
+# Memoria do projeto RecebeLeve
 
-## VisÃ£o do projeto
+## Posicionamento atual
+RecebeLeve e a nova apresentacao do projeto HubPay.
 
-HubPay Ã© um mini payment gateway feito em C# para estudo e portfÃ³lio.
+Objetivo de produto:
+- facilitar o controle de clientes
+- simplificar criacao de cobrancas
+- acompanhar pagamentos com clareza
 
-Objetivo:
-- praticar arquitetura limpa
-- modelar domÃ­nio forte
-- construir uma API REST realista
-- usar banco de dados relacional
-- implementar features comuns de gateways reais
+Objetivo tecnico (portfolio):
+- demonstrar dominio de ASP.NET Core Minimal API
+- aplicar arquitetura em camadas
+- manter organizacao de codigo e qualidade de entrega
 
-Projeto com foco em:
-- clean code
-- separaÃ§Ã£o de responsabilidades
-- regras de negÃ³cio dentro do domÃ­nio
-- backend profissional para portfÃ³lio
+## Publico
+- pequenos negocios
+- freelancers
+- autonomos
+- profissionais que precisam receber sem planilhas confusas
 
----
+## Escopo principal
+- cadastro de clientes
+- criacao de cobrancas
+- atualizacao de status de pagamento
+- dashboard simples com resumo rapido
+- historico de eventos por cobranca
 
-## Stack principal
+## Escopo que fica tecnico e opcional
+- API key
+- idempotencia
+- webhooks
 
-### Backend
-- C#
-- .NET 8
-- ASP.NET Core Web API
+Esses itens continuam no projeto, mas nao dominam a interface principal.
 
-### Banco
-- PostgreSQL
-
-### ORM
-- Entity Framework Core
-
-### Infra
-- Docker
-- Docker Compose
-
-### Qualidade e suporte
-- Swagger / OpenAPI
-- FluentValidation
-- Serilog
-- xUnit
-
----
-
-## Arquitetura
-
-Baseada em Clean Architecture + DDD leve.
-
-### Solution
-
-HubPay.sln
-
-src/
-- HubPay.API
-- HubPay.Application
-- HubPay.Domain
-- HubPay.Infrastructure
-
-tests/
-- HubPay.UnitTests
-- HubPay.IntegrationTests
-
----
-
-## Responsabilidade das camadas
-
-### Domain
-- entidades
-- value objects
-- enums
-- regras de negÃ³cio
-- interfaces de repositÃ³rio
-- exceÃ§Ãµes de domÃ­nio
-
-### Application
-- casos de uso
-- DTOs
-- validaÃ§Ãµes
-- orquestraÃ§Ã£o
-
-### Infrastructure
-- EF Core
-- DbContext
-- repositories
-- migrations
-- integraÃ§Ãµes tÃ©cnicas
-
-### API
-- controllers
-- middleware
-- configuraÃ§Ã£o de DI
-- endpoints HTTP
-- swagger
-- autenticaÃ§Ã£o
-
----
+## Arquitetura preservada
+- `HubPay.API`
+- `HubPay.Application`
+- `HubPay.Domain`
+- `HubPay.Infrastructure`
 
 ## Entidades principais
+- Merchant (conta da loja)
+- Customer (cliente)
+- Payment (cobranca)
+- PaymentEvent (historico)
+- Webhook (integracao opcional)
+- IdempotencyRecord
 
-### Merchant
-- Id
-- Name
-- Document
-- Email
-- Status
-- CreatedAt
+## Resultado esperado da experiencia
+Ao abrir o sistema, o usuario entende em poucos segundos:
+1. para quem o produto foi feito
+2. como cadastrar cliente
+3. como criar cobranca
+4. como acompanhar status e recebimentos
 
-### ApiKey
-- Id
-- MerchantId
-- Key
-- IsActive
-- CreatedAt
-
-### Customer
-- Id
-- Name
-- Document
-- Email
-- CreatedAt
-
-### Payment
-- Id
-- MerchantId
-- CustomerId
-- Amount
-- Currency
-- PaymentMethod
-- Status
-- Description
-- IdempotencyKey
-- CreatedAt
-- UpdatedAt
-
-### PaymentEvent
-- Id
-- PaymentId
-- PreviousStatus
-- NewStatus
-- Description
-- CreatedAt
-
-### Webhook
-- Id
-- MerchantId
-- Url
-- IsActive
-- CreatedAt
-
-### WebhookEvent
-- Id
-- WebhookId
-- PaymentId
-- EventType
-- Payload
-- Status
-- AttemptCount
-- CreatedAt
-- SentAt
-
-### IdempotencyRecord
-- Id
-- MerchantId
-- Key
-- RequestHash
-- ResponseBody
-- StatusCode
-- CreatedAt
-
----
-
-## Value Objects
-
-### Money
-- Amount
-- Currency
-
-### Email
-
-### Document
-
----
-
-## Enums
-
-### PaymentStatus
-- Pending
-- Authorized
-- Paid
-- Refused
-- Cancelled
-
-### PaymentMethod
-- CreditCard
-- Pix
-- Boleto
-
-### MerchantStatus
-- Active
-- Inactive
-- Suspended
-
-### WebhookDeliveryStatus
-- Pending
-- Sent
-- Refused
-
----
-
-## Regras principais do domÃ­nio
-
-### Payment
-Somente o domÃ­nio controla mudanÃ§a de status.
-
-Fluxos vÃ¡lidos:
-- Pending -> Authorized
-- Authorized -> Paid
-- Pending -> Refused
-- Pending -> Cancelled
-- Authorized -> Cancelled
-
-MudanÃ§a invÃ¡lida deve lanÃ§ar DomainException.
-
-### ApiKey
-- pertence a um merchant
-- pode ser ativa ou inativa
-
-### Idempotency
-- mesma key para o mesmo merchant nÃ£o pode criar pagamento duplicado
-- se mesma key chegar novamente, deve retornar a resposta original
-
-### Webhook
-- merchant pode registrar URL para receber eventos
-- quando pagamento muda de status, evento deve ser registrado para envio
-
----
-
-## Casos de uso do MVP
-
-### Merchants
-- CreateMerchant
-- GetMerchantById
-- ListMerchants
-
-### API Keys
-- GenerateApiKey
-- RevokeApiKey
-
-### Customers
-- CreateCustomer
-- GetCustomerById
-
-### Payments
-- CreatePayment
-- GetPaymentById
-- ListPayments
-- AuthorizePayment
-- RefusePayment
-- CancelPayment
-- MarkPaymentAsPaid
-
-### Payment Events
-- ListPaymentEvents
-
-### Webhooks
-- CreateWebhook
-- ListWebhooks
-- DisableWebhook
-
----
-
-## Features avanÃ§adas escolhidas
-
-### 1. API Key por merchant
-Request autenticada por API key.
-Merchant Ã© identificado via header.
-
-Exemplo:
-Authorization: Bearer sk_test_xxxxx
-
-### 2. IdempotÃªncia
-Header:
-Idempotency-Key: abc-123
-
-Evita pagamentos duplicados.
-
-### 3. Webhooks
-Quando pagamento muda de status:
-- payment.authorized
-- payment.paid
-- payment.refused
-- payment.cancelled
-
-HubPay registra e envia evento HTTP POST para URLs cadastradas.
-
----
-
-## Banco de dados
-
-Tabelas principais:
-- merchants
-- api_keys
-- customers
-- payments
-- payment_events
-- webhooks
-- webhook_events
-- idempotency_records
-
-Relacionamentos:
-- merchant -> api_keys (1:N)
-- merchant -> payments (1:N)
-- merchant -> webhooks (1:N)
-- customer -> payments (1:N)
-- payment -> payment_events (1:N)
-- webhook -> webhook_events (1:N)
-
----
-
-## PrincÃ­pios do projeto
-
-- domain forte
-- controllers finos
-- use cases claros
-- repositories isolando persistÃªncia
-- regras no domÃ­nio, nÃ£o no controller
-- projeto com cara de backend real
-
----
-
-## Objetivo final de portfÃ³lio
-
-Demonstrar:
-- ASP.NET Core Web API
-- Clean Architecture
-- DDD bÃ¡sico
-- PostgreSQL
-- EF Core
-- autenticaÃ§Ã£o por API key
-- idempotÃªncia
-- webhooks
-- logging
-- validaÃ§Ã£o
-- docker
-- testes
+## Nota de branding
+- Marca de produto: **RecebeLeve**
+- Base tecnica/namespace: **HubPay** (mantida para preservar estrutura e historico do repositorio)

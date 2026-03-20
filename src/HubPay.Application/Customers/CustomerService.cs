@@ -30,6 +30,12 @@ public class CustomerService
         return customer is null ? null : ToResponse(customer);
     }
 
+    public async Task<IReadOnlyList<CustomerResponse>> ListAsync(int take = 20)
+    {
+        var customers = await _customerRepository.ListAsync(take);
+        return customers.Select(ToResponse).ToList();
+    }
+
     private static CustomerResponse ToResponse(Customer customer)
     {
         return new CustomerResponse(

@@ -1,148 +1,209 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HubPay Console</title>
+  <title>RecebeLeve | Gestao simples de clientes e cobrancas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <header class="nav">
-    <div class="brand-wrap">
-      <div class="brand-icon"><img src="/assets/hubpay-logo-circle.png" alt="HubPay logo" /></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">RL</div>
       <div>
-        <h1>HUBPAY CONSOLE</h1>
-        <p>CORE ENGINE v2.1 // EDICAO EDITORIAL</p>
+        <p class="brand-name">RecebeLeve</p>
+        <p class="brand-sub">Sistema simples para organizar clientes, cobrancas e pagamentos</p>
       </div>
     </div>
-    <div class="nav-actions">
-      <a class="docs-link" href="https://sfturio.github.io/HubPay/" target="_blank" rel="noreferrer noopener">Documentacao</a>
-      <button id="langToggle" type="button" class="lang-toggle" aria-label="Alternar idioma">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12.9 15.9l-2.3-2.3.03-.03A16.8 16.8 0 0 0 14.4 7h2.65V5H10V3H8v2H1v2h11.17a14.2 14.2 0 0 1-3.07 5.19c-.94-1.04-1.73-2.2-2.35-3.44H4.7a16.5 16.5 0 0 0 2.98 4.78l-4.6 4.6L4.5 19.5l4.6-4.6 2.86 2.86.94-1.86zM18.5 10h-2l-4.5 12h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.61 7l1.99-5.3 1.99 5.3h-3.98z"/>
-        </svg>
-        <span id="langLabel">EN</span>
-      </button>
-      <div id="connectionStatus" class="status-pill">CONECTADO</div>
+    <div class="topbar-actions">
+      <button id="newChargeTop" class="btn btn-primary" type="button">Nova cobranca</button>
+      <button id="newCustomerTop" class="btn btn-secondary" type="button">Novo cliente</button>
+      <a class="btn btn-ghost" href="https://sfturio.github.io/HubPay/" target="_blank" rel="noreferrer noopener">Documentacao</a>
     </div>
   </header>
 
-  <main class="page-grid">
-    <aside class="left-stack">
-      <section class="panel">
-        <h2>Configuracao de Conexao</h2>
-        <label>URL BASE DA API<input id="apiBaseUrl" type="text" placeholder="http://localhost:5201" /></label>
-        <label>ID DO MERCHANT<input id="merchantId" type="text" placeholder="mid_live_xxxxxxxx" /></label>
-        <label>CHAVE SECRETA DA API<input id="apiKey" type="text" placeholder="sk_test_..." /></label>
-        <div class="row-btn">
-          <button id="saveConnection" class="btn btn-primary" type="button">Salvar Sessao</button>
-          <button id="clearConnection" class="btn btn-light" type="button">Limpar</button>
+  <main class="layout">
+    <aside class="side-panel">
+      <section class="card">
+        <h2>Conta da loja</h2>
+        <p class="muted">Esses dados conectam sua conta a API.</p>
+
+        <label>URL da API
+          <input id="apiBaseUrl" type="text" placeholder="http://localhost:5201" />
+        </label>
+        <label>ID da conta
+          <input id="merchantId" type="text" placeholder="gerado ao criar conta" />
+        </label>
+        <label>Chave da API
+          <input id="apiKey" type="text" placeholder="sk_test_..." />
+        </label>
+        <div class="inline-actions">
+          <button id="saveConnection" class="btn btn-secondary" type="button">Salvar conexao</button>
+          <button id="clearConnection" class="btn btn-ghost" type="button">Limpar</button>
         </div>
       </section>
 
-      <section class="panel">
-        <h2>Cadastro de Merchant</h2>
-        <form id="createMerchantForm" class="stack-gap">
-          <label>NOME DO NEGOCIO<input id="merchantName" required /></label>
-          <div class="grid-two">
-            <label>DOCUMENTO<input id="merchantDocument" required placeholder="CPF/CNPJ" /></label>
-            <label>E-MAIL<input id="merchantEmail" type="email" required /></label>
-          </div>
-          <div class="row-btn">
-            <button class="btn btn-dark" type="submit">Criar Merchant</button>
-            <button id="listMerchants" class="btn btn-light" type="button">Atualizar</button>
-          </div>
-          <div class="row-btn">
-            <button id="generateApiKey" class="btn btn-soft" type="button">Gerar Chave</button>
-            <button class="btn btn-danger" form="revokeApiKeyForm" type="submit">Revogar Chave</button>
-          </div>
+      <section class="card">
+        <h2>Criar conta da loja</h2>
+        <p class="muted">Passo inicial para liberar clientes e cobrancas.</p>
+        <form id="createMerchantForm" class="stack">
+          <label>Nome da loja
+            <input id="merchantName" required />
+          </label>
+          <label>Documento
+            <input id="merchantDocument" required placeholder="CPF ou CNPJ" />
+          </label>
+          <label>E-mail
+            <input id="merchantEmail" type="email" required />
+          </label>
+          <button class="btn btn-secondary" type="submit">Criar conta</button>
         </form>
-        <form id="revokeApiKeyForm" class="stack-gap mt-8">
-          <input id="revokeApiKeyInput" placeholder="chave para revogar" required />
-        </form>
-        <pre id="merchantsOutput" class="json-box"></pre>
+        <div class="inline-actions">
+          <button id="generateApiKey" class="btn btn-primary" type="button">Gerar chave</button>
+          <form id="revokeApiKeyForm" class="inline-form">
+            <input id="revokeApiKeyInput" placeholder="chave para revogar" required />
+            <button class="btn btn-danger" type="submit">Revogar</button>
+          </form>
+        </div>
+        <pre id="merchantsOutput" class="code-box"></pre>
       </section>
 
-      <section class="panel">
-        <h2>Linha do Tempo</h2>
-        <pre id="paymentEventsOutput" class="output timeline-box">Selecione um pagamento e clique em "Eventos" para ver a linha do tempo.</pre>
-      </section>
-
-      <section class="panel">
-        <h2>Webhooks</h2>
-        <form id="createWebhookForm" class="webhook-row">
-          <input id="webhookUrl" type="url" placeholder="https://..." required />
-          <button class="btn btn-primary square" type="submit">+</button>
-        </form>
-        <button id="listWebhooks" class="btn btn-light full" type="button">Atualizar Webhooks</button>
-        <div id="webhooksOutput" class="table-wrap"></div>
+      <section class="card">
+        <h2>Atividade</h2>
+        <pre id="activityOutput" class="log-box"></pre>
       </section>
     </aside>
 
-    <section class="right-stack">
-      <section class="payment-hero">
-        <h2>Nova Transacao de Pagamento</h2>
-        <div class="payment-grid">
-          <form id="createPaymentForm" class="stack-gap">
-            <div class="grid-two">
-              <label>ID DO CLIENTE<input id="paymentCustomerId" required placeholder="cus_98234..." /></label>
-              <label>IDEMPOTENCY-KEY<input id="idempotencyKey" placeholder="uuid-v4" /></label>
-            </div>
-            <div class="grid-three">
-              <label>VALOR TOTAL (DINHEIRO)<input id="paymentAmount" type="number" step="0.01" min="0.01" placeholder="ex.: 49.90" required /></label>
-              <label>MOEDA<select id="paymentCurrency" required><option value="BRL" selected>BRL</option><option value="USD">USD</option><option value="EUR">EUR</option></select></label>
-              <label>METODO
-                <select id="paymentMethod">
-                  <option value="1">Cartao de Credito</option>
-                  <option value="2">Pix</option>
-                  <option value="3">Boleto</option>
-                </select>
-              </label>
-            </div>
-            <label>DESCRICAO (O QUE ESTA SENDO COBRADO)<input id="paymentDescription" placeholder="ex.: camisa + frete" required /></label>
-          </form>
-          <button form="createPaymentForm" class="execute-btn" type="submit">EXECUTAR PAGAMENTO</button>
+    <section class="main-panel">
+      <section id="dashboard" class="card hero-card">
+        <div class="hero-head">
+          <div>
+            <p class="eyebrow">Dashboard</p>
+            <h1>Visao rapida do mes</h1>
+          </div>
+          <div class="hero-actions">
+            <button id="newChargeHero" class="btn btn-primary" type="button">Nova cobranca</button>
+            <button id="newCustomerHero" class="btn btn-secondary" type="button">Novo cliente</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat">
+            <p class="stat-label">Resumo do mes</p>
+            <p id="monthSummary" class="stat-value">0 cobrancas</p>
+            <p id="monthSummaryHint" class="stat-note">Sem movimentacao no periodo.</p>
+          </article>
+          <article class="stat">
+            <p class="stat-label">Total recebido</p>
+            <p id="totalReceived" class="stat-value">R$ 0,00</p>
+            <p class="stat-note">Somente cobrancas pagas no mes.</p>
+          </article>
+          <article class="stat">
+            <p class="stat-label">Cobrancas pendentes</p>
+            <p id="pendingCharges" class="stat-value">0</p>
+            <p class="stat-note">Aguardando confirmacao.</p>
+          </article>
+          <article class="stat">
+            <p class="stat-label">Cobrancas atrasadas</p>
+            <p id="overdueCharges" class="stat-value">0</p>
+            <p class="stat-note">Pendentes ha mais de 7 dias.</p>
+          </article>
+        </div>
+
+        <div class="customers-preview">
+          <div class="section-head">
+            <h3>Clientes recentes</h3>
+            <button id="refreshDashboard" class="btn btn-ghost" type="button">Atualizar visao</button>
+          </div>
+          <div id="recentCustomers" class="empty-state">Cadastre seu primeiro cliente para comecar.</div>
         </div>
       </section>
 
-      <section class="panel panel-table">
-        <div class="table-header">
-          <h2>Transacoes em Tempo Real</h2>
-          <div class="stream">TRANSMITINDO...</div>
+      <section id="customersSection" class="card">
+        <div class="section-head">
+          <h2>Clientes</h2>
+          <button id="refreshCustomers" class="btn btn-ghost" type="button">Atualizar clientes</button>
         </div>
-        <div class="toolbar">
-          <button id="listPayments" class="btn btn-light" type="button">Atualizar Pagamentos</button>
+        <form id="createCustomerForm" class="form-grid customers-form">
+          <label>Nome
+            <input id="customerName" required />
+          </label>
+          <label>Documento
+            <input id="customerDocument" required />
+          </label>
+          <label>E-mail
+            <input id="customerEmail" type="email" required />
+          </label>
+          <button class="btn btn-secondary" type="submit">Salvar cliente</button>
+        </form>
+        <div id="customersOutput" class="table-wrap"></div>
+      </section>
+
+      <section id="chargesSection" class="card">
+        <div class="section-head">
+          <h2>Cobrancas</h2>
+          <button id="listPayments" class="btn btn-ghost" type="button">Atualizar cobrancas</button>
         </div>
+        <form id="createPaymentForm" class="form-grid payment-form">
+          <label>ID do cliente
+            <input id="paymentCustomerId" required placeholder="cole o ID ou crie um cliente acima" />
+          </label>
+          <label>Valor
+            <input id="paymentAmount" type="number" step="0.01" min="0.01" required />
+          </label>
+          <label>Moeda
+            <select id="paymentCurrency" required>
+              <option value="BRL" selected>BRL</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+            </select>
+          </label>
+          <label>Forma de pagamento
+            <select id="paymentMethod">
+              <option value="1">Cartao de credito</option>
+              <option value="2">Pix</option>
+              <option value="3">Boleto</option>
+            </select>
+          </label>
+          <label class="span-2">Descricao da cobranca
+            <input id="paymentDescription" placeholder="Ex.: Servico de manutencao" required />
+          </label>
+          <label>Idempotency-Key (opcional)
+            <input id="idempotencyKey" placeholder="uuid-v4" />
+          </label>
+          <button class="btn btn-primary" type="submit">Criar cobranca</button>
+        </form>
         <div id="paymentsOutput" class="table-wrap"></div>
       </section>
 
-      <section class="panel panel-customer">
-        <h2>Cadastro Rapido de Cliente</h2>
-        <form id="createCustomerForm" class="grid-three">
-          <label>NOME<input id="customerName" required /></label>
-          <label>DOCUMENTO<input id="customerDocument" required /></label>
-          <label>E-MAIL<input id="customerEmail" type="email" required /></label>
-          <button class="btn btn-dark" type="submit">Criar Cliente</button>
-        </form>
-        <pre id="customersOutput" class="output"></pre>
+      <section id="historySection" class="card">
+        <h2>Pagamentos e historico</h2>
+        <p class="muted">Veja os eventos da cobranca selecionada para acompanhar a evolucao do status.</p>
+        <pre id="paymentEventsOutput" class="event-box">Selecione uma cobranca e clique em "Historico".</pre>
       </section>
 
-      <section class="terminal">
-        <div class="terminal-head">
-          <span></span><span></span><span></span>
-          <p>HUBPAY-CONSOLE@LOCAL: ~ /LOG-DE-ATIVIDADE</p>
+      <details class="card">
+        <summary>Integracoes avancadas (opcional)</summary>
+        <p class="muted">Webhooks sao tecnicos e nao sao obrigatorios para usar o sistema no dia a dia.</p>
+        <form id="createWebhookForm" class="inline-form">
+          <input id="webhookUrl" type="url" placeholder="https://seu-endpoint.com/webhook" required />
+          <button class="btn btn-secondary" type="submit">Adicionar webhook</button>
+        </form>
+        <div class="inline-actions">
+          <button id="listWebhooks" class="btn btn-ghost" type="button">Atualizar webhooks</button>
         </div>
-        <pre id="activityOutput" class="output output-log"></pre>
-      </section>
+        <div id="webhooksOutput" class="table-wrap"></div>
+      </details>
     </section>
   </main>
 
-  <footer class="app-footer">
-    <p>&copy; 2026 HubPay. All rights reserved.</p>
+  <footer class="footer">
+    <p>RecebeLeve 2026 | Projeto de portfolio (junior-pleno) construido sobre a base HubPay.</p>
   </footer>
 
   <script src="/app.js" defer></script>
 </body>
 </html>
-
-

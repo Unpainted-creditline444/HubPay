@@ -70,6 +70,12 @@ public static class EndpointMappingExtensions
             return result is null ? Results.NotFound() : Results.Ok(result);
         });
 
+        customers.MapGet("/", async (int? take, CustomerService service) =>
+        {
+            var result = await service.ListAsync(take ?? 20);
+            return Results.Ok(result);
+        });
+
         var payments = app.MapGroup("/payments").RequireAuthorization();
         payments.MapPost("/", async (HttpContext httpContext, HttpRequest httpRequest, CreatePaymentRequest request, PaymentService service) =>
         {

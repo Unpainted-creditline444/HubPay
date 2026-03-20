@@ -20,6 +20,15 @@ public class CustomerRepository : ICustomerRepository
             .SingleOrDefaultAsync(c => c.Id == id);
     }
 
+    public async Task<IReadOnlyList<Customer>> ListAsync(int take = 20)
+    {
+        var safeTake = take <= 0 ? 20 : Math.Min(take, 100);
+        return await _context.Customers
+            .OrderByDescending(c => c.CreatedAt)
+            .Take(safeTake)
+            .ToListAsync();
+    }
+
     public async Task AddAsync(Customer customer)
     {
         await _context.Customers.AddAsync(customer);

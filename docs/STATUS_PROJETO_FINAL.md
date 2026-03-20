@@ -1,65 +1,50 @@
-﻿# HubPay - Status Final do Projeto
+# RecebeLeve - Status do projeto
 
-Gerado em: 2026-03-10
+Gerado em: 2026-03-20
 
 ## Resumo
-O HubPay esta finalizado para uso como projeto de portfolio tecnico, com API funcional, console web para operacao manual e documentacao dedicada.
+O projeto foi reposicionado de "gateway tecnico" para "sistema simples de gestao de clientes, cobrancas e pagamentos", mantendo a mesma stack e arquitetura.
 
-## Estado Atual
-- API ASP.NET Core Minimal APIs em .NET 10 funcionando.
-- Swagger habilitado em Development (`/swagger`) com metadata da API.
-- Console web em `src/HubPay.API/wwwroot` ativo para fluxo operacional.
-- Pagina de documentacao em `docs/index.html` finalizada e responsiva.
-- Botao da doc para Live Demo apontando para `https://hubpay.onrender.com/`.
-- Icone oficial aplicado no console e na documentacao.
+## Mudancas principais aplicadas
+- Rebranding visual e textual para **RecebeLeve**.
+- Console web reformulado com foco em produto:
+  - Dashboard
+  - Clientes
+  - Cobrancas
+  - Pagamentos/Historico
+- Dashboard com:
+  - resumo do mes
+  - total recebido
+  - cobrancas pendentes
+  - cobrancas atrasadas
+  - clientes recentes
+- CTA principal: **Nova cobranca**
+- CTA secundario: **Novo cliente**
+- Area tecnica (webhooks) movida para secao opcional.
 
-## Funcionalidades Implementadas
-- Cadastro de merchant.
-- Geracao e revogacao de API key.
-- Cadastro de cliente.
-- Criacao de pagamento.
-- Acoes de pagamento (autorizar, pago, recusar, cancelar).
-- Consulta de eventos por pagamento (`/payments/{id}/events`).
-- Cadastro/listagem/desativacao de webhooks.
-- Persistencia local de conexao (URL, merchantId, apiKey).
-- Suporte de idempotencia na criacao de pagamentos via header `Idempotency-Key`.
-- Autenticacao por API key via header `x-api-key`.
+## Ajustes de linguagem (copy)
+- termos tecnicos reduzidos na interface principal
+- "Merchant" exposto como "Conta da loja"
+- "Payment lifecycle" exposto como "Status da cobranca"
+- API key mantida apenas na configuracao da conta
 
-## Observacoes de Uso
-- Em "Linha do Tempo", retorno `[]` significa requisicao valida sem eventos para o pagamento consultado.
-- Botao "Eventos" mostra o retorno do endpoint de eventos do pagamento selecionado.
-- Rotas de acao atualizadas: `POST /payments/{id}/refuse` e `POST /payments/{id}/cancel` (substituem nomenclaturas antigas de fail/refund).
+## Ajuste funcional minimo no backend
+- Novo endpoint `GET /customers` (autenticado) para alimentar a listagem e os clientes recentes no dashboard.
 
-## Design e UI
-- Paleta visual atual: foco azul + laranja.
-- Ajustes recentes de legibilidade e consistencia de botoes.
-- Label de acao de pagamento encurtado para `Pago` para evitar overflow.
-- Status recusado com destaque em vermelho para manter consistencia visual com os demais status.
+## Arquivos impactados
+- `src/HubPay.API/wwwroot/index.html`
+- `src/HubPay.API/wwwroot/styles.css`
+- `src/HubPay.API/wwwroot/app.js`
+- `src/HubPay.API/Program.cs`
+- `src/HubPay.API/Endpoints/EndpointMappingExtensions.cs`
+- `src/HubPay.Application/Customers/CustomerService.cs`
+- `src/HubPay.Domain/Repositories/ICustomerRepository.cs`
+- `src/HubPay.Infrastructure/Repositories/CustomerRepository.cs`
+- `README.md`
+- `docs/index.html`
+- `docs/app.js`
+- `docs/COMO_USAR.md`
+- `docs/HubPayProjetoInicio.md`
 
-## Documentacao
-- Local: `docs/index.html`
-- Estrutura baseada em layout Stitch, adaptada ao contexto do HubPay.
-- Secoes: Overview, Architecture, Payment Flow, Authentication, Idempotency, Endpoints, Webhooks, Tech Stack, Guides, Changelog, Contact.
-- Suporte de idioma PT-BR/EN implementado por toggle no topo.
-- Guias visuais (GIF) de cadastro de cliente e cadastro de merchant adicionados em `docs/assets`.
-
-## Artefatos Relevantes
-- API: `src/HubPay.API`
-- Console web: `src/HubPay.API/wwwroot`
-- Documentacao: `docs`
-- Icone atual: `hubpay-logo-circle.png`
-
-## Checklist Final
-- [x] API funcional
-- [x] Swagger configurado
-- [x] Console funcional
-- [x] Documentacao finalizada
-- [x] Live Demo linkada
-- [x] Branding aplicado
-- [x] Ajustes visuais finais aplicados
-- [x] Rotas finais de pagamento padronizadas (`refuse`/`cancel`)
-
-## Proximos Passos (Opcional)
-- Adicionar pipeline de deploy da doc estatica.
-- Expandir testes de integracao para fluxos de eventos/webhooks.
-- Incluir screenshots/versionamento visual da documentacao.
+## Resultado
+A versao atual transmite uma proposta clara em poucos segundos e fica mais adequada para portfolio junior-pleno sem perder consistencia tecnica.

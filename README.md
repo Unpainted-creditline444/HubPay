@@ -1,30 +1,34 @@
-# HubPay - .NET 10 + Clean Architecture
-
----
+# RecebeLeve (base tecnica HubPay)
 
 ![.NET 10](https://img.shields.io/badge/.NET-10-512BD4?style=flat-square&logo=dotnet&logoColor=white)
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-Minimal%20API-5C2D91?style=flat-square)
 ![EF Core](https://img.shields.io/badge/EF%20Core-ORM-6DB33F?style=flat-square)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?style=flat-square&logo=postgresql&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Active-22C55E?style=flat-square)
 
-A modular payment gateway backend built with .NET 10 and Clean Architecture, designed for clarity, scalability, and portfolio-ready code quality.
+RecebeLeve e um sistema simples para organizar **clientes, cobrancas e pagamentos**.
 
-- **Technical Documentation:** https://sfturio.github.io/HubPay/
-- **Repository:** https://github.com/sfturio/HubPay
+O projeto foi reposicionado para um uso mais direto (pequenos negocios, freelancers e autonomos), mantendo a base tecnica robusta da arquitetura em camadas.
 
----
+- **Documentacao web:** https://sfturio.github.io/HubPay/
+- **Repositorio:** https://github.com/sfturio/HubPay
 
-## Tech Stack
+## Proposta do produto
+Ao abrir o sistema, o usuario encontra:
+- dashboard com resumo do mes
+- total recebido
+- cobrancas pendentes e atrasadas
+- clientes recentes
+- acoes principais de nova cobranca e novo cliente
+
+## Stack tecnica
 - .NET 10
-- ASP.NET Core Minimal APIs
+- ASP.NET Core Minimal API
 - Entity Framework Core
 - PostgreSQL
 - Swagger / OpenAPI
 - Docker
-- Render (deployment)
 
-## Project Structure
+## Estrutura do projeto
 ```text
 src/
   HubPay.API
@@ -37,105 +41,78 @@ tests/
   HubPay.IntegrationTests
 ```
 
-## Layer Responsibilities
-- `HubPay.Domain`: entities, value objects, domain rules, domain exceptions
-- `HubPay.Application`: use cases/services, DTOs, repository abstractions
-- `HubPay.Infrastructure`: EF Core context/configuration, repositories, migrations
-- `HubPay.API`: Minimal API endpoints, authentication, request/response pipeline
+## Responsabilidades por camada
+- `HubPay.Domain`: entidades, value objects, regras de negocio
+- `HubPay.Application`: casos de uso, DTOs, servicos de aplicacao
+- `HubPay.Infrastructure`: EF Core, repositorios, migrations
+- `HubPay.API`: Minimal API, autenticacao, middleware, arquivos estaticos
 
-## Core Entities
-- `Merchant`: `Id`, `Name`, `Email`, `CreatedAt` (API keys managed in dedicated entity)
-- `Customer`: `Id`, `Name`, `Email`, `Document`, `CreatedAt`
-- `Payment`: `Id`, `Amount`, `Currency`, `Status`, `CustomerId`, `MerchantId`, `IdempotencyKey`, `CreatedAt`
-- `IdempotencyRecord`: `Id`, `Key`, `ResponseBody`, `CreatedAt` (+ merchant/status metadata)
+## Entidades principais
+- `Merchant` (conta da loja)
+- `Customer` (cliente)
+- `Payment` (cobranca/pagamento)
+- `PaymentEvent` (historico de status)
+- `Webhook` (integracao opcional)
+- `IdempotencyRecord`
 
-Payment statuses:
-- `Pending`
-- `Authorized`
-- `Paid`
-- `Refused`
-- `Refunded`
-
-## Authentication
-HubPay supports API key authentication via:
+## Autenticacao
+A API usa chave no header:
 
 ```http
 x-api-key: sk_test_xxxxx
 ```
 
-Or alternatively:
+O merchant autenticado e resolvido no contexto da requisicao.
+
+## Idempotencia
+Na criacao de cobrancas/pagamentos, pode ser enviado:
 
 ```http
-Authorization: Bearer sk_test_xxxxx
+Idempotency-Key: sua-chave-unica
 ```
 
-The authenticated merchant id is attached to request context and claims.
+Se a mesma chave for reutilizada para o mesmo merchant com o mesmo payload, a resposta original e retornada.
 
-## Idempotency
-When creating payments, clients can send:
-
-```http
-Idempotency-Key: your-unique-key
-```
-
-If the same key is reused by the same merchant, HubPay returns the original response instead of creating a new payment.
-
-## Main Endpoints
-### Merchants
+## Endpoints principais
+### Conta (Merchant)
 - `POST /merchants`
 - `GET /merchants`
 - `GET /merchants/{id}`
 - `POST /merchants/{id}/api-keys`
 - `POST /merchants/{id}/api-keys/revoke`
 
-### Customers
+### Clientes
 - `POST /customers`
+- `GET /customers`
 - `GET /customers/{id}`
 
-### Payments
+### Cobrancas / Pagamentos
 - `POST /payments`
-- `GET /payments/{id}`
 - `GET /payments`
-
-Supported filters:
-- `GET /payments?status=paid`
-- `GET /payments?customerId={uuid}`
-
-Lifecycle actions currently available:
+- `GET /payments/{id}`
+- `GET /payments/{id}/events`
 - `POST /payments/{id}/authorize`
 - `POST /payments/{id}/pay`
 - `POST /payments/{id}/refuse`
 - `POST /payments/{id}/cancel`
 
-### Webhooks
+### Webhooks (opcional)
 - `POST /webhooks`
 - `GET /webhooks`
 - `POST /webhooks/{id}/disable`
 
-## Error Format
-Errors use a consistent JSON shape:
-
-```json
-{
-  "error": "Payment not found"
-}
-```
-
-## Running Locally
-1. Configure `HubPayDatabase` in `src/HubPay.API/appsettings.json` or environment variables.
-2. Restore dependencies and tools:
-   - `dotnet restore`
+## Rodando localmente
+1. Configure `HubPayDatabase` em `src/HubPay.API/appsettings.json` (ou env vars).
+2. Restaure dependencias:
    - `dotnet tool restore`
-3. Apply migrations:
+   - `dotnet restore`
+3. Aplique migrations:
    - `dotnet tool run dotnet-ef database update --project src/HubPay.Infrastructure --startup-project src/HubPay.API`
-4. Run:
+4. Execute:
    - `dotnet run --project src/HubPay.API`
 
-Swagger is available in development at `/swagger`.
+Com ambiente de desenvolvimento, o Swagger fica em `/swagger`.
 
-## Build and Test
+## Build e testes
 - `dotnet build HubPay.slnx`
 - `dotnet test HubPay.slnx`
-
-
-

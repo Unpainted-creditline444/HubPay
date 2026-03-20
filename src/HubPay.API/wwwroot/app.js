@@ -1,403 +1,24 @@
-﻿const $ = (id) => document.getElementById(id);
-
-const i18n = {
-  pt: {
-    htmlLang: "pt-BR",
-    nextLabel: "EN",
-    staticText: {
-      ".brand-wrap h1": "HUBPAY CONSOLE",
-      ".brand-wrap p": "CORE ENGINE v2.1 // EDICAO EDITORIAL",
-      "#connectionStatus": "CONECTADO",
-      ".left-stack .panel:nth-of-type(1) h2": "Configuracao de Conexao",
-      ".left-stack .panel:nth-of-type(1) label:nth-of-type(1)": "URL BASE DA API",
-      ".left-stack .panel:nth-of-type(1) label:nth-of-type(2)": "ID DO MERCHANT",
-      ".left-stack .panel:nth-of-type(1) label:nth-of-type(3)": "CHAVE SECRETA DA API",
-      "#saveConnection": "Salvar Sessao",
-      "#clearConnection": "Limpar",
-      ".left-stack .panel:nth-of-type(2) h2": "Cadastro de Merchant",
-      "#createMerchantForm label:nth-of-type(1)": "NOME DO NEGOCIO",
-      "#createMerchantForm .grid-two label:nth-of-type(1)": "DOCUMENTO",
-      "#createMerchantForm .grid-two label:nth-of-type(2)": "E-MAIL",
-      "#createMerchantForm .row-btn:nth-of-type(1) button:nth-of-type(1)": "Criar Merchant",
-      "#listMerchants": "Atualizar",
-      "#generateApiKey": "Gerar Chave",
-      "button[form='revokeApiKeyForm']": "Revogar Chave",
-      ".left-stack .panel:nth-of-type(3) h2": "Linha do Tempo",
-      "#paymentEventsOutput": "Selecione um pagamento e clique em \"Eventos\" para ver a linha do tempo.",
-      ".left-stack .panel:nth-of-type(4) h2": "Webhooks",
-      "#listWebhooks": "Atualizar Webhooks",
-      ".payment-hero h2": "Nova Transacao de Pagamento",
-      "#createPaymentForm .grid-two label:nth-of-type(1)": "ID DO CLIENTE",
-      "#createPaymentForm .grid-two label:nth-of-type(2)": "IDEMPOTENCY-KEY",
-      "#createPaymentForm .grid-three label:nth-of-type(1)": "VALOR TOTAL (DINHEIRO)",
-      "#createPaymentForm .grid-three label:nth-of-type(2)": "MOEDA",
-      "#createPaymentForm .grid-three label:nth-of-type(3)": "METODO",
-      "#createPaymentForm > label": "DESCRICAO (O QUE ESTA SENDO COBRADO)",
-      ".execute-btn": "EXECUTAR PAGAMENTO",
-      ".panel-table h2": "Transacoes em Tempo Real",
-      ".panel-table .stream": "TRANSMITINDO...",
-      "#listPayments": "Atualizar Pagamentos",
-      ".panel-customer h2": "Cadastro Rapido de Cliente",
-      "#createCustomerForm label:nth-of-type(1)": "NOME",
-      "#createCustomerForm label:nth-of-type(2)": "DOCUMENTO",
-      "#createCustomerForm label:nth-of-type(3)": "E-MAIL",
-      "#createCustomerForm button": "Criar Cliente",
-      ".terminal-head p": "HUBPAY-CONSOLE@LOCAL: ~ /LOG-DE-ATIVIDADE",
-      "#paymentMethod option[value='1']": "Cartao de Credito",
-      "#paymentMethod option[value='2']": "Pix",
-      "#paymentMethod option[value='3']": "Boleto"
-    },
-    staticAttr: {
-      "#langToggle": { "aria-label": "Alternar idioma" },
-      "#apiBaseUrl": { placeholder: "http://localhost:5201" },
-      "#merchantId": { placeholder: "mid_live_xxxxxxxx" },
-      "#apiKey": { placeholder: "sk_test_..." },
-      "#merchantDocument": { placeholder: "CPF/CNPJ" },
-      "#revokeApiKeyInput": { placeholder: "chave para revogar" },
-      "#webhookUrl": { placeholder: "https://..." },
-      "#paymentCustomerId": { placeholder: "cus_98234..." },
-      "#idempotencyKey": { placeholder: "uuid-v4" },
-      "#paymentAmount": { placeholder: "ex.: 49.90" },
-      "#paymentDescription": { placeholder: "ex.: camisa + frete" }
-    },
-    runtime: {
-      processing: "Processando...",
-      saveSession: "Salvar Sessao",
-      clearSession: "Limpar",
-      connectionSavedLog: "Conexao salva.",
-      connectionSavedToast: "Sessao salva",
-      connectionClearedLog: "Conexao limpa.",
-      connectionClearedToast: "Sessao limpa",
-      errorOperationToast: "Erro na operacao",
-      merchantRequired: "ID do merchant e obrigatorio na conexao.",
-      merchantCreatedLog: "Merchant criado: {id}",
-      merchantCreatedToast: "Merchant criado",
-      merchantsLoadedLog: "Merchants carregados: {count}.",
-      apiKeyGeneratedLog: "API key gerada e salva na sessao.",
-      apiKeyGeneratedToast: "API key gerada",
-      apiKeyRevokedLog: "API key revogada.",
-      apiKeyRevokedToast: "API key revogada",
-      customerCreatedLog: "Cliente criado: {id}",
-      customerCreatedToast: "Cliente criado",
-      paymentCreatedLog: "Pagamento criado: {id}",
-      paymentCreatedToast: "Pagamento criado",
-      paymentsLoadedLog: "Pagamentos carregados: {count}.",
-      paymentsListErrorToast: "Erro ao listar pagamentos",
-      authRequiredTitle: "Autenticacao necessaria",
-      authHint: "Nao autorizado. Verifique Merchant ID + API Key e clique em Salvar Sessao.",
-      paymentEventsLoadedLog: "Eventos carregados para o pagamento {id}: {count}.",
-      timelineUpdatedToast: "Linha do tempo atualizada",
-      paymentActionLog: "Pagamento {id}: acao '{action}' executada.",
-      statusUpdatedToast: "Status atualizado",
-      webhookCreatedLog: "Webhook criado: {id}",
-      webhookCreatedToast: "Webhook criado",
-      webhooksLoadedLog: "Webhooks carregados: {count}.",
-      webhookDisabledLog: "Webhook desativado: {id}",
-      webhookDisabledToast: "Webhook desativado",
-      paymentsTitleId: "ID",
-      paymentsTitleStatus: "Status",
-      paymentsTitleAmount: "Valor",
-      paymentsTitleMethod: "Metodo",
-      paymentsTitleDescription: "Descricao",
-      paymentsTitleActions: "Acoes",
-      actionAuthorize: "Autorizar",
-      actionMarkPaid: "Pago",
-      actionRefuse: "Recusar",
-      actionRefund: "Cancelar",
-      actionEvents: "Eventos",
-      noPayments: "Nenhum pagamento encontrado.",
-      webhooksTitleId: "ID",
-      webhooksTitleUrl: "URL",
-      webhooksTitleStatus: "Status",
-      webhooksTitleAction: "Acao",
-      actionDisable: "Desativar",
-      noWebhooks: "Nenhum webhook encontrado.",
-      loadingCreating: "Criando...",
-      loadingRefreshing: "Atualizando...",
-      loadingGenerating: "Gerando...",
-      loadingRevoking: "Revogando...",
-      loadingExecuting: "Executando...",
-      loadingDisabling: "Desativando...",
-      bootLog: "HubPay Console iniciado.",
-      bootToast: "Console pronto",
-      statusMap: {
-        pending: "PENDENTE",
-        authorized: "AUTORIZADO",
-        paid: "PAGO",
-        refused: "RECUSADO",
-        refunded: "CANCELADO",
-        active: "ATIVO",
-        inactive: "DESATIVADO"
-      },
-      paymentMethodMap: {
-        "1": "Cartao de Credito",
-        "2": "Pix",
-        "3": "Boleto",
-        creditcard: "Cartao de Credito",
-        pix: "Pix",
-        boleto: "Boleto"
-      }
-    }
-  },
-  en: {
-    htmlLang: "en",
-    nextLabel: "PT-BR",
-    staticText: {
-      ".brand-wrap h1": "HUBPAY CONSOLE",
-      ".brand-wrap p": "CORE ENGINE v2.1 // EDITORIAL EDITION",
-      "#connectionStatus": "CONNECTED",
-      ".left-stack .panel:nth-of-type(1) h2": "Connection Setup",
-      ".left-stack .panel:nth-of-type(1) label:nth-of-type(1)": "API BASE URL",
-      ".left-stack .panel:nth-of-type(1) label:nth-of-type(2)": "MERCHANT ID",
-      ".left-stack .panel:nth-of-type(1) label:nth-of-type(3)": "API SECRET KEY",
-      "#saveConnection": "Save Session",
-      "#clearConnection": "Clear",
-      ".left-stack .panel:nth-of-type(2) h2": "Merchant Registration",
-      "#createMerchantForm label:nth-of-type(1)": "BUSINESS NAME",
-      "#createMerchantForm .grid-two label:nth-of-type(1)": "DOCUMENT",
-      "#createMerchantForm .grid-two label:nth-of-type(2)": "E-MAIL",
-      "#createMerchantForm .row-btn:nth-of-type(1) button:nth-of-type(1)": "Create Merchant",
-      "#listMerchants": "Refresh",
-      "#generateApiKey": "Generate Key",
-      "button[form='revokeApiKeyForm']": "Revoke Key",
-      ".left-stack .panel:nth-of-type(3) h2": "Timeline",
-      "#paymentEventsOutput": "Select a payment and click \"Events\" to see the timeline.",
-      ".left-stack .panel:nth-of-type(4) h2": "Webhooks",
-      "#listWebhooks": "Refresh Webhooks",
-      ".payment-hero h2": "New Payment Transaction",
-      "#createPaymentForm .grid-two label:nth-of-type(1)": "CUSTOMER ID",
-      "#createPaymentForm .grid-two label:nth-of-type(2)": "IDEMPOTENCY KEY",
-      "#createPaymentForm .grid-three label:nth-of-type(1)": "TOTAL AMOUNT (MONEY)",
-      "#createPaymentForm .grid-three label:nth-of-type(2)": "CURRENCY",
-      "#createPaymentForm .grid-three label:nth-of-type(3)": "METHOD",
-      "#createPaymentForm > label": "DESCRIPTION (WHAT IS BEING CHARGED)",
-      ".execute-btn": "RUN PAYMENT",
-      ".panel-table h2": "Real-Time Transactions",
-      ".panel-table .stream": "STREAMING...",
-      "#listPayments": "Refresh Payments",
-      ".panel-customer h2": "Quick Customer Registration",
-      "#createCustomerForm label:nth-of-type(1)": "NAME",
-      "#createCustomerForm label:nth-of-type(2)": "DOCUMENT",
-      "#createCustomerForm label:nth-of-type(3)": "E-MAIL",
-      "#createCustomerForm button": "Create Customer",
-      ".terminal-head p": "HUBPAY-CONSOLE@LOCAL: ~ /ACTIVITY-LOG",
-      "#paymentMethod option[value='1']": "Credit Card",
-      "#paymentMethod option[value='2']": "Pix",
-      "#paymentMethod option[value='3']": "Bank Slip"
-    },
-    staticAttr: {
-      "#langToggle": { "aria-label": "Switch language" },
-      "#apiBaseUrl": { placeholder: "http://localhost:5201" },
-      "#merchantId": { placeholder: "mid_live_xxxxxxxx" },
-      "#apiKey": { placeholder: "sk_test_..." },
-      "#merchantDocument": { placeholder: "Tax ID" },
-      "#revokeApiKeyInput": { placeholder: "key to revoke" },
-      "#webhookUrl": { placeholder: "https://..." },
-      "#paymentCustomerId": { placeholder: "cus_98234..." },
-      "#idempotencyKey": { placeholder: "uuid-v4" },
-      "#paymentAmount": { placeholder: "e.g.: 49.90" },
-      "#paymentDescription": { placeholder: "e.g.: shirt + shipping" }
-    },
-    runtime: {
-      processing: "Processing...",
-      saveSession: "Save Session",
-      clearSession: "Clear",
-      connectionSavedLog: "Connection saved.",
-      connectionSavedToast: "Session saved",
-      connectionClearedLog: "Connection cleared.",
-      connectionClearedToast: "Session cleared",
-      errorOperationToast: "Operation failed",
-      merchantRequired: "Merchant ID is required in connection settings.",
-      merchantCreatedLog: "Merchant created: {id}",
-      merchantCreatedToast: "Merchant created",
-      merchantsLoadedLog: "Merchants loaded: {count}.",
-      apiKeyGeneratedLog: "API key generated and saved in session.",
-      apiKeyGeneratedToast: "API key generated",
-      apiKeyRevokedLog: "API key revoked.",
-      apiKeyRevokedToast: "API key revoked",
-      customerCreatedLog: "Customer created: {id}",
-      customerCreatedToast: "Customer created",
-      paymentCreatedLog: "Payment created: {id}",
-      paymentCreatedToast: "Payment created",
-      paymentsLoadedLog: "Payments loaded: {count}.",
-      paymentsListErrorToast: "Failed to load payments",
-      authRequiredTitle: "Authentication required",
-      authHint: "Unauthorized. Check Merchant ID + API Key and click Save Session.",
-      paymentEventsLoadedLog: "Events loaded for payment {id}: {count}.",
-      timelineUpdatedToast: "Timeline updated",
-      paymentActionLog: "Payment {id}: action '{action}' executed.",
-      statusUpdatedToast: "Status updated",
-      webhookCreatedLog: "Webhook created: {id}",
-      webhookCreatedToast: "Webhook created",
-      webhooksLoadedLog: "Webhooks loaded: {count}.",
-      webhookDisabledLog: "Webhook disabled: {id}",
-      webhookDisabledToast: "Webhook disabled",
-      paymentsTitleId: "ID",
-      paymentsTitleStatus: "Status",
-      paymentsTitleAmount: "Amount",
-      paymentsTitleMethod: "Method",
-      paymentsTitleDescription: "Description",
-      paymentsTitleActions: "Actions",
-      actionAuthorize: "Authorize",
-      actionMarkPaid: "Paid",
-      actionRefuse: "Refuse",
-      actionRefund: "Cancel",
-      actionEvents: "Events",
-      noPayments: "No payments found.",
-      webhooksTitleId: "ID",
-      webhooksTitleUrl: "URL",
-      webhooksTitleStatus: "Status",
-      webhooksTitleAction: "Action",
-      actionDisable: "Disable",
-      noWebhooks: "No webhooks found.",
-      loadingCreating: "Creating...",
-      loadingRefreshing: "Refreshing...",
-      loadingGenerating: "Generating...",
-      loadingRevoking: "Revoking...",
-      loadingExecuting: "Running...",
-      loadingDisabling: "Disabling...",
-      bootLog: "HubPay Console started.",
-      bootToast: "Console ready",
-      statusMap: {
-        pending: "PENDING",
-        authorized: "AUTHORIZED",
-        paid: "PAID",
-        refused: "REFUSED",
-        refunded: "CANCELLED",
-        active: "ACTIVE",
-        inactive: "INACTIVE"
-      },
-      paymentMethodMap: {
-        "1": "Credit Card",
-        "2": "Pix",
-        "3": "Bank Slip",
-        creditcard: "Credit Card",
-        pix: "Pix",
-        boleto: "Bank Slip"
-      }
-    }
-  }
-};
+const $ = (id) => document.getElementById(id);
 
 const state = {
   baseUrl: localStorage.getItem("hubpay.baseUrl") || window.location.origin,
   merchantId: localStorage.getItem("hubpay.merchantId") || "",
   apiKey: localStorage.getItem("hubpay.apiKey") || "",
-  lang: localStorage.getItem("hubpay.console.lang") || "pt"
+  lastPayments: [],
+  lastCustomers: []
 };
 
 const ui = {
   apiBaseUrl: $("apiBaseUrl"),
   merchantId: $("merchantId"),
   apiKey: $("apiKey"),
-  activityOutput: $("activityOutput"),
-  langToggle: $("langToggle"),
-  langLabel: $("langLabel")
+  activityOutput: $("activityOutput")
 };
 
-function currentPack() {
-  return i18n[state.lang] || i18n.pt;
-}
-
-function t(key, values = {}) {
-  const template = currentPack().runtime[key] ?? key;
-  return Object.entries(values).reduce((acc, [k, v]) => acc.replaceAll(`{${k}}`, String(v)), template);
-}
-
-function setText(selector, text) {
-  const el = document.querySelector(selector);
-  if (!el) return;
-
-  if (el.tagName === "LABEL") {
-    const directControls = Array.from(el.children).filter((child) =>
-      ["INPUT", "SELECT", "TEXTAREA"].includes(child.tagName)
-    );
-
-    if (directControls.length > 0) {
-      directControls.forEach((control) => control.remove());
-      el.textContent = text;
-      directControls.forEach((control) => el.appendChild(control));
-      return;
-    }
-  }
-
-  el.textContent = text;
-}
-
-function setAttr(selector, attrs) {
-  const el = document.querySelector(selector);
-  if (!el) return;
-  Object.entries(attrs).forEach(([name, value]) => el.setAttribute(name, value));
-}
-
-function applyLanguage(lang) {
-  state.lang = lang === "en" ? "en" : "pt";
-  localStorage.setItem("hubpay.console.lang", state.lang);
-
-  const pack = currentPack();
-
-  Object.entries(pack.staticText).forEach(([selector, text]) => setText(selector, text));
-  Object.entries(pack.staticAttr).forEach(([selector, attrs]) => setAttr(selector, attrs));
-
-  document.documentElement.lang = pack.htmlLang;
-  if (ui.langLabel) ui.langLabel.textContent = pack.nextLabel;
-
-  refreshDynamicLabels();
-}
-
-function displayStatus(status) {
-  const raw = String(status ?? "");
-  const key = raw.toLowerCase();
-  return currentPack().runtime.statusMap[key] || raw;
-}
-
-function displayPaymentMethod(method) {
-  const raw = String(method ?? "");
-  const key = raw.toLowerCase();
-  return currentPack().runtime.paymentMethodMap[key] || raw;
-}
-
-function refreshDynamicLabels() {
-  const runtime = currentPack().runtime;
-
-  document.querySelectorAll("#paymentsOutput button[data-action='authorize']").forEach((el) => {
-    el.textContent = runtime.actionAuthorize;
-  });
-  document.querySelectorAll("#paymentsOutput button[data-action='markPaid']").forEach((el) => {
-    el.textContent = runtime.actionMarkPaid;
-  });
-  document.querySelectorAll("#paymentsOutput button[data-action='refuse']").forEach((el) => {
-    el.textContent = runtime.actionRefuse;
-  });
-  document.querySelectorAll("#paymentsOutput button[data-action='refund']").forEach((el) => {
-    el.textContent = runtime.actionRefund;
-  });
-  document.querySelectorAll("#paymentsOutput button[data-action='events']").forEach((el) => {
-    el.textContent = runtime.actionEvents;
-  });
-
-  const paymentHeader = document.querySelectorAll("#paymentsOutput th");
-  if (paymentHeader.length === 6) {
-    paymentHeader[0].textContent = runtime.paymentsTitleId;
-    paymentHeader[1].textContent = runtime.paymentsTitleStatus;
-    paymentHeader[2].textContent = runtime.paymentsTitleAmount;
-    paymentHeader[3].textContent = runtime.paymentsTitleMethod;
-    paymentHeader[4].textContent = runtime.paymentsTitleDescription;
-    paymentHeader[5].textContent = runtime.paymentsTitleActions;
-  }
-
-  const webhooksHeader = document.querySelectorAll("#webhooksOutput th");
-  if (webhooksHeader.length === 4) {
-    webhooksHeader[0].textContent = runtime.webhooksTitleId;
-    webhooksHeader[1].textContent = runtime.webhooksTitleUrl;
-    webhooksHeader[2].textContent = runtime.webhooksTitleStatus;
-    webhooksHeader[3].textContent = runtime.webhooksTitleAction;
-  }
-
-  document.querySelectorAll("#webhooksOutput button[data-action='disable-webhook']").forEach((el) => {
-    el.textContent = runtime.actionDisable;
-  });
-}
+const currencyFormatter = new Intl.NumberFormat("pt-BR", {
+  style: "currency",
+  currency: "BRL"
+});
 
 function bootstrapConnectionFields() {
   ui.apiBaseUrl.value = state.baseUrl;
@@ -405,27 +26,64 @@ function bootstrapConnectionFields() {
   ui.apiKey.value = state.apiKey;
 }
 
+function log(message) {
+  const time = new Date().toLocaleTimeString("pt-BR");
+  ui.activityOutput.textContent = `[${time}] ${message}\n` + ui.activityOutput.textContent;
+}
+
+function toast(message, type = "info") {
+  const node = document.createElement("div");
+  node.textContent = message;
+
+  const colors = {
+    info: "#1f4654",
+    success: "#127766",
+    error: "#b43e37"
+  };
+
+  Object.assign(node.style, {
+    position: "fixed",
+    top: "16px",
+    right: "16px",
+    zIndex: "9999",
+    background: colors[type] || colors.info,
+    color: "#fff",
+    padding: "10px 12px",
+    borderRadius: "10px",
+    fontWeight: "700",
+    fontSize: "12px",
+    boxShadow: "0 10px 24px rgba(0,0,0,.22)"
+  });
+
+  document.body.appendChild(node);
+  setTimeout(() => node.remove(), 2000);
+}
+
 function saveConnection() {
   state.baseUrl = ui.apiBaseUrl.value.trim() || window.location.origin;
   state.merchantId = ui.merchantId.value.trim();
   state.apiKey = ui.apiKey.value.trim();
+
   localStorage.setItem("hubpay.baseUrl", state.baseUrl);
   localStorage.setItem("hubpay.merchantId", state.merchantId);
   localStorage.setItem("hubpay.apiKey", state.apiKey);
-  log(t("connectionSavedLog"));
-  toast(t("connectionSavedToast"), "success");
+
+  log("Conexao salva.");
+  toast("Conexao salva", "success");
 }
 
 function clearConnection() {
   localStorage.removeItem("hubpay.baseUrl");
   localStorage.removeItem("hubpay.merchantId");
   localStorage.removeItem("hubpay.apiKey");
+
   state.baseUrl = window.location.origin;
   state.merchantId = "";
   state.apiKey = "";
+
   bootstrapConnectionFields();
-  log(t("connectionClearedLog"));
-  toast(t("connectionClearedToast"), "info");
+  log("Conexao limpa.");
+  toast("Conexao limpa", "info");
 }
 
 function getHeaders(extra = {}) {
@@ -437,15 +95,14 @@ function getHeaders(extra = {}) {
 async function api(path, options = {}) {
   saveConnection();
 
-  const requestOptions = {
+  const response = await fetch(`${state.baseUrl}${path}`, {
     ...options,
     headers: {
       ...getHeaders(),
       ...(options.headers || {})
     }
-  };
+  });
 
-  const response = await fetch(`${state.baseUrl}${path}`, requestOptions);
   const contentType = response.headers.get("content-type") || "";
   const body = contentType.includes("application/json")
     ? await response.json().catch(() => null)
@@ -459,48 +116,23 @@ async function api(path, options = {}) {
   return body;
 }
 
-function log(message) {
-  const locale = state.lang === "en" ? "en-US" : "pt-BR";
-  const time = new Date().toLocaleTimeString(locale);
-  ui.activityOutput.textContent = `[${time}] ${message}\n` + ui.activityOutput.textContent;
-}
-
-function toast(message, type = "info") {
-  const node = document.createElement("div");
-  node.textContent = message;
-  Object.assign(node.style, {
-    position: "fixed",
-    top: "18px",
-    right: "18px",
-    zIndex: "9999",
-    background: type === "success" ? "#1f7a46" : type === "error" ? "#b42318" : "#1a2a44",
-    color: "#fff",
-    padding: "10px 12px",
-    borderRadius: "9px",
-    fontSize: "12px",
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: ".06em",
-    boxShadow: "0 10px 24px rgba(0,0,0,.2)"
-  });
-
-  document.body.appendChild(node);
-  setTimeout(() => node.remove(), 1800);
-}
-
-function setLoading(button, isLoading, loadingText = t("processing")) {
+function setLoading(button, isLoading, text = "Processando...") {
   if (!button) return;
   if (!button.dataset.originalText) button.dataset.originalText = button.textContent;
   button.disabled = isLoading;
-  button.textContent = isLoading ? loadingText : button.dataset.originalText;
+  button.textContent = isLoading ? text : button.dataset.originalText;
 }
 
-function renderJson(targetId, data) {
-  $(targetId).textContent = JSON.stringify(data, null, 2);
-}
-
-function requireMerchantId() {
-  if (!state.merchantId) throw new Error(t("merchantRequired"));
+async function runAction(button, handler, loadingText) {
+  try {
+    setLoading(button, true, loadingText);
+    await handler();
+  } catch (err) {
+    log(err.message);
+    toast("Nao foi possivel concluir a acao", "error");
+  } finally {
+    setLoading(button, false);
+  }
 }
 
 function escapeHtml(text) {
@@ -512,46 +144,258 @@ function escapeHtml(text) {
     .replaceAll("'", "&#039;");
 }
 
-function renderCardError(targetId, title, detail) {
-  const target = $(targetId);
-  if (!target) return;
-  target.innerHTML = `
-    <div style="padding:12px;border:1px solid #f6c7c1;background:#fff3f2;border-radius:10px;color:#912018;">
-      <strong style="display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;font-size:.74rem;">${escapeHtml(title)}</strong>
-      <span style="font-size:.86rem;">${escapeHtml(detail)}</span>
-    </div>
-  `;
-}
-
-function statusClass(status) {
-  const key = String(status || "").toLowerCase();
-  if (key === "paid" || key === "active") return "#dff7e8;#1f7a46;#b9e6ca";
-  if (key === "authorized") return "#fff6d9;#9a6a00;#f6dea4";
-  if (key === "refused") return "#ffe8e5;#b42318;#f6c3bc";
-  if (key === "refunded" || key === "inactive") return "#eceff3;#475467;#d2d8e0";
-  return "#edf2ff;#2448aa;#cfdaf9";
+function normalizeStatus(status) {
+  return String(status || "").toLowerCase();
 }
 
 function statusBadge(status) {
-  const [bg, fg, bd] = statusClass(status).split(";");
-  return `<span class="badge" style="background:${bg};color:${fg};border-color:${bd}">${escapeHtml(displayStatus(status))}</span>`;
-}
+  const key = normalizeStatus(status);
 
-async function runAction(button, fn, loadingText) {
-  try {
-    setLoading(button, true, loadingText);
-    await fn();
-  } catch (err) {
-    log(err.message);
-    toast(t("errorOperationToast"), "error");
-  } finally {
-    setLoading(button, false);
+  if (key === "paid") {
+    return '<span class="badge" style="background:#e8f7f2;color:#127766;border-color:#b6e1d7">Pago</span>';
   }
+
+  if (key === "active") {
+    return '<span class="badge" style="background:#e8f7f2;color:#127766;border-color:#b6e1d7">Ativo</span>';
+  }
+
+  if (key === "authorized") {
+    return '<span class="badge" style="background:#fff8e9;color:#9c6a1a;border-color:#f3deb2">Em analise</span>';
+  }
+
+  if (key === "refused") {
+    return '<span class="badge" style="background:#fff0ef;color:#b43e37;border-color:#efcac7">Recusado</span>';
+  }
+
+  if (key === "refunded") {
+    return '<span class="badge" style="background:#f2f5f7;color:#51636a;border-color:#d5dfe2">Cancelado</span>';
+  }
+
+  if (key === "inactive") {
+    return '<span class="badge" style="background:#f2f5f7;color:#51636a;border-color:#d5dfe2">Inativo</span>';
+  }
+
+  return '<span class="badge" style="background:#edf4ff;color:#375694;border-color:#cddcf3">Pendente</span>';
 }
 
-async function createMerchant(e) {
-  e.preventDefault();
-  const button = e.submitter || e.target.querySelector("button[type='submit']");
+function paymentMethodLabel(method) {
+  const key = String(method || "").toLowerCase();
+  const map = {
+    "1": "Cartao de credito",
+    "2": "Pix",
+    "3": "Boleto",
+    creditcard: "Cartao de credito",
+    pix: "Pix",
+    boleto: "Boleto"
+  };
+
+  return map[key] || method;
+}
+
+function toDate(value) {
+  if (!value) return null;
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function isOpenCharge(status) {
+  const key = normalizeStatus(status);
+  return key === "pending" || key === "authorized";
+}
+
+function renderDashboard() {
+  const now = new Date();
+  const month = now.getMonth();
+  const year = now.getFullYear();
+
+  const inMonth = state.lastPayments.filter((payment) => {
+    const createdAt = toDate(payment.createdAt);
+    return createdAt && createdAt.getMonth() === month && createdAt.getFullYear() === year;
+  });
+
+  const paidInMonth = inMonth.filter((p) => normalizeStatus(p.status) === "paid");
+  const totalReceived = paidInMonth.reduce((acc, payment) => acc + Number(payment.amount || 0), 0);
+  const pendingCharges = state.lastPayments.filter((p) => isOpenCharge(p.status)).length;
+  const overdueCharges = state.lastPayments.filter((payment) => {
+    if (!isOpenCharge(payment.status)) return false;
+    const createdAt = toDate(payment.createdAt);
+    if (!createdAt) return false;
+    const diffDays = (now - createdAt) / (1000 * 60 * 60 * 24);
+    return diffDays > 7;
+  }).length;
+
+  const avgTicket = paidInMonth.length > 0 ? totalReceived / paidInMonth.length : 0;
+
+  $("monthSummary").textContent = `${inMonth.length} cobrancas`;
+  $("monthSummaryHint").textContent = paidInMonth.length > 0
+    ? `Ticket medio: ${currencyFormatter.format(avgTicket)}`
+    : "Sem recebimentos confirmados neste mes.";
+  $("totalReceived").textContent = currencyFormatter.format(totalReceived);
+  $("pendingCharges").textContent = String(pendingCharges);
+  $("overdueCharges").textContent = String(overdueCharges);
+
+  renderRecentCustomers();
+}
+
+function renderRecentCustomers() {
+  const target = $("recentCustomers");
+  const customers = state.lastCustomers.slice(0, 5);
+
+  if (customers.length === 0) {
+    target.className = "empty-state";
+    target.textContent = "Cadastre seu primeiro cliente para comecar.";
+    return;
+  }
+
+  target.className = "table-wrap";
+  const rows = customers.map((customer) => {
+    const createdAt = toDate(customer.createdAt);
+    const formattedDate = createdAt ? createdAt.toLocaleDateString("pt-BR") : "-";
+
+    return `
+      <tr>
+        <td>${escapeHtml(customer.name)}</td>
+        <td>${escapeHtml(customer.email)}</td>
+        <td>${escapeHtml(customer.document)}</td>
+        <td>${formattedDate}</td>
+      </tr>
+    `;
+  }).join("");
+
+  target.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>Documento</th>
+          <th>Criado em</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
+function renderCustomersTable(customers) {
+  const target = $("customersOutput");
+
+  if (!customers.length) {
+    target.innerHTML = '<div class="empty-state">Nenhum cliente cadastrado ainda.</div>';
+    return;
+  }
+
+  const rows = customers.map((customer) => {
+    const createdAt = toDate(customer.createdAt);
+    const formattedDate = createdAt ? createdAt.toLocaleString("pt-BR") : "-";
+
+    return `
+      <tr>
+        <td><code>${escapeHtml(customer.id)}</code></td>
+        <td>${escapeHtml(customer.name)}</td>
+        <td>${escapeHtml(customer.email)}</td>
+        <td>${escapeHtml(customer.document)}</td>
+        <td>${formattedDate}</td>
+      </tr>
+    `;
+  }).join("");
+
+  target.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>Documento</th>
+          <th>Criado em</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
+function renderPaymentsTable(payments) {
+  const target = $("paymentsOutput");
+
+  if (!payments.length) {
+    target.innerHTML = '<div class="empty-state">Nenhuma cobranca encontrada.</div>';
+    return;
+  }
+
+  const rows = payments.map((payment) => `
+    <tr>
+      <td><code>${escapeHtml(payment.id)}</code></td>
+      <td>${statusBadge(payment.status)}</td>
+      <td>${currencyFormatter.format(Number(payment.amount || 0))}</td>
+      <td>${escapeHtml(paymentMethodLabel(payment.paymentMethod))}</td>
+      <td>${escapeHtml(payment.description || "-")}</td>
+      <td>
+        <div class="actions">
+          <button class="btn btn-ghost" data-action="authorize" data-id="${payment.id}">Autorizar</button>
+          <button class="btn btn-ghost" data-action="markPaid" data-id="${payment.id}">Marcar pago</button>
+          <button class="btn btn-ghost" data-action="refuse" data-id="${payment.id}">Recusar</button>
+          <button class="btn btn-ghost" data-action="refund" data-id="${payment.id}">Cancelar</button>
+          <button class="btn btn-secondary" data-action="events" data-id="${payment.id}">Historico</button>
+        </div>
+      </td>
+    </tr>
+  `).join("");
+
+  target.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Status da cobranca</th>
+          <th>Valor</th>
+          <th>Forma</th>
+          <th>Descricao</th>
+          <th>Acoes</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
+function renderWebhooksTable(webhooks) {
+  const target = $("webhooksOutput");
+
+  if (!webhooks.length) {
+    target.innerHTML = '<div class="empty-state">Nenhum webhook cadastrado.</div>';
+    return;
+  }
+
+  const rows = webhooks.map((webhook) => `
+    <tr>
+      <td><code>${escapeHtml(webhook.id)}</code></td>
+      <td>${escapeHtml(webhook.url)}</td>
+      <td>${statusBadge(webhook.isActive ? "active" : "inactive")}</td>
+      <td><button class="btn btn-danger" data-action="disable-webhook" data-id="${webhook.id}">Desativar</button></td>
+    </tr>
+  `).join("");
+
+  target.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>URL</th>
+          <th>Status</th>
+          <th>Acao</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
+async function createMerchant(event) {
+  event.preventDefault();
+  const button = event.submitter || event.target.querySelector("button[type='submit']");
+
   await runAction(button, async () => {
     const merchant = await api("/merchants/", {
       method: "POST",
@@ -565,54 +409,57 @@ async function createMerchant(e) {
     state.merchantId = merchant.id;
     ui.merchantId.value = merchant.id;
     saveConnection();
-    renderJson("merchantsOutput", merchant);
-    log(t("merchantCreatedLog", { id: merchant.id }));
-    toast(t("merchantCreatedToast"), "success");
-  }, t("loadingCreating"));
-}
 
-async function listMerchants() {
-  const button = $("listMerchants");
-  await runAction(button, async () => {
-    const merchants = await api("/merchants/");
-    renderJson("merchantsOutput", merchants);
-    log(t("merchantsLoadedLog", { count: merchants.length }));
-  }, t("loadingRefreshing"));
+    $("merchantsOutput").textContent = JSON.stringify(merchant, null, 2);
+    log(`Conta criada: ${merchant.id}`);
+    toast("Conta criada", "success");
+  }, "Criando...");
 }
 
 async function generateApiKey() {
   const button = $("generateApiKey");
+
   await runAction(button, async () => {
-    requireMerchantId();
+    if (!state.merchantId) {
+      throw new Error("Crie uma conta ou preencha o ID da conta antes de gerar a chave.");
+    }
+
     const response = await api(`/merchants/${state.merchantId}/api-keys`, { method: "POST" });
     if (response?.key) {
       state.apiKey = response.key;
       ui.apiKey.value = response.key;
       saveConnection();
     }
-    renderJson("merchantsOutput", response);
-    log(t("apiKeyGeneratedLog"));
-    toast(t("apiKeyGeneratedToast"), "success");
-  }, t("loadingGenerating"));
+
+    $("merchantsOutput").textContent = JSON.stringify(response, null, 2);
+    log("Chave de API gerada.");
+    toast("Chave gerada", "success");
+  }, "Gerando...");
 }
 
-async function revokeApiKey(e) {
-  e.preventDefault();
-  const button = e.submitter || e.target.closest("section")?.querySelector(".btn-danger");
+async function revokeApiKey(event) {
+  event.preventDefault();
+  const button = event.submitter || event.target.querySelector("button[type='submit']");
+
   await runAction(button, async () => {
-    requireMerchantId();
+    if (!state.merchantId) {
+      throw new Error("Informe o ID da conta para revogar uma chave.");
+    }
+
     await api(`/merchants/${state.merchantId}/api-keys/revoke`, {
       method: "POST",
       body: JSON.stringify({ key: $("revokeApiKeyInput").value.trim() })
     });
-    log(t("apiKeyRevokedLog"));
-    toast(t("apiKeyRevokedToast"), "success");
-  }, t("loadingRevoking"));
+
+    log("Chave revogada.");
+    toast("Chave revogada", "success");
+  }, "Revogando...");
 }
 
-async function createCustomer(e) {
-  e.preventDefault();
-  const button = e.submitter || e.target.querySelector("button[type='submit']");
+async function createCustomer(event) {
+  event.preventDefault();
+  const button = event.submitter || event.target.querySelector("button[type='submit']");
+
   await runAction(button, async () => {
     const customer = await api("/customers/", {
       method: "POST",
@@ -622,16 +469,37 @@ async function createCustomer(e) {
         email: $("customerEmail").value.trim()
       })
     });
-    renderJson("customersOutput", customer);
+
     $("paymentCustomerId").value = customer.id;
-    log(t("customerCreatedLog", { id: customer.id }));
-    toast(t("customerCreatedToast"), "success");
-  }, t("loadingCreating"));
+    log(`Cliente criado: ${customer.name}`);
+    toast("Cliente salvo", "success");
+
+    await listCustomers();
+  }, "Salvando...");
 }
 
-async function createPayment(e) {
-  e.preventDefault();
-  const button = e.submitter || e.target.querySelector("button[type='submit']");
+async function listCustomers() {
+  const button = $("refreshCustomers");
+  setLoading(button, true, "Atualizando...");
+
+  try {
+    const customers = await api("/customers?take=20");
+    state.lastCustomers = customers;
+    renderCustomersTable(customers);
+    renderDashboard();
+    log(`Clientes carregados: ${customers.length}.`);
+  } catch (err) {
+    log(err.message);
+    $("customersOutput").innerHTML = '<div class="empty-state">Nao foi possivel carregar os clientes. Verifique ID da conta e chave da API.</div>';
+  } finally {
+    setLoading(button, false);
+  }
+}
+
+async function createPayment(event) {
+  event.preventDefault();
+  const button = event.submitter || event.target.querySelector("button[type='submit']");
+
   await runAction(button, async () => {
     const idempotencyKey = $("idempotencyKey").value.trim();
     const headers = {};
@@ -649,54 +517,26 @@ async function createPayment(e) {
       })
     });
 
-    log(t("paymentCreatedLog", { id: payment.id }));
-    toast(t("paymentCreatedToast"), "success");
+    log(`Cobranca criada: ${payment.id}`);
+    toast("Cobranca criada", "success");
+
     await listPayments();
-  }, t("loadingExecuting"));
+  }, "Criando...");
 }
 
 async function listPayments() {
   const button = $("listPayments");
-  setLoading(button, true, t("loadingRefreshing"));
+  setLoading(button, true, "Atualizando...");
+
   try {
     const payments = await api("/payments/");
-    const rows = payments.map((p) => `
-      <tr>
-        <td><code>${escapeHtml(p.id)}</code></td>
-        <td>${statusBadge(p.status)}</td>
-        <td>${escapeHtml(p.amount)} ${escapeHtml(p.currency)}</td>
-        <td>${escapeHtml(displayPaymentMethod(p.paymentMethod))}</td>
-        <td>${escapeHtml(p.description)}</td>
-        <td>
-          <div class="actions">
-            <button class="btn btn-light" data-action="authorize" data-id="${p.id}">${escapeHtml(t("actionAuthorize"))}</button>
-            <button class="btn btn-light" data-action="markPaid" data-id="${p.id}">${escapeHtml(t("actionMarkPaid"))}</button>
-            <button class="btn btn-light" data-action="refuse" data-id="${p.id}">${escapeHtml(t("actionRefuse"))}</button>
-            <button class="btn btn-light" data-action="refund" data-id="${p.id}">${escapeHtml(t("actionRefund"))}</button>
-            <button class="btn btn-primary" data-action="events" data-id="${p.id}">${escapeHtml(t("actionEvents"))}</button>
-          </div>
-        </td>
-      </tr>
-    `).join("");
-
-    $("paymentsOutput").innerHTML = `
-      <table>
-        <thead>
-          <tr>
-            <th>${escapeHtml(t("paymentsTitleId"))}</th><th>${escapeHtml(t("paymentsTitleStatus"))}</th><th>${escapeHtml(t("paymentsTitleAmount"))}</th><th>${escapeHtml(t("paymentsTitleMethod"))}</th><th>${escapeHtml(t("paymentsTitleDescription"))}</th><th>${escapeHtml(t("paymentsTitleActions"))}</th>
-          </tr>
-        </thead>
-        <tbody>${rows || `<tr><td colspan="6">${escapeHtml(t("noPayments"))}</td></tr>`}</tbody>
-      </table>
-    `;
-
-    log(t("paymentsLoadedLog", { count: payments.length }));
+    state.lastPayments = payments;
+    renderPaymentsTable(payments);
+    renderDashboard();
+    log(`Cobrancas carregadas: ${payments.length}.`);
   } catch (err) {
-    if (String(err.message).startsWith("401")) {
-      renderCardError("paymentsOutput", t("authRequiredTitle"), t("authHint"));
-    }
     log(err.message);
-    toast(t("paymentsListErrorToast"), "error");
+    $("paymentsOutput").innerHTML = '<div class="empty-state">Nao foi possivel carregar as cobrancas. Verifique ID da conta e chave da API.</div>';
   } finally {
     setLoading(button, false);
   }
@@ -706,65 +546,80 @@ async function paymentAction(action, id, button) {
   await runAction(button, async () => {
     if (action === "events") {
       const events = await api(`/payments/${id}/events`);
-      renderJson("paymentEventsOutput", events);
-      log(t("paymentEventsLoadedLog", { id, count: events.length }));
-      toast(t("timelineUpdatedToast"), "info");
+      $("paymentEventsOutput").textContent = JSON.stringify(events, null, 2);
+      log(`Historico carregado para cobranca ${id}.`);
       return;
     }
 
-    const map = { authorize: "authorize", markPaid: "pay", refuse: "refuse", refund: "cancel" };
-    await api(`/payments/${id}/${map[action]}`, { method: "POST" });
-    log(t("paymentActionLog", { id, action }));
-    toast(t("statusUpdatedToast"), "success");
+    const routeMap = {
+      authorize: "authorize",
+      markPaid: "pay",
+      refuse: "refuse",
+      refund: "cancel"
+    };
+
+    await api(`/payments/${id}/${routeMap[action]}`, { method: "POST" });
+    log(`Cobranca ${id} atualizada para: ${action}.`);
+    toast("Status atualizado", "success");
     await listPayments();
-  }, t("processing"));
+  }, "Processando...");
 }
 
-async function createWebhook(e) {
-  e.preventDefault();
-  const button = e.submitter || e.target.querySelector("button[type='submit']");
+async function createWebhook(event) {
+  event.preventDefault();
+  const button = event.submitter || event.target.querySelector("button[type='submit']");
+
   await runAction(button, async () => {
     const webhook = await api("/webhooks/", {
       method: "POST",
       body: JSON.stringify({ url: $("webhookUrl").value.trim() })
     });
-    log(t("webhookCreatedLog", { id: webhook.id }));
-    toast(t("webhookCreatedToast"), "success");
+
+    log(`Webhook criado: ${webhook.id}`);
+    toast("Webhook salvo", "success");
     await listWebhooks();
-  }, t("loadingCreating"));
+  }, "Salvando...");
 }
 
 async function listWebhooks() {
   const button = $("listWebhooks");
+
   await runAction(button, async () => {
     const webhooks = await api("/webhooks/");
-    const rows = webhooks.map((w) => `
-      <tr>
-        <td><code>${escapeHtml(w.id)}</code></td>
-        <td>${escapeHtml(w.url)}</td>
-        <td>${statusBadge(w.isActive ? "active" : "inactive")}</td>
-        <td><button class="btn btn-danger" data-action="disable-webhook" data-id="${w.id}">${escapeHtml(t("actionDisable"))}</button></td>
-      </tr>
-    `).join("");
-
-    $("webhooksOutput").innerHTML = `
-      <table>
-        <thead><tr><th>${escapeHtml(t("webhooksTitleId"))}</th><th>${escapeHtml(t("webhooksTitleUrl"))}</th><th>${escapeHtml(t("webhooksTitleStatus"))}</th><th>${escapeHtml(t("webhooksTitleAction"))}</th></tr></thead>
-        <tbody>${rows || `<tr><td colspan="4">${escapeHtml(t("noWebhooks"))}</td></tr>`}</tbody>
-      </table>
-    `;
-
-    log(t("webhooksLoadedLog", { count: webhooks.length }));
-  }, t("loadingRefreshing"));
+    renderWebhooksTable(webhooks);
+    log(`Webhooks carregados: ${webhooks.length}.`);
+  }, "Atualizando...");
 }
 
 async function disableWebhook(id, button) {
   await runAction(button, async () => {
     await api(`/webhooks/${id}/disable`, { method: "POST" });
-    log(t("webhookDisabledLog", { id }));
-    toast(t("webhookDisabledToast"), "success");
+    log(`Webhook desativado: ${id}.`);
+    toast("Webhook desativado", "success");
     await listWebhooks();
-  }, t("loadingDisabling"));
+  }, "Desativando...");
+}
+
+function bindShortcutButtons() {
+  const goToCustomer = () => {
+    $("customersSection").scrollIntoView({ behavior: "smooth", block: "start" });
+    $("customerName").focus();
+  };
+
+  const goToCharge = () => {
+    $("chargesSection").scrollIntoView({ behavior: "smooth", block: "start" });
+    $("paymentCustomerId").focus();
+  };
+
+  ["newCustomerTop", "newCustomerHero"].forEach((id) => {
+    const button = $(id);
+    if (button) button.addEventListener("click", goToCustomer);
+  });
+
+  ["newChargeTop", "newChargeHero"].forEach((id) => {
+    const button = $(id);
+    if (button) button.addEventListener("click", goToCharge);
+  });
 }
 
 function bindEvents() {
@@ -772,42 +627,51 @@ function bindEvents() {
   $("clearConnection").addEventListener("click", clearConnection);
 
   $("createMerchantForm").addEventListener("submit", createMerchant);
-  $("listMerchants").addEventListener("click", listMerchants);
   $("generateApiKey").addEventListener("click", generateApiKey);
   $("revokeApiKeyForm").addEventListener("submit", revokeApiKey);
 
   $("createCustomerForm").addEventListener("submit", createCustomer);
+  $("refreshCustomers").addEventListener("click", listCustomers);
 
   $("createPaymentForm").addEventListener("submit", createPayment);
   $("listPayments").addEventListener("click", listPayments);
-  $("paymentsOutput").addEventListener("click", (e) => {
-    const target = e.target.closest("button[data-action]");
-    if (!target) return;
-    paymentAction(target.dataset.action, target.dataset.id, target);
+  $("paymentsOutput").addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-action]");
+    if (!button) return;
+    paymentAction(button.dataset.action, button.dataset.id, button);
   });
 
   $("createWebhookForm").addEventListener("submit", createWebhook);
   $("listWebhooks").addEventListener("click", listWebhooks);
-  $("webhooksOutput").addEventListener("click", (e) => {
-    const target = e.target.closest("button[data-action='disable-webhook']");
-    if (!target) return;
-    disableWebhook(target.dataset.id, target);
+  $("webhooksOutput").addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-action='disable-webhook']");
+    if (!button) return;
+    disableWebhook(button.dataset.id, button);
   });
 
-  if (ui.langToggle) {
-    ui.langToggle.addEventListener("click", () => {
-      applyLanguage(state.lang === "pt" ? "en" : "pt");
-    });
-  }
+  $("refreshDashboard").addEventListener("click", async () => {
+    await Promise.allSettled([listCustomers(), listPayments()]);
+  });
+
+  bindShortcutButtons();
 }
 
-applyLanguage(state.lang);
-bootstrapConnectionFields();
-bindEvents();
-log(t("bootLog"));
-toast(t("bootToast"), "info");
+async function bootstrap() {
+  bootstrapConnectionFields();
+  bindEvents();
 
+  $("customersOutput").innerHTML = '<div class="empty-state">Conecte sua conta para ver os clientes.</div>';
+  $("paymentsOutput").innerHTML = '<div class="empty-state">Conecte sua conta para ver as cobrancas.</div>';
+  $("webhooksOutput").innerHTML = '<div class="empty-state">Sem webhooks configurados.</div>';
 
+  renderDashboard();
 
+  if (state.apiKey && state.merchantId) {
+    await Promise.allSettled([listCustomers(), listPayments(), listWebhooks()]);
+  }
 
+  log("RecebeLeve pronto para uso.");
+  toast("Painel carregado", "info");
+}
 
+bootstrap();

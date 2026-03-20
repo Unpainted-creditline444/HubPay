@@ -1,36 +1,29 @@
-﻿# Como Usar o HubPay (Guia Simples para RH)
+# Como usar o RecebeLeve
 
-Este documento foi feito para qualquer pessoa conseguir abrir o sistema, testar o fluxo e entender o produto, mesmo sem background tÃ©cnico.
+Guia rapido para abrir, testar e apresentar o projeto de forma clara, sem foco tecnico excessivo.
 
-## O que Ã© o HubPay
-HubPay Ã© um simulador de gateway de pagamento para portfÃ³lio.
+## O que e o RecebeLeve
+RecebeLeve e um sistema simples para organizar:
+- clientes
+- cobrancas
+- pagamentos
 
-Na prÃ¡tica, vocÃª consegue demonstrar:
-- cadastro de lojista (merchant)
-- criaÃ§Ã£o de cliente
-- criaÃ§Ã£o de pagamento
-- mudanÃ§a de status do pagamento
-- eventos e webhooks
+A base tecnica continua forte (API, Clean Architecture e PostgreSQL), mas a experiencia foi pensada para uso direto.
 
 ## Resultado esperado da demo
-Ao final do teste, vocÃª deve conseguir mostrar:
-1. um merchant criado
-2. uma chave de API gerada
-3. um cliente criado
-4. um pagamento criado
-5. um status alterado (ex.: "Autorizado" ou "Pago")
+Ao final da demo, voce deve mostrar:
+1. conta da loja criada
+2. chave de API gerada
+3. cliente cadastrado
+4. cobranca criada
+5. status atualizado para pago
 
----
+## 1) Subir o projeto
+### Pre-requisitos
+- .NET 10
+- PostgreSQL em execucao
 
-## Parte 1: Subir o sistema (1 vez)
-
-### PrÃ©-requisitos
-- .NET 10 instalado
-- PostgreSQL instalado e rodando
-
-### Passos
-Na pasta raiz do projeto:
-
+### Comandos
 ```bash
 dotnet tool restore
 dotnet restore
@@ -38,92 +31,36 @@ dotnet tool run dotnet-ef database update --project src/HubPay.Infrastructure --
 dotnet run --project src/HubPay.API
 ```
 
-Depois abra no navegador a URL que aparecer no terminal (ex.: `http://localhost:5201`).
+Abra a URL local exibida no terminal (ex.: `http://localhost:5201`).
 
----
+## 2) Ordem recomendada para apresentar
+1. **Conta da loja**: criar conta e gerar chave.
+2. **Clientes**: cadastrar cliente.
+3. **Cobrancas**: criar cobranca para o cliente.
+4. **Pagamentos e historico**: mudar status e abrir historico.
+5. **Dashboard**: mostrar resumo do mes, pendentes, atrasadas e clientes recentes.
 
-## Parte 2: Fluxo da interface (ordem ideal para demo)
+## Status da cobranca (linguagem simples)
+- `Pending`: cobranca criada, aguardando acao
+- `Authorized`: aprovada para seguir
+- `Paid`: pagamento concluido
+- `Refused`: recusada
+- `Refunded`: cancelada
 
-### 1) ConfiguraÃ§Ã£o de ConexÃ£o
-- Em "URL Base da API", deixe a URL local (ex.: `http://localhost:5201`)
-- Clique em **Salvar SessÃ£o**
+## Problemas comuns
+### Erro 401
+- confira ID da conta e chave da API
+- clique em **Salvar conexao**
 
-### 2) Cadastro de Merchant
-- Preencha nome, documento e e-mail
-- Clique em **Criar Merchant**
-- Clique em **Gerar Chave**
-- A chave serÃ¡ exibida e preenchida no campo de conexÃ£o
+### Cobranca nao criada
+- valide o ID do cliente
+- valide valor e moeda
+- veja a caixa de atividade no painel
 
-### 3) Cadastro de Cliente
-- Preencha nome, documento e e-mail
-- Clique em **Criar Cliente**
+### Idempotency-Key
+Campo opcional para evitar duplicidade quando a mesma requisicao e reenviada.
 
-### 4) Nova TransaÃ§Ã£o de Pagamento
-- Confira o **ID do Cliente**
-- Informe o **Valor Total**
-- Escolha a **Moeda**
-- Escolha o **MÃ©todo**
-- Preencha descriÃ§Ã£o
-- Clique em **Executar Pagamento**
-
-### 5) TransaÃ§Ãµes em Tempo Real
-- Clique em **Atualizar Pagamentos**
-- Use os botÃµes de aÃ§Ã£o:
-  - **Autorizar**
-  - **Marcar como Pago**
-  - **Recusar**
-  - **Reembolsar**
-  - **Eventos**
-
-### 6) Webhooks
-- Cadastre URL
-- Atualize a lista
-- Desative quando necessÃ¡rio
-
----
-
-## Significado dos status (linguagem simples)
-- **Pending**: pagamento criado, aguardando aÃ§Ã£o
-- **Authorized**: pagamento aprovado
-- **Paid**: pagamento efetivado
-- **Refused**: pagamento negado
-- **Refunded**: pagamento cancelado
-
----
-
-## DÃºvidas comuns
-
-### "401 Unauthorized"
-Significa problema de autenticaÃ§Ã£o.
-- Verifique se a API Key estÃ¡ preenchida
-- Verifique se o Merchant ID combina com essa chave
-- Clique em **Salvar SessÃ£o** novamente
-
-### "NÃ£o criou pagamento"
-- Confirme se moeda estÃ¡ correta (`BRL`, `USD` ou `EUR`)
-- Confira se cliente existe
-- Veja a mensagem no bloco "Log de Atividade"
-
-### "Idempotency-Key"
-Ã‰ uma chave para evitar duplicidade em tentativas repetidas.
-Pode deixar em branco na demo inicial.
-
----
-
-## Roteiro pronto para apresentaÃ§Ã£o (2-3 minutos)
-1. Mostrar que a API estÃ¡ conectada
-2. Criar merchant
-3. Gerar API key
-4. Criar cliente
-5. Criar pagamento
-6. Mudar status para "Autorizado" e depois "Pago"
-7. Abrir "Eventos" para mostrar trilha da operaÃ§Ã£o
-
----
-
-## Arquivos de referÃªncia
-- Regras do projeto: `docs/rules.md`
-- MemÃ³ria tÃ©cnica: `docs/memory.md`
-- VisÃ£o geral tÃ©cnica: `README.md`
-
-
+## Referencias
+- README principal: `README.md`
+- documentacao web: `docs/index.html`
+- status atual do projeto: `docs/STATUS_PROJETO_FINAL.md`
