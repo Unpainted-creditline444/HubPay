@@ -1,71 +1,16 @@
-const $ = (id) => document.getElementById(id);
+﻿const $ = (id) => document.getElementById(id);
 
 const i18n = {
   pt: {
     htmlLang: "pt-BR",
     locale: "pt-BR",
     nextLabel: "EN",
-    text: {
-      ".brand-sub": "Sistema simples para organizar clientes, cobranças e pagamentos",
-      "a[href='https://sfturio.github.io/HubPay/']": "Documentação",
-      ".side-panel .card:nth-of-type(1) h2": "Conta da loja",
-      ".side-panel .card:nth-of-type(1) .muted": "Esses dados conectam sua conta à API.",
-      ".side-panel .card:nth-of-type(1) label:nth-of-type(1)": "URL da API",
-      ".side-panel .card:nth-of-type(1) label:nth-of-type(2)": "ID da conta",
-      ".side-panel .card:nth-of-type(1) label:nth-of-type(3)": "Chave da API",
-      "#saveConnection": "Salvar conexão",
-      "#clearConnection": "Limpar",
-      ".side-panel .card:nth-of-type(2) h2": "Criar conta da loja",
-      ".side-panel .card:nth-of-type(2) .muted": "Passo inicial para liberar clientes e cobranças.",
-      "#createMerchantForm label:nth-of-type(1)": "Nome da loja",
-      "#createMerchantForm label:nth-of-type(2)": "Documento",
-      "#createMerchantForm label:nth-of-type(3)": "E-mail",
-      "#createMerchantForm button[type='submit']": "Criar conta",
-      "#generateApiKey": "Gerar chave",
-      "#revokeApiKeyForm button": "Revogar",
-      ".side-panel .card:nth-of-type(3) h2": "Atividade",
-      "#dashboard h1": "Visão rápida do mês",
-      "#newChargeHero": "Nova cobrança",
-      "#newCustomerHero": "Novo cliente",
-      ".stats-grid article:nth-of-type(1) .stat-label": "Resumo do mês",
-      ".stats-grid article:nth-of-type(2) .stat-label": "Total recebido",
-      ".stats-grid article:nth-of-type(3) .stat-label": "Cobranças pendentes",
-      ".stats-grid article:nth-of-type(4) .stat-label": "Cobranças atrasadas",
-      ".stats-grid article:nth-of-type(2) .stat-note": "Somente cobranças pagas no mês.",
-      ".stats-grid article:nth-of-type(3) .stat-note": "Aguardando confirmação.",
-      ".stats-grid article:nth-of-type(4) .stat-note": "Pendentes há mais de 7 dias.",
-      ".customers-preview h3": "Clientes recentes",
-      "#refreshDashboard": "Atualizar visão",
-      "#customersSection .section-head h2": "Clientes",
-      "#refreshCustomers": "Atualizar clientes",
-      "#createCustomerForm label:nth-of-type(1)": "Nome",
-      "#createCustomerForm label:nth-of-type(2)": "Documento",
-      "#createCustomerForm label:nth-of-type(3)": "E-mail",
-      "#createCustomerForm button": "Salvar cliente",
-      "#chargesSection .section-head h2": "Cobranças",
-      "#listPayments": "Atualizar cobranças",
-      "#createPaymentForm label:nth-of-type(1)": "ID do cliente",
-      "#createPaymentForm label:nth-of-type(2)": "Valor",
-      "#createPaymentForm label:nth-of-type(3)": "Moeda",
-      "#createPaymentForm label:nth-of-type(4)": "Forma de pagamento",
-      "#createPaymentForm label:nth-of-type(5)": "Descrição da cobrança",
-      "#createPaymentForm label:nth-of-type(6)": "Idempotency-Key (opcional)",
-      "#createPaymentForm button": "Criar cobrança",
-      "#historySection h2": "Pagamentos e histórico",
-      "#historySection .muted": "Veja os eventos da cobrança selecionada para acompanhar a evolução do status.",
-      "details.card summary": "Integrações avançadas (opcional)",
-      "details.card .muted": "Webhooks são técnicos e não são obrigatórios para usar o sistema no dia a dia.",
-      "#createWebhookForm button": "Adicionar webhook",
-      "#listWebhooks": "Atualizar webhooks"
-    },
-    placeholders: {
-      "#merchantId": "gerado ao criar conta",
-      "#merchantDocument": "CPF ou CNPJ",
-      "#revokeApiKeyInput": "chave para revogar",
-      "#paymentCustomerId": "cole o ID ou crie um cliente acima",
-      "#paymentDescription": "Ex.: Serviço de manutenção",
-      "#idempotencyKey": "uuid-v4",
-      "#webhookUrl": "https://seu-endpoint.com/webhook"
+    viewMeta: {
+      dashboard: { eyebrow: "Visão geral", title: "Dashboard" },
+      payments: { eyebrow: "Fluxo", title: "Pagamentos" },
+      "payment-details": { eyebrow: "Auditoria", title: "Detalhes de pagamento" },
+      merchants: { eyebrow: "Cadastro", title: "Lojistas e clientes" },
+      settings: { eyebrow: "Operações", title: "Configurações" }
     },
     runtime: {
       processing: "Processando...",
@@ -90,9 +35,9 @@ const i18n = {
       connectCustomers: "Conecte sua conta para ver os clientes.",
       connectPayments: "Conecte sua conta para ver as cobranças.",
       emptyWebhooksPanel: "Sem webhooks configurados.",
-      selectHistory: "Selecione uma cobrança e clique em \"Histórico\".",
+      selectHistory: "Selecione uma cobrança e clique em 'Histórico'.",
       table: { id: "ID", name: "Nome", email: "E-mail", document: "Documento", createdAt: "Criado em", status: "Status", amount: "Valor", method: "Forma", description: "Descrição", actions: "Ações", url: "URL", chargeStatus: "Status da cobrança", action: "Ação" },
-      actions: { authorize: "Autorizar", paid: "Marcar pago", refuse: "Recusar", cancel: "Cancelar", events: "Histórico", disable: "Desativar" },
+      actions: { authorize: "Autorizar", paid: "Marcar pago", refuse: "Recusar", cancel: "Cancelar", events: "Histórico", disable: "Desativar", details: "Detalhes" },
       status: { pending: "Pendente", authorized: "Em análise", paid: "Pago", refused: "Recusado", refunded: "Cancelado", active: "Ativo", inactive: "Inativo" },
       method: { "1": "Cartão de crédito", "2": "Pix", "3": "Boleto", creditcard: "Cartão de crédito", pix: "Pix", boleto: "Boleto" }
     }
@@ -101,67 +46,12 @@ const i18n = {
     htmlLang: "en",
     locale: "en-US",
     nextLabel: "PT",
-    text: {
-      ".brand-sub": "Simple system to manage clients, charges, and payments",
-      "a[href='https://sfturio.github.io/HubPay/']": "Documentation",
-      ".side-panel .card:nth-of-type(1) h2": "Store account",
-      ".side-panel .card:nth-of-type(1) .muted": "These details connect your account to the API.",
-      ".side-panel .card:nth-of-type(1) label:nth-of-type(1)": "API URL",
-      ".side-panel .card:nth-of-type(1) label:nth-of-type(2)": "Account ID",
-      ".side-panel .card:nth-of-type(1) label:nth-of-type(3)": "API key",
-      "#saveConnection": "Save connection",
-      "#clearConnection": "Clear",
-      ".side-panel .card:nth-of-type(2) h2": "Create store account",
-      ".side-panel .card:nth-of-type(2) .muted": "First step to enable clients and charges.",
-      "#createMerchantForm label:nth-of-type(1)": "Store name",
-      "#createMerchantForm label:nth-of-type(2)": "Document",
-      "#createMerchantForm label:nth-of-type(3)": "Email",
-      "#createMerchantForm button[type='submit']": "Create account",
-      "#generateApiKey": "Generate key",
-      "#revokeApiKeyForm button": "Revoke",
-      ".side-panel .card:nth-of-type(3) h2": "Activity",
-      "#dashboard h1": "Quick month overview",
-      "#newChargeHero": "New charge",
-      "#newCustomerHero": "New client",
-      ".stats-grid article:nth-of-type(1) .stat-label": "Month summary",
-      ".stats-grid article:nth-of-type(2) .stat-label": "Total received",
-      ".stats-grid article:nth-of-type(3) .stat-label": "Pending charges",
-      ".stats-grid article:nth-of-type(4) .stat-label": "Overdue charges",
-      ".stats-grid article:nth-of-type(2) .stat-note": "Only paid charges this month.",
-      ".stats-grid article:nth-of-type(3) .stat-note": "Waiting for confirmation.",
-      ".stats-grid article:nth-of-type(4) .stat-note": "Pending for more than 7 days.",
-      ".customers-preview h3": "Recent clients",
-      "#refreshDashboard": "Refresh view",
-      "#customersSection .section-head h2": "Clients",
-      "#refreshCustomers": "Refresh clients",
-      "#createCustomerForm label:nth-of-type(1)": "Name",
-      "#createCustomerForm label:nth-of-type(2)": "Document",
-      "#createCustomerForm label:nth-of-type(3)": "Email",
-      "#createCustomerForm button": "Save client",
-      "#chargesSection .section-head h2": "Charges",
-      "#listPayments": "Refresh charges",
-      "#createPaymentForm label:nth-of-type(1)": "Client ID",
-      "#createPaymentForm label:nth-of-type(2)": "Amount",
-      "#createPaymentForm label:nth-of-type(3)": "Currency",
-      "#createPaymentForm label:nth-of-type(4)": "Payment method",
-      "#createPaymentForm label:nth-of-type(5)": "Charge description",
-      "#createPaymentForm label:nth-of-type(6)": "Idempotency-Key (optional)",
-      "#createPaymentForm button": "Create charge",
-      "#historySection h2": "Payments and history",
-      "#historySection .muted": "Check selected charge events to track status changes.",
-      "details.card summary": "Advanced integrations (optional)",
-      "details.card .muted": "Webhooks are technical and not required for daily use.",
-      "#createWebhookForm button": "Add webhook",
-      "#listWebhooks": "Refresh webhooks"
-    },
-    placeholders: {
-      "#merchantId": "generated when account is created",
-      "#merchantDocument": "Tax ID",
-      "#revokeApiKeyInput": "key to revoke",
-      "#paymentCustomerId": "paste client ID or create a client above",
-      "#paymentDescription": "Example: Maintenance service",
-      "#idempotencyKey": "uuid-v4",
-      "#webhookUrl": "https://your-endpoint.com/webhook"
+    viewMeta: {
+      dashboard: { eyebrow: "Overview", title: "Dashboard" },
+      payments: { eyebrow: "Flow", title: "Payments" },
+      "payment-details": { eyebrow: "Audit", title: "Payment details" },
+      merchants: { eyebrow: "Records", title: "Merchants and customers" },
+      settings: { eyebrow: "Operations", title: "Settings" }
     },
     runtime: {
       processing: "Processing...",
@@ -179,16 +69,16 @@ const i18n = {
       monthCharges: "{count} charges",
       monthAvgTicket: "Average ticket: {value}",
       monthNoRevenue: "No confirmed revenue this month.",
-      emptyRecentCustomers: "Create your first client to get started.",
-      emptyCustomers: "No clients registered yet.",
+      emptyRecentCustomers: "Create your first customer to get started.",
+      emptyCustomers: "No customers registered yet.",
       emptyPayments: "No charges found.",
       emptyWebhooks: "No webhooks registered.",
-      connectCustomers: "Connect your account to view clients.",
+      connectCustomers: "Connect your account to view customers.",
       connectPayments: "Connect your account to view charges.",
       emptyWebhooksPanel: "No webhooks configured.",
-      selectHistory: "Select a charge and click \"History\".",
+      selectHistory: "Select a charge and click 'History'.",
       table: { id: "ID", name: "Name", email: "Email", document: "Document", createdAt: "Created at", status: "Status", amount: "Amount", method: "Method", description: "Description", actions: "Actions", url: "URL", chargeStatus: "Charge status", action: "Action" },
-      actions: { authorize: "Authorize", paid: "Mark paid", refuse: "Refuse", cancel: "Cancel", events: "History", disable: "Disable" },
+      actions: { authorize: "Authorize", paid: "Mark paid", refuse: "Refuse", cancel: "Cancel", events: "History", disable: "Disable", details: "Details" },
       status: { pending: "Pending", authorized: "Authorized", paid: "Paid", refused: "Refused", refunded: "Cancelled", active: "Active", inactive: "Inactive" },
       method: { "1": "Credit card", "2": "Pix", "3": "Bank slip", creditcard: "Credit card", pix: "Pix", boleto: "Bank slip" }
     }
@@ -200,8 +90,12 @@ const state = {
   merchantId: localStorage.getItem("hubpay.merchantId") || "",
   apiKey: localStorage.getItem("hubpay.apiKey") || "",
   lang: localStorage.getItem("hubpay.lang") || "pt",
+  currentView: "dashboard",
   lastPayments: [],
-  lastCustomers: []
+  lastCustomers: [],
+  selectedPaymentId: null,
+  paymentEventsById: {},
+  paymentFilters: { status: "all", date: "", merchant: "" }
 };
 
 const ui = {
@@ -209,7 +103,9 @@ const ui = {
   merchantId: $("merchantId"),
   apiKey: $("apiKey"),
   activityOutput: $("activityOutput"),
-  langToggle: $("langToggle")
+  langToggle: $("langToggle"),
+  pageTitle: $("pageTitle"),
+  pageEyebrow: $("pageEyebrow")
 };
 
 const pack = () => i18n[state.lang] || i18n.pt;
@@ -221,36 +117,16 @@ const trTable = (key) => rt().table[key] || key;
 const trAction = (key) => rt().actions[key] || key;
 const formatMoney = (value) => new Intl.NumberFormat(pack().locale, { style: "currency", currency: "BRL" }).format(value);
 
-function setText(selector, text) {
-  const el = document.querySelector(selector);
-  if (!el) return;
-  if (el.tagName === "LABEL") {
-    const controls = Array.from(el.children).filter((child) => ["INPUT", "SELECT", "TEXTAREA"].includes(child.tagName));
-    if (controls.length > 0) {
-      controls.forEach((c) => c.remove());
-      el.textContent = text;
-      controls.forEach((c) => el.appendChild(c));
-      return;
-    }
-  }
-  el.textContent = text;
-}
-
 function applyLanguage(lang) {
   state.lang = lang === "en" ? "en" : "pt";
   localStorage.setItem("hubpay.lang", state.lang);
   document.documentElement.lang = pack().htmlLang;
-
-  Object.entries(pack().text).forEach(([selector, text]) => setText(selector, text));
-  Object.entries(pack().placeholders).forEach(([selector, placeholder]) => {
-    const el = document.querySelector(selector);
-    if (el) el.setAttribute("placeholder", placeholder);
-  });
   if (ui.langToggle) ui.langToggle.textContent = pack().nextLabel;
-
+  updatePageHeader();
   renderDashboard();
   renderCustomersTable(state.lastCustomers);
   renderPaymentsTable(state.lastPayments);
+  renderPaymentDetails();
 }
 
 function bootstrapConnectionFields() {
@@ -261,16 +137,19 @@ function bootstrapConnectionFields() {
 
 function log(message) {
   const time = new Date().toLocaleTimeString(pack().locale);
-  ui.activityOutput.textContent = `[${time}] ${message}\n` + ui.activityOutput.textContent;
+  ui.activityOutput.textContent = `[${time}] ${message}\n${ui.activityOutput.textContent}`;
 }
 
 function toast(message, type = "info") {
   const node = document.createElement("div");
   node.textContent = message;
   const colors = { info: "#1f4654", success: "#127766", error: "#b43e37" };
-  Object.assign(node.style, { position: "fixed", top: "16px", right: "16px", zIndex: "9999", background: colors[type] || colors.info, color: "#fff", padding: "10px 12px", borderRadius: "10px", fontWeight: "700", fontSize: "12px", boxShadow: "0 10px 24px rgba(0,0,0,.22)" });
+  Object.assign(node.style, {
+    position: "fixed", top: "16px", right: "16px", zIndex: "9999", background: colors[type] || colors.info,
+    color: "#fff", padding: "10px 12px", borderRadius: "10px", fontWeight: "700", fontSize: "12px", boxShadow: "0 10px 24px rgba(0,0,0,.22)"
+  });
   document.body.appendChild(node);
-  setTimeout(() => node.remove(), 2000);
+  setTimeout(() => node.remove(), 1900);
 }
 
 function saveConnection() {
@@ -283,7 +162,6 @@ function saveConnection() {
   log(tr("saveConnectionLog"));
   toast(tr("saveConnectionToast"), "success");
 }
-
 function clearConnection() {
   localStorage.removeItem("hubpay.baseUrl");
   localStorage.removeItem("hubpay.merchantId");
@@ -348,14 +226,92 @@ function isOpenCharge(status) {
   return key === "pending" || key === "authorized";
 }
 
-function statusBadge(status) {
+function statusTone(status) {
   const key = String(status || "").toLowerCase();
-  const label = trStatus(status);
-  if (key === "paid" || key === "active") return `<span class="badge" style="background:#e8f7f2;color:#127766;border-color:#b6e1d7">${escapeHtml(label)}</span>`;
-  if (key === "authorized") return `<span class="badge" style="background:#fff8e9;color:#9c6a1a;border-color:#f3deb2">${escapeHtml(label)}</span>`;
-  if (key === "refused") return `<span class="badge" style="background:#fff0ef;color:#b43e37;border-color:#efcac7">${escapeHtml(label)}</span>`;
-  if (key === "refunded" || key === "inactive") return `<span class="badge" style="background:#f2f5f7;color:#51636a;border-color:#d5dfe2">${escapeHtml(label)}</span>`;
-  return `<span class="badge" style="background:#edf4ff;color:#375694;border-color:#cddcf3">${escapeHtml(label)}</span>`;
+  if (key === "paid" || key === "active") return "success";
+  if (key === "pending" || key === "authorized") return "pending";
+  if (key === "refused") return "failed";
+  if (key === "refunded" || key === "inactive") return "neutral";
+  return "info";
+}
+
+function statusBadge(status) {
+  return `<span class="badge ${statusTone(status)}">${escapeHtml(trStatus(status))}</span>`;
+}
+
+function skeletonTable(cols = 6, rows = 5) {
+  const lines = [];
+  for (let i = 0; i < rows; i += 1) {
+    const width = 82 - (i % 3) * 8;
+    lines.push(`<div class="skeleton-line" style="width:${width}%"></div>`);
+  }
+  return `<div class="skeleton-wrap">${Array(cols).fill(0).map((_, index) => lines[index % lines.length]).join("")}</div>`;
+}
+
+function updatePageHeader() {
+  const meta = pack().viewMeta[state.currentView] || pack().viewMeta.dashboard;
+  ui.pageEyebrow.textContent = meta.eyebrow;
+  ui.pageTitle.textContent = meta.title;
+  document.querySelectorAll(".nav-link[data-view]").forEach((node) => node.classList.toggle("is-active", node.dataset.view === state.currentView));
+}
+
+function switchView(view) {
+  state.currentView = view;
+  document.querySelectorAll(".view").forEach((node) => node.classList.toggle("is-active", node.dataset.view === view));
+  updatePageHeader();
+}
+
+function money(value) {
+  return formatMoney(Number(value || 0));
+}
+
+function findPaymentById(id) {
+  return state.lastPayments.find((item) => String(item.id) === String(id)) || null;
+}
+
+function paymentMatchesFilters(payment) {
+  const statusKey = String(payment.status || "").toLowerCase();
+  if (state.paymentFilters.status !== "all" && statusKey !== state.paymentFilters.status) return false;
+
+  if (state.paymentFilters.date) {
+    const date = toDate(payment.createdAt);
+    if (!date || date.toISOString().slice(0, 10) !== state.paymentFilters.date) return false;
+  }
+
+  const keyword = state.paymentFilters.merchant.trim().toLowerCase();
+  if (!keyword) return true;
+  return `${payment.id || ""} ${payment.description || ""} ${payment.paymentMethod || ""}`.toLowerCase().includes(keyword);
+}
+
+function renderRecentCustomers() {
+  const target = $("recentCustomers");
+  const customers = state.lastCustomers.slice(0, 6);
+  if (!customers.length) {
+    target.className = "empty-state";
+    target.textContent = tr("emptyRecentCustomers");
+    return;
+  }
+
+  const rows = customers.map((c) => {
+    const date = toDate(c.createdAt)?.toLocaleDateString(pack().locale) || "-";
+    const initials = (c.name || "NA").split(" ").map((n) => n.slice(0, 1)).join("").slice(0, 2).toUpperCase();
+    return `<tr><td><span class="badge info">${escapeHtml(initials)}</span></td><td>${escapeHtml(c.name)}</td><td>${escapeHtml(c.email)}</td><td class="mono">${date}</td></tr>`;
+  }).join("");
+
+  target.className = "table-wrap";
+  target.innerHTML = `<table><thead><tr><th></th><th>${trTable("name")}</th><th>${trTable("email")}</th><th>${trTable("createdAt")}</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function renderDashboardPayments() {
+  const target = $("dashboardPaymentsOutput");
+  const payments = state.lastPayments.slice(0, 7);
+  if (!payments.length) {
+    target.innerHTML = `<div class="empty-state">${escapeHtml(tr("emptyPayments"))}</div>`;
+    return;
+  }
+
+  const rows = payments.map((p) => `<tr><td class="mono">${escapeHtml(p.id)}</td><td>${statusBadge(p.status)}</td><td>${money(p.amount)}</td><td>${escapeHtml(trMethod(p.paymentMethod))}</td><td class="mono">${toDate(p.createdAt)?.toLocaleDateString(pack().locale) || "-"}</td><td><button class="btn btn-ghost" data-action="open-details" data-id="${p.id}">${trAction("details")}</button></td></tr>`).join("");
+  target.innerHTML = `<table><thead><tr><th>${trTable("id")}</th><th>${trTable("status")}</th><th>${trTable("amount")}</th><th>${trTable("method")}</th><th>${trTable("createdAt")}</th><th>${trTable("actions")}</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 function renderDashboard() {
@@ -366,36 +322,22 @@ function renderDashboard() {
     const date = toDate(p.createdAt);
     return date && date.getMonth() === month && date.getFullYear() === year;
   });
+
   const paidInMonth = inMonth.filter((p) => String(p.status || "").toLowerCase() === "paid");
   const totalReceived = paidInMonth.reduce((acc, p) => acc + Number(p.amount || 0), 0);
   const pending = state.lastPayments.filter((p) => isOpenCharge(p.status)).length;
-  const overdue = state.lastPayments.filter((p) => {
-    if (!isOpenCharge(p.status)) return false;
-    const date = toDate(p.createdAt);
-    if (!date) return false;
-    return (now - date) / (1000 * 60 * 60 * 24) > 7;
-  }).length;
-  const avgTicket = paidInMonth.length > 0 ? totalReceived / paidInMonth.length : 0;
+  const successRate = inMonth.length ? Math.round((paidInMonth.length / inMonth.length) * 10000) / 100 : 0;
+  const avgTicket = paidInMonth.length ? totalReceived / paidInMonth.length : 0;
 
   $("monthSummary").textContent = tr("monthCharges", { count: inMonth.length });
-  $("monthSummaryHint").textContent = paidInMonth.length > 0 ? tr("monthAvgTicket", { value: formatMoney(avgTicket) }) : tr("monthNoRevenue");
-  $("totalReceived").textContent = formatMoney(totalReceived);
+  $("monthSummaryHint").textContent = paidInMonth.length ? tr("monthAvgTicket", { value: formatMoney(avgTicket) }) : tr("monthNoRevenue");
+  $("totalReceived").textContent = money(totalReceived);
   $("pendingCharges").textContent = String(pending);
-  $("overdueCharges").textContent = String(overdue);
-  renderRecentCustomers();
-}
+  $("successRate").textContent = `${successRate.toFixed(2)}%`;
+  $("dashboardTrend").textContent = inMonth.length ? `${paidInMonth.length}/${inMonth.length} ${trStatus("paid")}` : "-";
 
-function renderRecentCustomers() {
-  const target = $("recentCustomers");
-  const customers = state.lastCustomers.slice(0, 5);
-  if (!customers.length) {
-    target.className = "empty-state";
-    target.textContent = tr("emptyRecentCustomers");
-    return;
-  }
-  target.className = "table-wrap";
-  const rows = customers.map((c) => `<tr><td>${escapeHtml(c.name)}</td><td>${escapeHtml(c.email)}</td><td>${escapeHtml(c.document)}</td><td>${toDate(c.createdAt)?.toLocaleDateString(pack().locale) || "-"}</td></tr>`).join("");
-  target.innerHTML = `<table><thead><tr><th>${trTable("name")}</th><th>${trTable("email")}</th><th>${trTable("document")}</th><th>${trTable("createdAt")}</th></tr></thead><tbody>${rows}</tbody></table>`;
+  renderRecentCustomers();
+  renderDashboardPayments();
 }
 
 function renderCustomersTable(customers) {
@@ -404,18 +346,21 @@ function renderCustomersTable(customers) {
     target.innerHTML = `<div class="empty-state">${escapeHtml(tr("emptyCustomers"))}</div>`;
     return;
   }
-  const rows = customers.map((c) => `<tr><td><code>${escapeHtml(c.id)}</code></td><td>${escapeHtml(c.name)}</td><td>${escapeHtml(c.email)}</td><td>${escapeHtml(c.document)}</td><td>${toDate(c.createdAt)?.toLocaleString(pack().locale) || "-"}</td></tr>`).join("");
+
+  const rows = customers.map((c) => `<tr><td class="mono">${escapeHtml(c.id)}</td><td>${escapeHtml(c.name)}</td><td>${escapeHtml(c.email)}</td><td>${escapeHtml(c.document)}</td><td class="mono">${toDate(c.createdAt)?.toLocaleString(pack().locale) || "-"}</td></tr>`).join("");
   target.innerHTML = `<table><thead><tr><th>${trTable("id")}</th><th>${trTable("name")}</th><th>${trTable("email")}</th><th>${trTable("document")}</th><th>${trTable("createdAt")}</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 function renderPaymentsTable(payments) {
   const target = $("paymentsOutput");
-  if (!payments.length) {
+  const filtered = payments.filter(paymentMatchesFilters);
+  if (!filtered.length) {
     target.innerHTML = `<div class="empty-state">${escapeHtml(tr("emptyPayments"))}</div>`;
     return;
   }
-  const rows = payments.map((p) => `<tr><td><code>${escapeHtml(p.id)}</code></td><td>${statusBadge(p.status)}</td><td>${formatMoney(Number(p.amount || 0))}</td><td>${escapeHtml(trMethod(p.paymentMethod))}</td><td>${escapeHtml(p.description || "-")}</td><td><div class="actions"><button class="btn btn-ghost" data-action="authorize" data-id="${p.id}">${trAction("authorize")}</button><button class="btn btn-ghost" data-action="markPaid" data-id="${p.id}">${trAction("paid")}</button><button class="btn btn-ghost" data-action="refuse" data-id="${p.id}">${trAction("refuse")}</button><button class="btn btn-ghost" data-action="refund" data-id="${p.id}">${trAction("cancel")}</button><button class="btn btn-secondary" data-action="events" data-id="${p.id}">${trAction("events")}</button></div></td></tr>`).join("");
-  target.innerHTML = `<table><thead><tr><th>${trTable("id")}</th><th>${trTable("chargeStatus")}</th><th>${trTable("amount")}</th><th>${trTable("method")}</th><th>${trTable("description")}</th><th>${trTable("actions")}</th></tr></thead><tbody>${rows}</tbody></table>`;
+
+  const rows = filtered.map((p) => `<tr><td class="mono">${escapeHtml(p.id)}</td><td>${statusBadge(p.status)}</td><td>${money(p.amount)}</td><td>${escapeHtml(trMethod(p.paymentMethod))}</td><td>${escapeHtml(p.description || "-")}</td><td class="mono">${toDate(p.createdAt)?.toLocaleString(pack().locale) || "-"}</td><td><div class="actions"><button class="btn btn-ghost" data-action="authorize" data-id="${p.id}">${trAction("authorize")}</button><button class="btn btn-ghost" data-action="markPaid" data-id="${p.id}">${trAction("paid")}</button><button class="btn btn-ghost" data-action="refuse" data-id="${p.id}">${trAction("refuse")}</button><button class="btn btn-ghost" data-action="refund" data-id="${p.id}">${trAction("cancel")}</button><button class="btn btn-secondary" data-action="events" data-id="${p.id}">${trAction("events")}</button></div></td></tr>`).join("");
+  target.innerHTML = `<table><thead><tr><th>${trTable("id")}</th><th>${trTable("chargeStatus")}</th><th>${trTable("amount")}</th><th>${trTable("method")}</th><th>${trTable("description")}</th><th>${trTable("createdAt")}</th><th>${trTable("actions")}</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 function renderWebhooksTable(webhooks) {
@@ -424,10 +369,22 @@ function renderWebhooksTable(webhooks) {
     target.innerHTML = `<div class="empty-state">${escapeHtml(tr("emptyWebhooks"))}</div>`;
     return;
   }
-  const rows = webhooks.map((w) => `<tr><td><code>${escapeHtml(w.id)}</code></td><td>${escapeHtml(w.url)}</td><td>${statusBadge(w.isActive ? "active" : "inactive")}</td><td><button class="btn btn-danger" data-action="disable-webhook" data-id="${w.id}">${trAction("disable")}</button></td></tr>`).join("");
+  const rows = webhooks.map((w) => `<tr><td class="mono">${escapeHtml(w.id)}</td><td>${escapeHtml(w.url)}</td><td>${statusBadge(w.isActive ? "active" : "inactive")}</td><td><button class="btn btn-danger" data-action="disable-webhook" data-id="${w.id}">${trAction("disable")}</button></td></tr>`).join("");
   target.innerHTML = `<table><thead><tr><th>${trTable("id")}</th><th>${trTable("url")}</th><th>${trTable("status")}</th><th>${trTable("action")}</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
+function renderPaymentDetails() {
+  const target = $("paymentDetailsSummary");
+  const payment = state.selectedPaymentId ? findPaymentById(state.selectedPaymentId) : null;
+  if (!payment) {
+    target.innerHTML = `<div class="empty-state">${escapeHtml(tr("selectHistory"))}</div>`;
+    return;
+  }
+
+  const eventPayload = state.paymentEventsById[payment.id];
+  $("paymentEventsOutput").textContent = eventPayload ? JSON.stringify(eventPayload, null, 2) : tr("selectHistory");
+  target.innerHTML = `<h3>${trTable("chargeStatus")}</h3><p class="muted mono">${escapeHtml(payment.id)}</p><p class="stat-value">${money(payment.amount)}</p><p>${statusBadge(payment.status)}</p><div class="table-wrap" style="margin-top:10px;"><table><tbody><tr><td>${trTable("method")}</td><td>${escapeHtml(trMethod(payment.paymentMethod))}</td></tr><tr><td>${trTable("description")}</td><td>${escapeHtml(payment.description || "-")}</td></tr><tr><td>${trTable("createdAt")}</td><td>${toDate(payment.createdAt)?.toLocaleString(pack().locale) || "-"}</td></tr><tr><td>${trTable("status")}</td><td>${escapeHtml(trStatus(payment.status))}</td></tr></tbody></table></div>`;
+}
 async function createMerchant(event) {
   event.preventDefault();
   const button = event.submitter || event.target.querySelector("button[type='submit']");
@@ -437,6 +394,7 @@ async function createMerchant(event) {
     ui.merchantId.value = merchant.id;
     saveConnection();
     $("merchantsOutput").textContent = JSON.stringify(merchant, null, 2);
+    switchView("settings");
   }, tr("creating"));
 }
 
@@ -451,6 +409,7 @@ async function generateApiKey() {
       saveConnection();
     }
     $("merchantsOutput").textContent = JSON.stringify(response, null, 2);
+    switchView("settings");
   }, tr("generating"));
 }
 
@@ -475,13 +434,15 @@ async function createCustomer(event) {
 
 async function listCustomers() {
   const button = $("refreshCustomers");
+  const target = $("customersOutput");
   setLoading(button, true, tr("refreshing"));
+  target.innerHTML = skeletonTable(7, 7);
   try {
     state.lastCustomers = await api("/customers?take=20");
     renderCustomersTable(state.lastCustomers);
     renderDashboard();
   } catch {
-    $("customersOutput").innerHTML = `<div class="empty-state">${escapeHtml(tr("connectCustomers"))}</div>`;
+    target.innerHTML = `<div class="empty-state">${escapeHtml(tr("connectCustomers"))}</div>`;
   } finally {
     setLoading(button, false);
   }
@@ -501,13 +462,16 @@ async function createPayment(event) {
 
 async function listPayments() {
   const button = $("listPayments");
+  const target = $("paymentsOutput");
   setLoading(button, true, tr("refreshing"));
+  target.innerHTML = skeletonTable(8, 8);
   try {
     state.lastPayments = await api("/payments/");
     renderPaymentsTable(state.lastPayments);
     renderDashboard();
+    renderPaymentDetails();
   } catch {
-    $("paymentsOutput").innerHTML = `<div class="empty-state">${escapeHtml(tr("connectPayments"))}</div>`;
+    target.innerHTML = `<div class="empty-state">${escapeHtml(tr("connectPayments"))}</div>`;
   } finally {
     setLoading(button, false);
   }
@@ -515,10 +479,22 @@ async function listPayments() {
 
 async function paymentAction(action, id, button) {
   await runAction(button, async () => {
-    if (action === "events") {
-      $("paymentEventsOutput").textContent = JSON.stringify(await api(`/payments/${id}/events`), null, 2);
+    if (action === "open-details") {
+      state.selectedPaymentId = id;
+      renderPaymentDetails();
+      switchView("payment-details");
       return;
     }
+
+    if (action === "events") {
+      const events = await api(`/payments/${id}/events`);
+      state.paymentEventsById[id] = events;
+      state.selectedPaymentId = id;
+      renderPaymentDetails();
+      switchView("payment-details");
+      return;
+    }
+
     const routeMap = { authorize: "authorize", markPaid: "pay", refuse: "refuse", refund: "cancel" };
     await api(`/payments/${id}/${routeMap[action]}`, { method: "POST" });
     await listPayments();
@@ -536,6 +512,8 @@ async function createWebhook(event) {
 
 async function listWebhooks() {
   const button = $("listWebhooks");
+  const target = $("webhooksOutput");
+  target.innerHTML = skeletonTable(5, 4);
   await runAction(button, async () => renderWebhooksTable(await api("/webhooks/")), tr("refreshing"));
 }
 
@@ -544,6 +522,20 @@ async function disableWebhook(id, button) {
     await api(`/webhooks/${id}/disable`, { method: "POST" });
     await listWebhooks();
   }, tr("disabling"));
+}
+
+function syncPaymentFilters() {
+  state.paymentFilters.status = $("paymentStatusFilter").value;
+  state.paymentFilters.date = $("paymentDateFilter").value;
+  state.paymentFilters.merchant = $("paymentMerchantFilter").value;
+  renderPaymentsTable(state.lastPayments);
+}
+
+function resetPaymentFilters() {
+  $("paymentStatusFilter").value = "all";
+  $("paymentDateFilter").value = "";
+  $("paymentMerchantFilter").value = "";
+  syncPaymentFilters();
 }
 
 function bindEvents() {
@@ -556,40 +548,69 @@ function bindEvents() {
   $("refreshCustomers").addEventListener("click", listCustomers);
   $("createPaymentForm").addEventListener("submit", createPayment);
   $("listPayments").addEventListener("click", listPayments);
+
   $("paymentsOutput").addEventListener("click", (event) => {
     const button = event.target.closest("button[data-action]");
     if (button) paymentAction(button.dataset.action, button.dataset.id, button);
   });
+
+  $("dashboardPaymentsOutput").addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-action='open-details']");
+    if (button) paymentAction(button.dataset.action, button.dataset.id, button);
+  });
+
   $("createWebhookForm").addEventListener("submit", createWebhook);
   $("listWebhooks").addEventListener("click", listWebhooks);
+
   $("webhooksOutput").addEventListener("click", (event) => {
     const button = event.target.closest("button[data-action='disable-webhook']");
     if (button) disableWebhook(button.dataset.id, button);
   });
+
   $("refreshDashboard").addEventListener("click", async () => Promise.allSettled([listCustomers(), listPayments()]));
+
   $("newCustomerHero").addEventListener("click", () => {
-    $("customersSection").scrollIntoView({ behavior: "smooth", block: "start" });
+    switchView("merchants");
     $("customerName").focus();
   });
+
   $("newChargeHero").addEventListener("click", () => {
-    $("chargesSection").scrollIntoView({ behavior: "smooth", block: "start" });
+    switchView("payments");
     $("paymentCustomerId").focus();
   });
+
   if (ui.langToggle) ui.langToggle.addEventListener("click", () => applyLanguage(state.lang === "pt" ? "en" : "pt"));
+
+  $("paymentStatusFilter").addEventListener("change", syncPaymentFilters);
+  $("paymentDateFilter").addEventListener("change", syncPaymentFilters);
+  $("paymentMerchantFilter").addEventListener("input", syncPaymentFilters);
+  $("clearPaymentFilters").addEventListener("click", resetPaymentFilters);
+
+  document.querySelectorAll(".nav-link[data-view]").forEach((button) => {
+    button.addEventListener("click", () => switchView(button.dataset.view));
+  });
 }
 
 async function bootstrap() {
   bootstrapConnectionFields();
   bindEvents();
   applyLanguage(state.lang);
+
   $("customersOutput").innerHTML = `<div class="empty-state">${escapeHtml(tr("connectCustomers"))}</div>`;
   $("paymentsOutput").innerHTML = `<div class="empty-state">${escapeHtml(tr("connectPayments"))}</div>`;
+  $("dashboardPaymentsOutput").innerHTML = `<div class="empty-state">${escapeHtml(tr("connectPayments"))}</div>`;
   $("webhooksOutput").innerHTML = `<div class="empty-state">${escapeHtml(tr("emptyWebhooksPanel"))}</div>`;
   $("paymentEventsOutput").textContent = tr("selectHistory");
+  renderPaymentDetails();
   renderDashboard();
+
   if (state.apiKey && state.merchantId) await Promise.allSettled([listCustomers(), listPayments(), listWebhooks()]);
+
+  switchView("dashboard");
   log(state.lang === "en" ? "HubPay is ready." : "HubPay pronto para uso.");
   toast(state.lang === "en" ? "Panel loaded" : "Painel carregado", "info");
 }
 
 bootstrap();
+
+
