@@ -595,6 +595,14 @@ textarea:user-invalid {
 
 .customers-form {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: end;
+  margin-bottom: 14px;
+}
+
+.customers-form > .btn {
+  align-self: end;
+  min-height: 42px;
+  margin-top: 24px;
 }
 
 .inline-actions {
