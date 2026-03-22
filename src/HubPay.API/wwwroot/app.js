@@ -5,6 +5,93 @@ const i18n = {
     htmlLang: "pt-BR",
     locale: "pt-BR",
     nextLabel: "EN",
+    ui: {
+      brandSub: "Gateway de portfólio",
+      navDashboard: "Dashboard",
+      navPayments: "Pagamentos",
+      navPaymentDetails: "Detalhes de pagamento",
+      navMerchants: "Lojistas e clientes",
+      navSettings: "Configurações",
+      sidebarNote: "Projeto de portfólio",
+      documentation: "Documentação",
+      dashboardTitle: "Visão rápida do mês",
+      dashboardSubtitle: "Acompanhe volume, qualidade de status e atividade recente.",
+      newCharge: "Criar pagamento",
+      newCustomer: "Novo cliente",
+      summaryLabel: "Transações no mês",
+      receivedLabel: "Volume total",
+      receivedHint: "Somente pagamentos confirmados no mês atual.",
+      pendingLabel: "Transações pendentes",
+      pendingHint: "Aguardando autorização ou liquidação.",
+      successLabel: "Taxa de sucesso",
+      recentTransactions: "Transações recentes",
+      recentCustomers: "Clientes recentes",
+      refreshView: "Atualizar",
+      paymentsTitle: "Pagamentos",
+      paymentsSubtitle: "Crie cobranças, filtre transações e atualize status.",
+      refreshCharges: "Atualizar cobranças",
+      createPayment: "Criar pagamento",
+      labelCustomerId: "ID do cliente",
+      labelAmount: "Valor",
+      labelCurrency: "Moeda",
+      labelMethod: "Forma de pagamento",
+      labelDescription: "Descrição",
+      labelIdempotency: "Idempotency-Key (opcional)",
+      createCharge: "Criar cobrança",
+      transactionsTable: "Lista de transações",
+      filterStatus: "Status",
+      filterDate: "Data",
+      filterMerchant: "Cliente / referência",
+      clearFilters: "Limpar filtros",
+      all: "Todos",
+      statusPending: "Pendente",
+      statusAuthorized: "Em análise",
+      statusPaid: "Pago",
+      statusRefused: "Recusado",
+      statusRefunded: "Cancelado",
+      paymentDetailsTitle: "Detalhes do pagamento",
+      paymentDetailsSubtitle: "Inspecione metadados e histórico da cobrança selecionada.",
+      timelineLogs: "Linha do tempo / logs",
+      merchantsTitle: "Lojistas e clientes",
+      merchantsSubtitle: "Gerencie credenciais da conta e registros de clientes.",
+      refreshCustomers: "Atualizar clientes",
+      createMerchant: "Criar conta da loja",
+      labelMerchantName: "Nome da loja",
+      labelMerchantDocument: "Documento",
+      labelMerchantEmail: "E-mail",
+      createAccount: "Criar conta",
+      generateKey: "Gerar chave",
+      revokeKey: "Revogar",
+      customersTitle: "Clientes",
+      labelCustomerName: "Nome",
+      labelCustomerDocument: "Documento",
+      labelCustomerEmail: "E-mail",
+      saveCustomer: "Salvar cliente",
+      settingsTitle: "Configurações",
+      settingsSubtitle: "Configuração de conexão e integrações técnicas.",
+      connectionTitle: "Conexão da loja",
+      connectionSubtitle: "Esses valores são usados nas requisições da API.",
+      labelApiUrl: "URL da API",
+      labelAccountId: "ID da conta",
+      labelApiKey: "Chave da API",
+      saveConnection: "Salvar conexão",
+      clearConnection: "Limpar",
+      webhooksTitle: "Webhooks",
+      webhooksSubtitle: "Opcional para integrações avançadas.",
+      addWebhook: "Adicionar webhook",
+      refreshWebhooks: "Atualizar webhooks",
+      activityTitle: "Atividade"
+    },
+    placeholders: {
+      phCustomerId: "cole o ID ou crie um cliente acima",
+      phDescription: "Ex.: Serviço de manutenção",
+      phIdempotency: "uuid-v4",
+      phMerchantDocument: "CPF ou CNPJ",
+      phMerchantFilter: "busque por id, descrição ou método",
+      phMerchantId: "gerado ao criar conta",
+      phRevokeKey: "chave para revogar",
+      phWebhook: "https://seu-endpoint.com/webhook"
+    },
     viewMeta: {
       dashboard: { eyebrow: "Visão geral", title: "Dashboard" },
       payments: { eyebrow: "Fluxo", title: "Pagamentos" },
@@ -46,6 +133,93 @@ const i18n = {
     htmlLang: "en",
     locale: "en-US",
     nextLabel: "PT",
+    ui: {
+      brandSub: "Portfolio gateway",
+      navDashboard: "Dashboard",
+      navPayments: "Payments",
+      navPaymentDetails: "Payment details",
+      navMerchants: "Merchants & customers",
+      navSettings: "Settings",
+      sidebarNote: "Portfolio project",
+      documentation: "Documentation",
+      dashboardTitle: "Month overview",
+      dashboardSubtitle: "Track volume, status quality, and latest activity.",
+      newCharge: "Create payment",
+      newCustomer: "New customer",
+      summaryLabel: "Monthly transactions",
+      receivedLabel: "Total volume",
+      receivedHint: "Only paid transactions in the current month.",
+      pendingLabel: "Pending transactions",
+      pendingHint: "Awaiting authorization or settlement.",
+      successLabel: "Success rate",
+      recentTransactions: "Recent transactions",
+      recentCustomers: "Recent customers",
+      refreshView: "Refresh",
+      paymentsTitle: "Payments",
+      paymentsSubtitle: "Create charges, filter transactions, and update status.",
+      refreshCharges: "Refresh charges",
+      createPayment: "Create payment",
+      labelCustomerId: "Customer ID",
+      labelAmount: "Amount",
+      labelCurrency: "Currency",
+      labelMethod: "Payment method",
+      labelDescription: "Description",
+      labelIdempotency: "Idempotency-Key (optional)",
+      createCharge: "Create charge",
+      transactionsTable: "Transaction list",
+      filterStatus: "Status",
+      filterDate: "Date",
+      filterMerchant: "Customer / reference",
+      clearFilters: "Clear filters",
+      all: "All",
+      statusPending: "Pending",
+      statusAuthorized: "Authorized",
+      statusPaid: "Paid",
+      statusRefused: "Refused",
+      statusRefunded: "Cancelled",
+      paymentDetailsTitle: "Payment details",
+      paymentDetailsSubtitle: "Inspect metadata and timeline for the selected payment.",
+      timelineLogs: "Timeline / logs",
+      merchantsTitle: "Merchants & customers",
+      merchantsSubtitle: "Manage account credentials and customer records.",
+      refreshCustomers: "Refresh customers",
+      createMerchant: "Create merchant account",
+      labelMerchantName: "Store name",
+      labelMerchantDocument: "Document",
+      labelMerchantEmail: "Email",
+      createAccount: "Create account",
+      generateKey: "Generate key",
+      revokeKey: "Revoke",
+      customersTitle: "Customers",
+      labelCustomerName: "Name",
+      labelCustomerDocument: "Document",
+      labelCustomerEmail: "Email",
+      saveCustomer: "Save customer",
+      settingsTitle: "Settings",
+      settingsSubtitle: "Connection setup and technical integrations.",
+      connectionTitle: "Merchant connection",
+      connectionSubtitle: "These values are used by API requests.",
+      labelApiUrl: "API URL",
+      labelAccountId: "Account ID",
+      labelApiKey: "API key",
+      saveConnection: "Save connection",
+      clearConnection: "Clear",
+      webhooksTitle: "Webhooks",
+      webhooksSubtitle: "Optional for advanced integrations.",
+      addWebhook: "Add webhook",
+      refreshWebhooks: "Refresh webhooks",
+      activityTitle: "Activity log"
+    },
+    placeholders: {
+      phCustomerId: "paste customer ID or create one above",
+      phDescription: "Example: Maintenance service",
+      phIdempotency: "uuid-v4",
+      phMerchantDocument: "Tax ID",
+      phMerchantFilter: "search by id, description, or method",
+      phMerchantId: "generated when account is created",
+      phRevokeKey: "key to revoke",
+      phWebhook: "https://your-endpoint.com/webhook"
+    },
     viewMeta: {
       dashboard: { eyebrow: "Overview", title: "Dashboard" },
       payments: { eyebrow: "Flow", title: "Payments" },
@@ -109,6 +283,7 @@ const ui = {
 };
 
 const pack = () => i18n[state.lang] || i18n.pt;
+const trUi = (key) => pack().ui[key] || key;
 const rt = () => pack().runtime;
 const tr = (key, values = {}) => Object.entries(values).reduce((acc, [k, v]) => acc.replaceAll(`{${k}}`, String(v)), rt()[key] ?? key);
 const trStatus = (status) => rt().status[String(status || "").toLowerCase()] || status;
@@ -122,6 +297,25 @@ function applyLanguage(lang) {
   localStorage.setItem("hubpay.lang", state.lang);
   document.documentElement.lang = pack().htmlLang;
   if (ui.langToggle) ui.langToggle.textContent = pack().nextLabel;
+
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const key = el.getAttribute("data-i18n");
+    if (key) el.textContent = trUi(key);
+  });
+
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    if (key) el.setAttribute("placeholder", pack().placeholders[key] || "");
+  });
+
+  const methodSelect = $("paymentMethod");
+  if (methodSelect) {
+    const options = methodSelect.querySelectorAll("option");
+    if (options[0]) options[0].textContent = trMethod("1");
+    if (options[1]) options[1].textContent = trMethod("2");
+    if (options[2]) options[2].textContent = trMethod("3");
+  }
+
   updatePageHeader();
   renderDashboard();
   renderCustomersTable(state.lastCustomers);

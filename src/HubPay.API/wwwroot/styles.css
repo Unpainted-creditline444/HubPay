@@ -231,8 +231,8 @@ h3,
 
 .content-wrap {
   width: min(1200px, calc(100vw - 320px));
-  margin: 0 auto;
-  padding: 8px 20px 26px;
+  margin: 0;
+  padding: 8px 20px 26px 16px;
 }
 
 .view {
@@ -679,8 +679,8 @@ textarea:user-invalid {
 
 .footer {
   width: min(1200px, calc(100vw - 320px));
-  margin: 0 auto;
-  padding: 2px 20px 18px;
+  margin: 0;
+  padding: 2px 20px 18px 16px;
 }
 
 .footer p {
@@ -708,6 +708,7 @@ textarea:user-invalid {
   .content-wrap,
   .footer {
     width: min(1200px, calc(100vw - 30px));
+    margin: 0;
   }
 
   .stats-grid {
